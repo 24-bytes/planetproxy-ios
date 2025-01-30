@@ -6,9 +6,5 @@ struct VPNApp: App {
         WindowGroup {
             SplashView()
         }
-    }import Foundation
-    
-    class AuthRepository {
-        // Placeholder for authentication data handling methods
     }
 }

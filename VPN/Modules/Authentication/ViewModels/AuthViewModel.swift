@@ -1,25 +1,36 @@
-
-
+import Foundation
+import Combine
 
 class AuthViewModel: ObservableObject {
-    // Placeholder for authentication state management
-}
+    @Published var isAuthenticated: Bool = false
+    @Published var errorMessage: String?
 
-import SwiftUI
+    private var cancellables = Set<AnyCancellable>()
 
-struct SplashView: View {
-    var body: some View {
-        VStack {
-            Text("Welcome to VPN App")
-                .font(.largeTitle)
-                .padding()
-            // Additional UI elements can be added here
+    init() {
+        checkAuthenticationStatus()
+    }
+
+    func login(username: String, password: String) {
+        // Simulating an API call with a delay
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.async {
+                if username == "admin" && password == "password" {
+                    self.isAuthenticated = true
+                    self.errorMessage = nil
+                } else {
+                    self.errorMessage = "Invalid credentials"
+                }
+            }
         }
     }
-}
 
-struct SplashView_Previews: PreviewProvider {
-    static var previews: some View {
-        SplashView()
+    func logout() {
+        isAuthenticated = false
+    }
+
+    private func checkAuthenticationStatus() {
+        // Load authentication status from UserDefaults or a secure storage
+        isAuthenticated = false // Replace with real logic if needed
     }
 }

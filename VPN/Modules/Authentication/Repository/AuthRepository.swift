@@ -9,9 +9,3 @@ class AuthRepository {
         // Implement signup logic here
     }
 }
-
-struct AuthRepository_Previews: PreviewProvider {
-    static var previews: some View {
-        AuthRepository()
-    }
-}
