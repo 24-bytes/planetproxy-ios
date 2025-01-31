@@ -22,6 +22,8 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0FBEBE5B2D4B5127001E8362 /* VPN */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = VPN;
 			sourceTree = "<group>";
 		};
@@ -99,6 +101,7 @@
 				0FBEBE552D4B5127001E8362 /* Sources */,
 				0FBEBE562D4B5127001E8362 /* Frameworks */,
 				0FBEBE572D4B5127001E8362 /* Resources */,
+				3EDB71B7ABC4EABFD734B62A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -167,6 +170,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3EDB71B7ABC4EABFD734B62A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		55BCA2CBD8D44A5775AF84F4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
