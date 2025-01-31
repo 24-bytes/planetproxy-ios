@@ -1,6 +1,7 @@
 import Foundation
 
 class AuthRepository {
+
     func login(email: String, password: String) async throws {
         // Implement login logic here
     }

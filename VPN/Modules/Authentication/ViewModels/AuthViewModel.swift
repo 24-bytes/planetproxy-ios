@@ -1,25 +1,53 @@
-
-
+import SwiftUI
+import FirebaseAuth
+import GoogleSignIn
+import FBSDKLoginKit
 
 class AuthViewModel: ObservableObject {
-    // Placeholder for authentication state management
-}
 
-import SwiftUI
+    @Published var isAuthenticated = false
 
-struct SplashView: View {
-    var body: some View {
-        VStack {
-            Text("Welcome to VPN App")
-                .font(.largeTitle)
-                .padding()
-            // Additional UI elements can be added here
+    @Published var user: User?
+
+    @Published var errorMessage: String?
+
+    func signIn(email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+            if let error = error {
+                self?.errorMessage = error.localizedDescription
+                return
+            }
+            self?.user = result?.user
+            self?.isAuthenticated = true
         }
     }
-}
 
-struct SplashView_Previews: PreviewProvider {
-    static var previews: some View {
-        SplashView()
+    func signUp(email: String, password: String) {
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+            if let error = error {
+                self?.errorMessage = error.localizedDescription
+                return
+            }
+            self?.user = result?.user
+            self?.isAuthenticated = true
+        }
+    }
+
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            self.user = nil
+            self.isAuthenticated = false
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+    }
+
+    func resetPassword(email: String) {
+        Auth.auth().sendPasswordReset(withEmail: email) { [weak self] error in
+            if let error = error {
+                self?.errorMessage = error.localizedDescription
+            }
+        }
     }
 }

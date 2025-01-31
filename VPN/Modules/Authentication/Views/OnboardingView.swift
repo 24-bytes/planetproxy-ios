@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct OnboardingView: View {
+
     @State private var selectedTab = 0
     private let tabs = ["Get Started", "How it Works", "Features"]
 
@@ -51,4 +52,3 @@ struct OnboardingView: View {
         }
     }
 }
-

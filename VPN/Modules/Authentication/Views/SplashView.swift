@@ -2,7 +2,9 @@
 import SwiftUI
 
 struct SplashView: View {
+
     @State private var isLoading = false
+
     @State private var scale = 0.1
 
     var body: some View {
