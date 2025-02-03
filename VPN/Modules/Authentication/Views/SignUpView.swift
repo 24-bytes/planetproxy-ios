@@ -6,182 +6,90 @@ struct SignUpView: View {
     @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var showingAlert = false
-    @State private var alertMessage = ""
-    @Environment(\.presentationMode) var presentationMode
+    @State private var confirmPassword: String = ""
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("Sign up")
-                .font(.title)
-                .bold()
-            
-            Text("Start your 30-day free trial.")
-                .foregroundColor(.gray)
-            
-            nameField
-            emailField
-            passwordField
-            createAccountButton
-            googleSignUpButton
-            loginPrompt
-            skipButton
-            
-            Spacer()
-        }
-        .padding()
-        .alert(isPresented: $showingAlert) {
-            Alert(
-                title: Text("Message"),
-                message: Text(alertMessage),
-                dismissButton: .default(Text("OK"))
-            )
-        }
-    }
-    
-    private var nameField: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Name*")
-                .foregroundColor(.gray)
-            TextField("Enter your name", text: $name)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocapitalization(.none)
-        }
-    }
-    
-    private var emailField: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Email*")
-                .foregroundColor(.gray)
-            TextField("Enter your email", text: $email)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocapitalization(.none)
-                .keyboardType(.emailAddress)
-        }
-    }
-    
-    private var passwordField: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Password*")
-                .foregroundColor(.gray)
-            SecureField("Create a password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            Text("Must be at least 8 characters.")
-                .font(.caption)
-                .foregroundColor(.gray)
-        }
-    }
-    
-    private var createAccountButton: some View {
-        Button(action: signUp) {
-            Text("Create account")
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.purple)
-                .cornerRadius(8)
-        }
-    }
-    
-    private var googleSignUpButton: some View {
-        Button(action: signInWithGoogle) {
-            HStack {
-                Image("google_logo")
-                Text("Sign up with Google")
-            }
-            .foregroundColor(.black)
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.white)
-            .cornerRadius(8)
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-            )
-        }
-    }
-    
-    private var loginPrompt: some View {
-        HStack {
-            Text("Already have an account?")
-            Button(action: { presentationMode.wrappedValue.dismiss() }) {
-                Text("Log in")
-                    .foregroundColor(.purple)
-            }
-        }
-    }
-    
-    private var skipButton: some View {
-        Button(action: skipForNow) {
-            Text("Skip for Now")
-                .foregroundColor(.purple)
-        }
-    }
-    
-    private func signUp() {
-        guard !name.isEmpty && !email.isEmpty && !password.isEmpty else {
-            alertMessage = "Please fill in all fields"
-            showingAlert = true
-            return
-        }
-        
-        guard password.count >= 8 else {
-            alertMessage = "Password must be at least 8 characters"
-            showingAlert = true
-            return
-        }
-        
-        authViewModel.signUp(email: email, password: password)
-    }
-    
-    private func signInWithGoogle() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first,
-              let rootViewController = window.rootViewController else {
-            alertMessage = "Cannot present Google Sign-In"
-            showingAlert = true
-            return
-        }
-        
-        let clientID = FirebaseApp.app()?.options.clientID ?? ""
-        let config = GIDConfiguration(clientID: clientID)
-        
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: rootViewController) { user, error in
-            if let error = error {
-                alertMessage = error.localizedDescription
-                showingAlert = true
-                return
-            }
-            
-            guard let user = user else {
-                alertMessage = "Failed to get user information"
-                showingAlert = true
-                return
-            }
-            
-            guard let idToken = user.authentication.idToken else {
-                alertMessage = "Failed to get ID token"
-                showingAlert = true
-                return
-            }
-            
-            let credential = GoogleAuthProvider.credential(
-                withIDToken: idToken,
-                accessToken: user.authentication.accessToken
-            )
-            
-            Auth.auth().signIn(with: credential) { result, error in
-                if let error = error {
-                    alertMessage = error.localizedDescription
-                    showingAlert = true
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    // Header
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Create Account")
+                            .font(.system(size: 30, weight: .bold))
+                        Text("Sign up to get started!")
+                            .foregroundColor(.gray)
+                    }
+                    
+                    // Form Fields
+                    VStack(spacing: 16) {
+                        TextField("Name", text: $name)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                        TextField("Email", text: $email)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                        SecureField("Password", text: $password)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                        SecureField("Confirm Password", text: $confirmPassword)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                        if let errorMessage = authViewModel.errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .font(.system(size: 14))
+                        }
+                    }
+                    
+                    // Buttons
+                    VStack(spacing: 16) {
+                        Button(action: { 
+                            if password == confirmPassword {
+                                authViewModel.signUp(email: email, password: password)
+                            }
+                        }) {
+                            Text("Create Account")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .disabled(authViewModel.isLoading)
+                        
+                        Button(action: { authViewModel.signInWithGoogle() }) {
+                            Text("Sign up with Google")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .disabled(authViewModel.isLoading)
+                    }
+                    .padding(.top, 8)
+                    
+                    // Sign In Prompt
+                    HStack {
+                        Text("Already have an account?")
+                            .foregroundColor(.gray)
+                        Button("Sign in") {
+                            dismiss()
+                        }
+                        .foregroundColor(.blue)
+                    }
+                    .font(.system(size: 14))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 8)
+                    
+                    Spacer()
                 }
+                .padding(24)
             }
+            .navigationBarHidden(true)
         }
-    }
-    
-    private func skipForNow() {
-        // Implement skip functionality
     }
 }
 

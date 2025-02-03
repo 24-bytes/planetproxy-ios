@@ -20,11 +20,11 @@
 		2B93CEADC8E0E416C6B5E453 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB5310D6414B3D96FF8351D /* SubscriptionView.swift */; };
 		2C5CFD3C029A4D0C7B363686 /* WireGuardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD721D470A6E258270738CA /* WireGuardManager.swift */; };
 		32F11FB169CC6FDC6F645986 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F1C5DDEFDF4341F8E5EB42 /* AppConstants.swift */; };
-		353D982BD6ED602ADC5E9D4B /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B1E79027147D31A3824354C /* Pods_VPN.framework */; };
 		366CAFA02060A0DEC0D5AD28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 581E1046DDCCDD2DCDB94A8E /* Assets.xcassets */; };
 		391C7CE36153A919184DC98F /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778DE5FD986D287E1F0E35ED /* AuthViewModel.swift */; };
 		3F7784A2579944480BCF8709 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBC683AB7D3DC86CF00B397 /* AppDelegate.swift */; };
 		4090643C458C0F605B787F05 /* Pods-VPN-acknowledgements.markdown in Resources */ = {isa = PBXBuildFile; fileRef = B5E23147C0CEC2ACAFBAECF3 /* Pods-VPN-acknowledgements.markdown */; };
+		42D74E7038419BC77FF06AA2 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B0D5C9320FF45EB5774FEC /* AuthTextField.swift */; };
 		44C34024A054F749BC04930C /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3DECE10755F2E5C9B43F1F /* AuthRepository.swift */; };
 		45659174E8AAFFD26E8A602B /* DiagnoseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF84950041BD93F0E29760B /* DiagnoseView.swift */; };
 		46584EBE03B812FD6FDA00F1 /* APIEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69236D7803E134BB71894188 /* APIEndpoints.swift */; };
@@ -35,13 +35,16 @@
 		6262140DD9FED0923496D954 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BA9F9D261544DE69E954865 /* Assets.xcassets */; };
 		643442E5ADD57AA29B5F25DB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768C343F6C9F37E732ED81C9 /* HomeView.swift */; };
 		66489A57C3BC6E9A09F1B64E /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504A591222AE3FC104029743 /* OnboardingView.swift */; };
+		6ACB7F7636CA5B6836CC2CE4 /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A17ADE24093177A315FE3F1 /* Pods_VPN.framework */; };
 		6C31EDA17FAF21F516143D15 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDF3B99ED7C62CFB6775F96 /* APIClient.swift */; };
+		6CFA35527CE3915BC4406B50 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E48F49A0BDA55ED1B510EC /* AuthService.swift */; };
 		76D58B7DE98C036FB91509A6 /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6614CF692314ACE2B9E869B /* BaseRepository.swift */; };
 		82B3CDB7F8CFE1ECFCF9B6C5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D26AAB142035F9DE32B733B /* SceneDelegate.swift */; };
 		89AAB69B5F17DF1C45CCBF0A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; fileRef = 244B0E68E4711BDF769C4568 /* GoogleSignIn */; };
 		8C2E0392AF7DBB041436B13B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5446049B209810555A81FCD9 /* Preview Assets.xcassets */; };
 		8DA16745313D8FBEAB884B31 /* VPNHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86429B84651B3E25B70D498 /* VPNHomeView.swift */; };
 		91DEE588DE5AB9569E258AF5 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884182DEB34FF0ECA39F5493 /* Package.swift */; };
+		A8A4DA2F176140A565DAC268 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575FECED090AA70862C4E704 /* AuthButton.swift */; };
 		AA0356B8FBE69324350CEC18 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F28FF7262C95F7F7FEF0222 /* SplashView.swift */; };
 		ADED340DD28584A1D636D9EC /* Manifest.lock in Resources */ = {isa = PBXBuildFile; fileRef = 76EF2F1BE0878DB6CE770AE4 /* Manifest.lock */; };
 		B5061BB32C81936E61BCDFEC /* ExtensionInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7A3A591D4972379581D4F4 /* ExtensionInfo.plist */; };
@@ -68,7 +71,6 @@
 		0368A70ECF30585E9ED11F49 /* ServerListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerListViewModel.swift; sourceTree = "<group>"; };
 		0AD721D470A6E258270738CA /* WireGuardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireGuardManager.swift; sourceTree = "<group>"; };
 		0AFB8391F910637F0432607E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		0B1E79027147D31A3824354C /* Pods_VPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		17F355FE6C803B89246382AD /* Pods-VPN-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Pods-VPN-Info.plist"; sourceTree = "<group>"; };
 		1B3DECE10755F2E5C9B43F1F /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		1F28FF7262C95F7F7FEF0222 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -86,19 +88,21 @@
 		504A591222AE3FC104029743 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		5300083554FC40CBDDC16CA4 /* FBSDKLoginKit */ = {isa = PBXFileReference; path = FBSDKLoginKit; sourceTree = "<group>"; };
 		5446049B209810555A81FCD9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		575FECED090AA70862C4E704 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		581E1046DDCCDD2DCDB94A8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		584F60A5AC6CABE84EDCC108 /* VPN.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VPN.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A17ADE24093177A315FE3F1 /* Pods_VPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AF84950041BD93F0E29760B /* DiagnoseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseView.swift; sourceTree = "<group>"; };
 		6033C320C426D8D00E627A21 /* Pods-VPN.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = "Pods-VPN.modulemap"; sourceTree = "<group>"; };
 		6878E0CFC309CF9E08D2DFA3 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		69236D7803E134BB71894188 /* APIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoints.swift; sourceTree = "<group>"; };
 		6A10D55A44606B9B78C117F0 /* Pods */ = {isa = PBXFileReference; path = Pods; sourceTree = "<group>"; };
-		6D40E133413BDEC8704C4283 /* Pods-VPN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.debug.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.debug.xcconfig"; sourceTree = "<group>"; };
 		768C343F6C9F37E732ED81C9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		76EF2F1BE0878DB6CE770AE4 /* Manifest.lock */ = {isa = PBXFileReference; path = Manifest.lock; sourceTree = "<group>"; };
 		778DE5FD986D287E1F0E35ED /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		7DF61DB6309366D011F73C45 /* Pods-VPN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.debug.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.debug.xcconfig"; sourceTree = "<group>"; };
 		7FDF3B99ED7C62CFB6775F96 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		81540216255137CA50ADC0B6 /* Pods-VPN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.release.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.release.xcconfig"; sourceTree = "<group>"; };
+		80E48F49A0BDA55ED1B510EC /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		81FB96611F52F7070763F3B5 /* Pods-VPN-dummy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Pods-VPN-dummy.m"; sourceTree = "<group>"; };
 		884182DEB34FF0ECA39F5493 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		8930E6EEB7294DE4CB1A6BA9 /* VPNApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNApp.swift; sourceTree = "<group>"; };
@@ -119,9 +123,11 @@
 		CE7A3A591D4972379581D4F4 /* ExtensionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = ExtensionInfo.plist; sourceTree = "<group>"; };
 		D6E8AFDCEE9B694F6588BE43 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		DBB5310D6414B3D96FF8351D /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
+		E109F4F7F490CD31539F1A94 /* Pods-VPN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.release.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.release.xcconfig"; sourceTree = "<group>"; };
 		E2DF792B58EA31F593817E8D /* FirebaseAuth */ = {isa = PBXFileReference; path = FirebaseAuth; sourceTree = "<group>"; };
 		E6EACA6A225A1AEEF3C41090 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		E8F1C5DDEFDF4341F8E5EB42 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		E9B0D5C9320FF45EB5774FEC /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
 		EA2EDDB650263E7B5B6CB90C /* ServerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerListView.swift; sourceTree = "<group>"; };
 		EE381FAD8F028E6A488089BC /* VPNStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNStatsView.swift; sourceTree = "<group>"; };
 		EF4AAB38FA3DEEC03B21DFA6 /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
@@ -139,7 +145,7 @@
 				D769F93F0FC8B2D4F9E307C3 /* FirebaseAuth in Frameworks */,
 				89AAB69B5F17DF1C45CCBF0A /* GoogleSignIn in Frameworks */,
 				EFFF0E81225E99C0D4D8F680 /* FBSDKLoginKit in Frameworks */,
-				353D982BD6ED602ADC5E9D4B /* Pods_VPN.framework in Frameworks */,
+				6ACB7F7636CA5B6836CC2CE4 /* Pods_VPN.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +189,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		0B2B9994CC452F04EF1E5A35 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				575FECED090AA70862C4E704 /* AuthButton.swift */,
+				E9B0D5C9320FF45EB5774FEC /* AuthTextField.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		0B5C375BB9AEC946C930134D /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,13 +217,6 @@
 			path = VPNExtension;
 			sourceTree = "<group>";
 		};
-		169C5BE2764F07A7F9C5C30C /* VPN */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = VPN;
-			sourceTree = "<group>";
-		};
 		1916FCA014647D06C14D164D /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +234,16 @@
 				09D8261B105D148153A208BA /* Views */,
 			);
 			path = Subscription;
+			sourceTree = "<group>";
+		};
+		26CD6C62B7DD2C59CFB3A23B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7DF61DB6309366D011F73C45 /* Pods-VPN.debug.xcconfig */,
+				E109F4F7F490CD31539F1A94 /* Pods-VPN.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		27746C2BD1B76AE215AC78A7 /* Views */ = {
@@ -264,7 +282,7 @@
 				CA019A6B7868B9807F381612 /* VPN */,
 				D13D235C1B151B0785E33AB5 /* Frameworks */,
 				48EC9D2B749F8DA39FB7B74F /* Products */,
-				5156D3180FB53C54844B5700 /* Pods */,
+				26CD6C62B7DD2C59CFB3A23B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -274,16 +292,6 @@
 				584F60A5AC6CABE84EDCC108 /* VPN.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		5156D3180FB53C54844B5700 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6D40E133413BDEC8704C4283 /* Pods-VPN.debug.xcconfig */,
-				81540216255137CA50ADC0B6 /* Pods-VPN.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		56061A5214FBB05C618C5DFF /* Authentication */ = {
@@ -394,6 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				000176880F35C0DF7C63E9B2 /* App */,
+				0B2B9994CC452F04EF1E5A35 /* Components */,
 				323C4A8BA1DB744B12B909EC /* Configurations */,
 				8B53CD41D11EEC12CAA41922 /* Core */,
 				F3C237F5331B20C2B3E4BDE0 /* Dependencies */,
@@ -406,7 +415,6 @@
 				F3F3F4AE7E994E973A7E9143 /* Services */,
 				E9ED7EDBC8DDFF26761DEB9C /* Utilities */,
 				E4BDDAEDB28C9CBA188EA403 /* Views */,
-				169C5BE2764F07A7F9C5C30C /* VPN */,
 				1410FD3EAE1B600EEB16ED27 /* VPNExtension */,
 				2BA9F9D261544DE69E954865 /* Assets.xcassets */,
 				C9441C5B0B22047AD53F00D4 /* Info.plist */,
@@ -420,7 +428,7 @@
 				5300083554FC40CBDDC16CA4 /* FBSDKLoginKit */,
 				E2DF792B58EA31F593817E8D /* FirebaseAuth */,
 				244B0E68E4711BDF769C4568 /* GoogleSignIn */,
-				0B1E79027147D31A3824354C /* Pods_VPN.framework */,
+				5A17ADE24093177A315FE3F1 /* Pods_VPN.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -484,6 +492,7 @@
 		F3F3F4AE7E994E973A7E9143 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				80E48F49A0BDA55ED1B510EC /* AuthService.swift */,
 				95FDDCB327661B50E3A0254E /* KeychainService.swift */,
 				D6E8AFDCEE9B694F6588BE43 /* NetworkMonitor.swift */,
 				0AD721D470A6E258270738CA /* WireGuardManager.swift */,
@@ -498,12 +507,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F07ED11277489FDAA3D922A9 /* Build configuration list for PBXNativeTarget "VPN" */;
 			buildPhases = (
-				1198BE683395EADDD41B0C37 /* [CP] Check Pods Manifest.lock */,
+				E4981C876B5673F27AD4C8AB /* [CP] Check Pods Manifest.lock */,
 				BF74A6F4C07E8692C42B43B1 /* SwiftLint */,
 				41494E6D48504BA1BD186406 /* Sources */,
 				6894E78F362F17342CCDFD76 /* Resources */,
 				D9A86A8FE009BA43FBA96AC5 /* Frameworks */,
-				1372E61ED732F2FDB08894D7 /* [CP] Embed Pods Frameworks */,
+				EBE1C05510B80C6448CBDEC2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -568,7 +577,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1198BE683395EADDD41B0C37 /* [CP] Check Pods Manifest.lock */ = {
+		BF74A6F4C07E8692C42B43B1 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		E4981C876B5673F27AD4C8AB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -590,7 +617,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1372E61ED732F2FDB08894D7 /* [CP] Embed Pods Frameworks */ = {
+		EBE1C05510B80C6448CBDEC2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -607,24 +634,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BF74A6F4C07E8692C42B43B1 /* SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftLint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -636,7 +645,10 @@
 				46584EBE03B812FD6FDA00F1 /* APIEndpoints.swift in Sources */,
 				32F11FB169CC6FDC6F645986 /* AppConstants.swift in Sources */,
 				3F7784A2579944480BCF8709 /* AppDelegate.swift in Sources */,
+				A8A4DA2F176140A565DAC268 /* AuthButton.swift in Sources */,
 				44C34024A054F749BC04930C /* AuthRepository.swift in Sources */,
+				6CFA35527CE3915BC4406B50 /* AuthService.swift in Sources */,
+				42D74E7038419BC77FF06AA2 /* AuthTextField.swift in Sources */,
 				391C7CE36153A919184DC98F /* AuthViewModel.swift in Sources */,
 				76D58B7DE98C036FB91509A6 /* BaseRepository.swift in Sources */,
 				5F92FD0C81417A35F27F0785 /* BaseViewModel.swift in Sources */,
@@ -734,7 +746,7 @@
 		};
 		4207291447CDC978C1DC96C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6D40E133413BDEC8704C4283 /* Pods-VPN.debug.xcconfig */;
+			baseConfigurationReference = 7DF61DB6309366D011F73C45 /* Pods-VPN.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -826,7 +838,7 @@
 		};
 		E036D339F342A6BA4114E46C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 81540216255137CA50ADC0B6 /* Pods-VPN.release.xcconfig */;
+			baseConfigurationReference = E109F4F7F490CD31539F1A94 /* Pods-VPN.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
