@@ -1,0 +1,58 @@
+name: VPN
+options:
+  bundleIdPrefix: plantproxy
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: 15.0
+  xcodeVersion: "15.0"
+  groupSortPosition: top
+
+configs:
+  Debug: debug
+  Release: release
+
+targets:
+  VPN:
+    type: application
+    platform: iOS
+    sources:
+      - path: VPN
+        excludes:
+          - "*.md"
+          - "*.orig"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: plantproxy.VPN
+        DEVELOPMENT_TEAM: "" # Add your team ID here if you have one
+        INFOPLIST_FILE: VPN/Info.plist
+        PRODUCT_NAME: VPN
+        TARGETED_DEVICE_FAMILY: 1,2
+        SWIFT_VERSION: 5.0
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_BITCODE: NO
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: $(inherited)
+      configs:
+        Debug:
+          SWIFT_OPTIMIZATION_LEVEL: -Onone
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: -O
+    dependencies:
+      - framework: FirebaseAuth
+        embed: false
+      - framework: GoogleSignIn
+        embed: false
+      - framework: FBSDKLoginKit
+        embed: false
+    preBuildScripts:
+      - name: SwiftLint
+        script: |
+          if [[ "$(uname -m)" == arm64 ]]; then
+              export PATH="/opt/homebrew/bin:$PATH"
+          fi
+          if which swiftlint > /dev/null; then
+            swiftlint
+          else
+            echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+          fi

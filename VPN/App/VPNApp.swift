@@ -1,10 +1,17 @@
 import SwiftUI
+import Firebase
+import GoogleSignIn
 
-@main
 struct VPNApp: App {
+
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
+    @StateObject private var authViewModel = AuthViewModel()
+
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            ContentView()
+                .environmentObject(authViewModel)
         }
     }
 }
