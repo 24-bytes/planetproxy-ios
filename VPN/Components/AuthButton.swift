@@ -5,11 +5,11 @@ struct AuthButton: View {
     let action: () -> Void
     var isLoading: Bool = false
     var style: ButtonStyle = .primary
-    
+
     enum ButtonStyle {
         case primary
         case secondary
-        
+
         var backgroundColor: Color {
             switch self {
             case .primary:
@@ -18,7 +18,7 @@ struct AuthButton: View {
                 return Color.white
             }
         }
-        
+
         var foregroundColor: Color {
             switch self {
             case .primary:
@@ -27,7 +27,7 @@ struct AuthButton: View {
                 return Color.blue
             }
         }
-        
+
         var borderColor: Color {
             switch self {
             case .primary:
@@ -37,7 +37,7 @@ struct AuthButton: View {
             }
         }
     }
-    
+
     var body: some View {
         Button(action: action) {
             ZStack {

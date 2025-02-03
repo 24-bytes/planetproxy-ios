@@ -5,13 +5,13 @@ struct AuthTextField: View {
     let placeholder: String
     let text: Binding<String>
     var isSecure: Bool = false
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .foregroundColor(.primary)
                 .font(.system(size: 14, weight: .medium))
-            
+
             if isSecure {
                 SecureField(placeholder, text: text)
                     .textFieldStyle(AuthTextFieldStyle())

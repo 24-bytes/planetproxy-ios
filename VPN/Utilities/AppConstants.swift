@@ -2,13 +2,13 @@ import Foundation
 
 enum AppConstants {
     static let API_URL = "https://api.planetproxy.io" // Replace with your actual API URL
-    
+
     enum Auth {
         static let tokenKey = "authToken"
         static let refreshTokenKey = "refreshToken"
         static let userKey = "currentUser"
     }
-    
+
     enum ErrorMessages {
         static let invalidEmail = "Please enter a valid email address"
         static let invalidPassword = "Password must be at least 8 characters"
