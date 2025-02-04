@@ -10,7 +10,7 @@ target 'VPN' do
   pod 'Firebase/Auth', '9.6.0'
   pod 'FBSDKCoreKit', '~> 14.1.0'
   pod 'FBSDKLoginKit', '~> 14.1.0'
-  #pod 'GoogleSignIn', '~> 7.0'
+  pod 'GoogleSignIn', '~> 7.0'
   
   # Linting
   pod 'SwiftLint'

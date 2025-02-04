@@ -1,7 +1,7 @@
 import UIKit
 import Firebase
-import GoogleSignIn
 import FBSDKCoreKit
+import GoogleSignIn
 
 @main
 final class AppDelegate: NSObject, UIApplicationDelegate {
