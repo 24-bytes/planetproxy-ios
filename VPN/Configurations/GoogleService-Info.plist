@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>798535883903-vf9u27tk5l3vldq7a966l721jl2pl0jl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.798535883903-vf9u27tk5l3vldq7a966l721jl2pl0jl</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>798535883903-0knlulfh5tjll2qjqa39tbvb60vc5i9u.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCpFXv_3sCuQ0-cjrR45F7HxiC9wuKMwL4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>798535883903</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>plantproxy.VPN</string>
+	<key>PROJECT_ID</key>
+	<string>rocketvpn-c28a8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rocketvpn-c28a8.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:798535883903:ios:6765e37d7729a2e974b34a</string>
+</dict>
+</plist>

@@ -1,63 +1,105 @@
-import Foundation
-import Firebase
+//
+//  AuthRepository.swift
+//  VPN
+//
+//  Created by Arunachalam K on 04/02/2025.
+//
+
 import FirebaseAuth
+import GoogleSignIn
 import UIKit
 
-class AuthRepository {
-    private let authService = AuthService.shared
-    private let defaults = UserDefaults.standard
-    
+protocol AuthRepositoryProtocol {
+    func signInWithGoogle(idToken: String) async throws -> String
+    func login(email: String, password: String) async throws -> String
+    func signup(email: String, password: String) async throws -> String
+    func signOut() throws
+    func resetPassword(email: String) async throws
+}
+
+class AuthRepository: AuthRepositoryProtocol {
+    private let defaults: UserDefaults
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+    }
+
+    func signInWithGoogle(idToken: String) async throws -> String {
+        do {
+            // Create Google Credential
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: "")
+
+            // Sign in with Firebase using Google credentials
+            let authResult = try await Auth.auth().signIn(with: credential)
+
+            // Retrieve Firebase ID Token
+            let firebaseToken = try await authResult.user.getIDToken()
+
+            // Store token in UserDefaults
+            defaults.set(firebaseToken, forKey: "authToken")
+
+            return firebaseToken
+        } catch {
+            throw AuthError.unknown(error)
+        }
+    }
+
     func login(email: String, password: String) async throws -> String {
         do {
-            let idToken = try await authService.signIn(email: email, password: password)
-            let token = try await authService.verifyTokenOnBackend(idToken: idToken, deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "unknown")
-            defaults.set(token, forKey: "authToken")
-            return token
-        } catch let error as NSError {
-            if error.domain == AuthErrorDomain {
-                switch error.code {
-                case AuthErrorCode.userNotFound.rawValue:
-                    throw AuthError.userNotFound
-                case AuthErrorCode.wrongPassword.rawValue:
-                    throw AuthError.wrongPassword
-                default:
-                    throw AuthError.unknown(error)
-                }
-            }
-            throw error
+            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            return try await handleTokenVerification(result.user)
+        } catch {
+            throw mapAuthError(error)
         }
     }
-    
+
     func signup(email: String, password: String) async throws -> String {
         do {
-            let idToken = try await authService.signUp(email: email, password: password)
-            let token = try await authService.verifyTokenOnBackend(idToken: idToken, deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "unknown")
-            defaults.set(token, forKey: "authToken")
-            return token
-        } catch let error as NSError {
-            if error.domain == AuthErrorDomain {
-                switch error.code {
-                case AuthErrorCode.emailAlreadyInUse.rawValue:
-                    throw AuthError.emailAlreadyInUse
-                default:
-                    throw AuthError.unknown(error)
-                }
-            }
-            throw error
+            let result = try await Auth.auth().createUser(withEmail: email, password: password)
+            return try await handleTokenVerification(result.user)
+        } catch {
+            throw mapAuthError(error)
         }
     }
-    
-    func signInWithGoogle(idToken: String) async throws -> String {
-        let firebaseToken = try await authService.signInWithGoogle(idToken: idToken)
-        let token = try await authService.verifyTokenOnBackend(idToken: firebaseToken, deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "unknown")
+
+    func signOut() throws {
+        do {
+            try Auth.auth().signOut()
+            defaults.removeObject(forKey: "authToken")
+        } catch {
+            throw AuthError.unknown(error)
+        }
+    }
+
+    func resetPassword(email: String) async throws {
+        do {
+            try await Auth.auth().sendPasswordReset(withEmail: email)
+        } catch {
+            throw AuthError.unknown(error)
+        }
+    }
+
+    // MARK: - Private Helper Methods
+    private func handleTokenVerification(_ user: FirebaseAuth.User) async throws -> String {
+        let token = try await user.getIDToken()
         defaults.set(token, forKey: "authToken")
         return token
     }
-}
 
-enum AuthError: Error {
-    case userNotFound
-    case wrongPassword
-    case emailAlreadyInUse
-    case unknown(Error)
+    private func mapAuthError(_ error: Error) -> AuthError {
+        guard let error = error as NSError?, error.domain == AuthErrorDomain else {
+            return .unknown(error)
+        }
+
+        switch error.code {
+        case AuthErrorCode.userNotFound.rawValue:
+            return .userNotFound
+        case AuthErrorCode.wrongPassword.rawValue:
+            return .wrongPassword
+        case AuthErrorCode.emailAlreadyInUse.rawValue:
+            return .emailAlreadyInUse
+        default:
+            return .unknown(error)
+        }
+    }
 }

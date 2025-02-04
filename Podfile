@@ -11,7 +11,8 @@ target 'VPN' do
   pod 'FBSDKCoreKit', '~> 14.1.0'
   pod 'FBSDKLoginKit', '~> 14.1.0'
   pod 'GoogleSignIn', '~> 7.0'
-  
+  pod 'Alamofire', '~> 5.8'
+
   # Linting
   pod 'SwiftLint'
 end

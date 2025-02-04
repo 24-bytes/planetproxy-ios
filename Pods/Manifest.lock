@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.10.2)
   - AppAuth (1.7.6):
     - AppAuth/Core (= 1.7.6)
     - AppAuth/ExternalUserAgent (= 1.7.6)
@@ -130,6 +131,7 @@ PODS:
   - SwiftLint (0.58.1)
 
 DEPENDENCIES:
+  - Alamofire (~> 5.8)
   - FBSDKCoreKit (~> 14.1.0)
   - FBSDKLoginKit (~> 14.1.0)
   - Firebase/Auth (= 9.6.0)
@@ -139,6 +141,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - AppAuth
     - FBAEMKit
     - FBSDKCoreKit
@@ -162,6 +165,7 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
+  Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   FBAEMKit: a899515e45476027f73aef377b5cffadcd56ca3a
   FBSDKCoreKit: 24f8bc8d3b5b2a8c5c656a1329492a12e8efa792
@@ -184,6 +188,6 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   SwiftLint: 6c8820d22c8f74baadd5684e00bb7356c34610a1
 
-PODFILE CHECKSUM: 5c19cee180f3c50bea15e6671e594c68fe767243
+PODFILE CHECKSUM: 3b67386561c2475ce01d202e45ee288204a412b6
 
 COCOAPODS: 1.16.2
