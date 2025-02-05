@@ -35,6 +35,25 @@ class AuthViewModel: ObservableObject {
         }
     }
 
+    func signInWithGoogle() {
+        Task {
+            isLoading = true
+            errorMessage = nil
+
+            do {
+                let token = try await signInWithGoogleUseCase.execute()
+                UserDefaults.standard.set(token, forKey: AppConstants.Auth.tokenKey)
+                isAuthenticated = true
+                user = Auth.auth().currentUser
+            } catch {
+                errorMessage = AppConstants.ErrorMessages.unknownError
+            }
+
+            isLoading = false
+        }
+    }
+
+    
     func signIn(email: String, password: String) {
         Task {
             isLoading = true
@@ -96,3 +115,4 @@ class AuthViewModel: ObservableObject {
         }
     }
 }
+

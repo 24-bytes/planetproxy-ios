@@ -5,6 +5,8 @@
 //  Created by Arunachalam K on 04/02/2025.
 //
 
+import Foundation
+
 extension Encodable {
     func toDictionary() throws -> [String: Any] {
         let data = try JSONEncoder().encode(self)

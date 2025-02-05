@@ -2,7 +2,8 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    @EnvironmentObject var navigation: NavigationCoordinator
+    @StateObject private var navigation = NavigationCoordinator()
+    
 
     var body: some View {
         NavigationStack(path: $navigation.path) {

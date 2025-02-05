@@ -1,21 +1,23 @@
-import SwiftUI
-import Firebase
-import GoogleSignIn
+    import SwiftUI
+    import Firebase
+    import GoogleSignIn
 
-struct VPNApp: App {
+    struct VPNApp: App {
 
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+      @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-    @StateObject private var authViewModel = AuthViewModel()
-    
-    @StateObject private var navigation = NavigationCoordinator()
+      @StateObject private var authViewModel = AuthViewModel()
+       
+      @StateObject private var navigation = NavigationCoordinator()
 
 
-    var body: some Scene {
+      var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(authViewModel)
-                .environmentObject(navigation)
+          ContentView()
+            .environmentObject(authViewModel)
+            .environmentObject(navigation)
+            .preferredColorScheme(.dark)
+
+       }
       }
     }
-}
