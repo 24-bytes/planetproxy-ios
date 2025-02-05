@@ -26,10 +26,10 @@ class AuthViewModel: ObservableObject {
                return
            }
 
-           guard FormValidator.isValidPassword(password) else {
-               errorMessage = "Password must be at least 8 characters"
-               return
-           }
+          guard FormValidator.isNotEmpty(password) else {
+                errorMessage = "Password cannot be empty"
+                return
+          }
 
            Task {
                isLoading = true
