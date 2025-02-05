@@ -12,90 +12,88 @@ struct SignUpView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    // Header
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Create Account")
-                            .font(.system(size: 30, weight: .bold))
-                        Text("Sign up to get started!")
-                            .foregroundColor(.gray)
-                    }
-                    
-                    // Form Fields
-                    VStack(spacing: 16) {
-                        TextField("Name", text: $name)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
-                        TextField("Email", text: $email)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
-                        SecureField("Password", text: $password)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
-                        SecureField("Confirm Password", text: $confirmPassword)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
-                        if let errorMessage = authViewModel.errorMessage {
-                            Text(errorMessage)
-                                .foregroundColor(.red)
-                                .font(.system(size: 14))
+            ZStack {
+                Color.black.edgesIgnoringSafeArea(.all)
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        // Header
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Sign up")
+                                .font(.system(size: 30, weight: .bold))
+                                .foregroundColor(.white)
+                            
+                            Text("Start your 30-day free trial.")
+                                .foregroundColor(.gray)
                         }
-                    }
-                    
-                    // Buttons
-                    VStack(spacing: 16) {
-                        Button(action: { 
-                            if password == confirmPassword {
-                                authViewModel.signUp(email: email, password: password)
+                        
+                        // Form Fields
+                        VStack(spacing: 16) {
+                            AuthTextField(
+                                title: "Name",
+                                placeholder: "Enter your name",
+                                text: $name
+                            )
+                            
+                            AuthTextField(
+                                title: "Email",
+                                placeholder: "Enter your email",
+                                text: $email
+                            )
+                            
+                            AuthTextField(
+                                title: "Password",
+                                placeholder: "Create a password",
+                                text: $password,
+                                isSecure: true
+                            )
+                            
+                            if let errorMessage = authViewModel.errorMessage {
+                                Text(errorMessage)
+                                    .foregroundColor(.red)
+                                    .font(.system(size: 14))
                             }
-                        }) {
-                            Text("Create Account")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
                         }
-                        .disabled(authViewModel.isLoading)
                         
-                        Button(action: { authViewModel.signInWithGoogle() }) {
-                            Text("Sign up with Google")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.gray)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
+                        // Buttons
+                        VStack(spacing: 16) {
+                            AuthButton(
+                                title: "Create account",
+                                action: { authViewModel.signUp(email: email, password: password) },
+                                isLoading: authViewModel.isLoading
+                            )
+                            
+                            AuthButton(
+                                title: "Sign up with Google",
+                                action: { authViewModel.signInWithGoogle() },
+                                isLoading: authViewModel.isLoading,
+                                style: .secondary
+                            )
                         }
-                        .disabled(authViewModel.isLoading)
-                    }
-                    .padding(.top, 8)
-                    
-                    // Sign In Prompt
-                    HStack {
-                        Text("Already have an account?")
-                            .foregroundColor(.gray)
-                        Button("Sign in") {
-                            dismiss()
+                        .padding(.top, 8)
+                        
+                        // Sign In Prompt
+                        HStack {
+                            Text("Already have an account?")
+                                .foregroundColor(.gray)
+                            
+                            Button("Log in") {
+                                dismiss()
+                            }
+                            .foregroundColor(.purple)
                         }
-                        .foregroundColor(.blue)
+                        .font(.system(size: 14))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top, 8)
+                        
+                        Spacer()
                     }
-                    .font(.system(size: 14))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.top, 8)
-                    
-                    Spacer()
+                    .padding(24)
                 }
-                .padding(24)
             }
             .navigationBarHidden(true)
         }
     }
-}
-
-struct SignUpView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignUpView()
-            .environmentObject(AuthViewModel())
-    }
+    
+    
 }

@@ -1,8 +1,13 @@
     import SwiftUI
     import Firebase
     import GoogleSignIn
+    import FirebaseCore
 
     struct VPNApp: App {
+    
+        init() {
+                FirebaseApp.configure()
+            }
 
       @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 

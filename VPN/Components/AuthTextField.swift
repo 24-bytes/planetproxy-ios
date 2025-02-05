@@ -3,22 +3,24 @@ import SwiftUI
 struct AuthTextField: View {
     let title: String
     let placeholder: String
-    let text: Binding<String>
+    @Binding var text: String
     var isSecure: Bool = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .foregroundColor(.primary)
                 .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.white.opacity(0.8))
 
             if isSecure {
-                SecureField(placeholder, text: text)
+                SecureField(placeholder, text: $text)
                     .textFieldStyle(AuthTextFieldStyle())
             } else {
-                TextField(placeholder, text: text)
+                TextField(placeholder, text: $text)
                     .textFieldStyle(AuthTextFieldStyle())
                     .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                    .keyboardType(title == "Email" ? .emailAddress : .default)
             }
         }
     }
@@ -27,11 +29,14 @@ struct AuthTextField: View {
 struct AuthTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
-            .padding()
-            .background(Color(.systemGray6))
+            .padding(16)
+            .background(Color.white.opacity(0.1))
             .cornerRadius(10)
+            .foregroundColor(.white)
+            .font(.system(size: 16))
     }
 }
+
 
 struct AuthTextField_Previews: PreviewProvider {
     static var previews: some View {

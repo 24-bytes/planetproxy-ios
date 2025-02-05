@@ -13,7 +13,7 @@ struct AuthButton: View {
         var backgroundColor: Color {
             switch self {
             case .primary:
-                return Color.blue
+                return Color.purple // Updated to match UI design
             case .secondary:
                 return Color.white
             }
@@ -24,7 +24,7 @@ struct AuthButton: View {
             case .primary:
                 return Color.white
             case .secondary:
-                return Color.blue
+                return Color.black
             }
         }
 
@@ -33,7 +33,7 @@ struct AuthButton: View {
             case .primary:
                 return Color.clear
             case .secondary:
-                return Color.blue
+                return Color.gray.opacity(0.5)
             }
         }
     }
@@ -45,14 +45,23 @@ struct AuthButton: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: style.foregroundColor))
                 } else {
-                    Text(title)
-                        .font(.system(size: 16, weight: .semibold))
+                    HStack {
+                        if title.contains("Google") {
+                            Image("google_logo") // Make sure to add google_logo in Assets.xcassets
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24, height: 24)
+                        }
+
+                        Text(title)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(style.foregroundColor)
+                    }
                 }
             }
             .frame(maxWidth: .infinity)
             .frame(height: 50)
             .background(style.backgroundColor)
-            .foregroundColor(style.foregroundColor)
             .cornerRadius(10)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
@@ -65,11 +74,12 @@ struct AuthButton: View {
 
 struct AuthButton_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
+        VStack(spacing: 12) {
             AuthButton(title: "Sign In", action: {})
             AuthButton(title: "Sign In with Google", action: {}, style: .secondary)
             AuthButton(title: "Loading...", action: {}, isLoading: true)
         }
         .padding()
+        .background(Color.black.edgesIgnoringSafeArea(.all)) // Preview with a dark background
     }
 }
