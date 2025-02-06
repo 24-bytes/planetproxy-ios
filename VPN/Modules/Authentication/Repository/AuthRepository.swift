@@ -1,18 +1,11 @@
-//
-//  AuthRepository.swift
-//  VPN
-//
-//  Created by Arunachalam K on 04/02/2025.
-//
-
 import FirebaseAuth
 import GoogleSignIn
 import UIKit
 
 protocol AuthRepositoryProtocol {
-    func signInWithGoogle(idToken: String) async throws -> String
-    func login(email: String, password: String) async throws -> String
-    func signup(email: String, password: String) async throws -> String
+    func signInWithGoogle(idToken: String, rememberMe: Bool) async throws -> String
+    func login(email: String, password: String, rememberMe: Bool) async throws -> String
+    func signup(email: String, password: String, rememberMe: Bool) async throws -> String
     func signOut() throws
     func resetPassword(email: String) async throws
 }
@@ -24,39 +17,35 @@ class AuthRepository: AuthRepositoryProtocol {
         self.defaults = defaults
     }
 
-    func signInWithGoogle(idToken: String) async throws -> String {
+    func signInWithGoogle(idToken: String, rememberMe: Bool) async throws -> String {
         do {
-            // Create Google Credential
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: "")
-
-            // Sign in with Firebase using Google credentials
             let authResult = try await Auth.auth().signIn(with: credential)
-
-            // Retrieve Firebase ID Token
             let firebaseToken = try await authResult.user.getIDToken()
 
-            // Store token in UserDefaults
-            defaults.set(firebaseToken, forKey: "authToken")
-
-            return firebaseToken
+            return try await sendTokenToBackend(idToken: firebaseToken, rememberMe: rememberMe)
         } catch {
             throw AuthError.unknown(error)
         }
     }
 
-    func login(email: String, password: String) async throws -> String {
+    func login(email: String, password: String, rememberMe: Bool) async throws -> String {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
-            return try await handleTokenVerification(result.user)
+            let firebaseToken = try await result.user.getIDToken()
+            
+            return try await sendTokenToBackend(idToken: firebaseToken, rememberMe: rememberMe)
         } catch {
             throw mapAuthError(error)
         }
     }
 
-    func signup(email: String, password: String) async throws -> String {
+    func signup(email: String, password: String, rememberMe: Bool) async throws -> String {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
-            return try await handleTokenVerification(result.user)
+            let firebaseToken = try await result.user.getIDToken()
+
+            return try await sendTokenToBackend(idToken: firebaseToken, rememberMe: rememberMe)
         } catch {
             throw mapAuthError(error)
         }
@@ -66,6 +55,7 @@ class AuthRepository: AuthRepositoryProtocol {
         do {
             try Auth.auth().signOut()
             defaults.removeObject(forKey: "authToken")
+            defaults.removeObject(forKey: "tokenExpiry")
         } catch {
             throw AuthError.unknown(error)
         }
@@ -80,11 +70,53 @@ class AuthRepository: AuthRepositoryProtocol {
     }
 
     // MARK: - Private Helper Methods
-    private func handleTokenVerification(_ user: FirebaseAuth.User) async throws -> String {
-        let token = try await user.getIDToken()
-        defaults.set(token, forKey: "authToken")
-        return token
+    private func sendTokenToBackend(idToken: String, rememberMe: Bool) async throws -> String {
+        let backendURL = URL(string: "http://localhost:8080/api/auth/login")!
+        var request = URLRequest(url: backendURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(idToken, forHTTPHeaderField: "Authorization")
+
+        let body: [String: Any] = ["deviceId": 123]
+        request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NSError(domain: "AuthError", code: -4, userInfo: [NSLocalizedDescriptionKey: "No response from server"])
+        }
+
+        print("📡 Backend Response Status Code: \(httpResponse.statusCode)")
+
+        if httpResponse.statusCode != 200 {
+            throw NSError(domain: "AuthError", code: -4, userInfo: [NSLocalizedDescriptionKey: "Invalid server response"])
+        }
+
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            print("📜 Backend Response JSON: \(json ?? [:])")
+
+            guard let dataDict = json?["data"] as? [String: Any],
+                  let authToken = dataDict["token"] as? String else {
+                throw NSError(domain: "AuthError", code: -5, userInfo: [NSLocalizedDescriptionKey: "Missing token in response"])
+            }
+
+            let expiryTime = rememberMe ? 30 * 24 * 60 * 60 : 60 // 1 minute when unchecked
+            let expiryDate = Date().addingTimeInterval(Double(expiryTime))
+
+            UserDefaults.standard.set(authToken, forKey: "authToken")
+            UserDefaults.standard.set(expiryDate, forKey: "tokenExpiry")
+
+            print("✅ Successfully received and stored token: \(authToken)")
+            print("⏳ Token Expiry Set To: \(expiryDate)")
+
+            return authToken
+        } catch {
+            print("❌ Error parsing backend response: \(error.localizedDescription)")
+            throw NSError(domain: "AuthError", code: -6, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON format"])
+        }
     }
+
 
     private func mapAuthError(_ error: Error) -> AuthError {
         guard let error = error as NSError?, error.domain == AuthErrorDomain else {

@@ -1,7 +1,6 @@
 import UIKit
 import Firebase
 import FirebaseCore
-import FBSDKCoreKit
 import GoogleSignIn
 
 @main
@@ -12,7 +11,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
 
         // Configure Facebook SDK
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+//        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         return true
     }
@@ -27,9 +26,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         }
 
         // Handle Facebook Sign In callback URL
-        if ApplicationDelegate.shared.application(app, open: url, options: options) {
-            return true
-        }
+//        if ApplicationDelegate.shared.application(app, open: url, options: options) {
+//            return true
+//        }
 
         return false
     }

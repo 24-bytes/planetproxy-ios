@@ -1,5 +1,5 @@
 protocol SignInUseCaseProtocol {
-    func execute(email: String, password: String) async throws -> String
+    func execute(email: String, password: String, rememberMe: Bool) async throws -> String
 }
 
 class SignInUseCase: SignInUseCaseProtocol {
@@ -9,7 +9,7 @@ class SignInUseCase: SignInUseCaseProtocol {
         self.authRepository = authRepository
     }
 
-    func execute(email: String, password: String) async throws -> String {
-        return try await authRepository.login(email: email, password: password)
+    func execute(email: String, password: String, rememberMe: Bool) async throws -> String {
+        return try await authRepository.login(email: email, password: password, rememberMe: rememberMe)
     }
 }

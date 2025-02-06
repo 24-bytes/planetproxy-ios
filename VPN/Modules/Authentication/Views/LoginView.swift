@@ -67,13 +67,13 @@ struct LoginView: View {
                         VStack(spacing: 16) {
                             AuthButton(
                                 title: "Sign in",
-                                action: { authViewModel.signIn(email: email, password: password) },
+                                action: { authViewModel.signIn(email: email, password: password, rememberMe: rememberMe) },
                                 isLoading: authViewModel.isLoading
                             )
                             
                             AuthButton(
                                 title: "Sign in with Google",
-                                action: { authViewModel.signInWithGoogle() },
+                                action: { authViewModel.signInWithGoogle(rememberMe: rememberMe) },
                                 isLoading: authViewModel.isLoading,
                                 style: .secondary
                             )
