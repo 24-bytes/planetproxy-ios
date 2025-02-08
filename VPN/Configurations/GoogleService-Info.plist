@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>798535883903-vf9u27tk5l3vldq7a966l721jl2pl0jl.apps.googleusercontent.com</string>
+	<string>798535883903-72u1vmc7kuef5ntld002voko4e9ru6if.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.798535883903-vf9u27tk5l3vldq7a966l721jl2pl0jl</string>
+	<string>com.googleusercontent.apps.798535883903-72u1vmc7kuef5ntld002voko4e9ru6if</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>798535883903-0knlulfh5tjll2qjqa39tbvb60vc5i9u.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>plantproxy.VPN</string>
+	<string>net.planet-proxy.VPN</string>
 	<key>PROJECT_ID</key>
 	<string>rocketvpn-c28a8</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:798535883903:ios:6765e37d7729a2e974b34a</string>
+	<string>1:798535883903:ios:b1a2db60c98a410574b34a</string>
 </dict>
 </plist>

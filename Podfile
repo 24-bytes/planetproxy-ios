@@ -8,8 +8,6 @@ target 'VPN' do
   # Pods for VPN
   pod 'Firebase/Core', '9.6.0'
   pod 'Firebase/Auth', '9.6.0'
-  pod 'FBSDKCoreKit', '~> 14.1.0'
-  pod 'FBSDKLoginKit', '~> 14.1.0'
   pod 'GoogleSignIn', '~> 7.0'
   pod 'Alamofire', '~> 5.8'
 

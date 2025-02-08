@@ -2,14 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-<array>
-    <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>798535883903-lmoh5c9pmflqf3amfsn51l3tk293d8gg.apps.googleusercontent.com</string>
-        </array>
-    </dict>
-</array>
+
+    <key>GIDClientID</key>
+    <string>798535883903-72u1vmc7kuef5ntld002voko4e9ru6if.apps.googleusercontent.com</string>
+
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+               
+                <string>com.googleusercontent.apps.798535883903-72u1vmc7kuef5ntld002voko4e9ru6if</string>
+            </array>
+        </dict>
+    </array>
+
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>googlechrome</string>
+        <string>com.googleusercontent.apps.798535883903-72u1vmc7kuef5ntld002voko4e9ru6if</string>
+    </array>
+
+    <key>FirebaseDeepLinkURLScheme</key>
+    <string>com.googleusercontent.apps.798535883903-72u1vmc7kuef5ntld002voko4e9ru6if</string>
+
+
+    <key>FirebaseAutomaticScreenReportingEnabled</key>
+    <true/>
 </dict>
 </plist>
