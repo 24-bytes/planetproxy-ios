@@ -9,9 +9,12 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-
-        // Configure Facebook SDK
-//        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        if let clientID = FirebaseApp.app()?.options.clientID {
+            print("Google Client ID: \(clientID)")
+        } else {
+            print("❌ Google Client ID is missing!")
+        }
 
         return true
     }
@@ -20,15 +23,13 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
                     open url: URL,
                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
 
-        // Handle Google Sign In callback URL
+        print(url)
+        
+        
         if GIDSignIn.sharedInstance.handle(url) {
             return true
         }
 
-        // Handle Facebook Sign In callback URL
-//        if ApplicationDelegate.shared.application(app, open: url, options: options) {
-//            return true
-//        }
 
         return false
     }
