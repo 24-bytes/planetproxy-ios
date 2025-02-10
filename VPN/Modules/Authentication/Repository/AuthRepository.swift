@@ -8,6 +8,9 @@ protocol AuthRepositoryProtocol {
     func signup(email: String, password: String, rememberMe: Bool) async throws -> String
     func signOut() throws
     func resetPassword(email: String) async throws
+    func storeUserCredentials(email: String, password: String)
+    func getUserCredentials() -> (email: String, password: String)?
+    func clearUserCredentials()
 }
 
 class AuthRepository: AuthRepositoryProtocol {
@@ -34,6 +37,10 @@ class AuthRepository: AuthRepositoryProtocol {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             let firebaseToken = try await result.user.getIDToken()
             
+            if rememberMe {
+                storeUserCredentials(email: email, password: password)
+            }
+
             return try await sendTokenToBackend(idToken: firebaseToken, rememberMe: rememberMe)
         } catch {
             throw mapAuthError(error)
@@ -45,6 +52,10 @@ class AuthRepository: AuthRepositoryProtocol {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             let firebaseToken = try await result.user.getIDToken()
 
+            if rememberMe {
+                storeUserCredentials(email: email, password: password)
+            }
+
             return try await sendTokenToBackend(idToken: firebaseToken, rememberMe: rememberMe)
         } catch {
             throw mapAuthError(error)
@@ -55,7 +66,7 @@ class AuthRepository: AuthRepositoryProtocol {
         do {
             try Auth.auth().signOut()
             defaults.removeObject(forKey: "authToken")
-            defaults.removeObject(forKey: "tokenExpiry")
+            clearUserCredentials()
         } catch {
             throw AuthError.unknown(error)
         }
@@ -69,14 +80,36 @@ class AuthRepository: AuthRepositoryProtocol {
         }
     }
 
-    // MARK: - Private Helper Methods
+    func storeUserCredentials(email: String, password: String) {
+        let expiryDate = Date().addingTimeInterval(30 * 24 * 60 * 60) // 30 days
+        defaults.set(email, forKey: "rememberedEmail")
+        defaults.set(password, forKey: "rememberedPassword")
+        defaults.set(expiryDate, forKey: "credentialsExpiry")
+    }
+
+    func getUserCredentials() -> (email: String, password: String)? {
+        guard let email = defaults.string(forKey: "rememberedEmail"),
+              let password = defaults.string(forKey: "rememberedPassword"),
+              let expiryDate = defaults.object(forKey: "credentialsExpiry") as? Date,
+              expiryDate > Date() else {
+            return nil
+        }
+        return (email, password)
+    }
+
+    func clearUserCredentials() {
+        defaults.removeObject(forKey: "rememberedEmail")
+        defaults.removeObject(forKey: "rememberedPassword")
+        defaults.removeObject(forKey: "credentialsExpiry")
+    }
+    
     private func sendTokenToBackend(idToken: String, rememberMe: Bool) async throws -> String {
-        let backendURL = URL(string: "http://localhost:8080/api/auth/login")!
+        let backendURL = URL(string: "https://api.planet-proxy.com/gateway/api/auth/login")!
         var request = URLRequest(url: backendURL)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(idToken, forHTTPHeaderField: "Authorization")
-
+        
         let body: [String: Any] = ["deviceId": 123]
         request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
 
@@ -101,7 +134,7 @@ class AuthRepository: AuthRepositoryProtocol {
                 throw NSError(domain: "AuthError", code: -5, userInfo: [NSLocalizedDescriptionKey: "Missing token in response"])
             }
 
-            let expiryTime = rememberMe ? 30 * 24 * 60 * 60 : 60 // 1 minute when unchecked
+            let expiryTime = rememberMe ? 30 * 24 * 60 * 60 : 30 * 24 * 60 * 60 // 1 minute when unchecked
             let expiryDate = Date().addingTimeInterval(Double(expiryTime))
 
             UserDefaults.standard.set(authToken, forKey: "authToken")
@@ -116,22 +149,27 @@ class AuthRepository: AuthRepositoryProtocol {
             throw NSError(domain: "AuthError", code: -6, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON format"])
         }
     }
-
+    
 
     private func mapAuthError(_ error: Error) -> AuthError {
-        guard let error = error as NSError?, error.domain == AuthErrorDomain else {
-            return .unknown(error)
-        }
-
-        switch error.code {
-        case AuthErrorCode.userNotFound.rawValue:
-            return .userNotFound
-        case AuthErrorCode.wrongPassword.rawValue:
-            return .wrongPassword
-        case AuthErrorCode.emailAlreadyInUse.rawValue:
-            return .emailAlreadyInUse
-        default:
-            return .unknown(error)
-        }
+    guard let error = error as NSError?, error.domain == AuthErrorDomain else {
+        return .custom(NSLocalizedString("unexpected_error", comment: "Generic auth failure")) // 🔹 Localized error
     }
+
+    switch error.code {
+    case AuthErrorCode.userNotFound.rawValue:
+        return .custom(NSLocalizedString("user_not_found", comment: "User does not exist")) // 🔹 Localized error
+    case AuthErrorCode.wrongPassword.rawValue:
+        return .custom(NSLocalizedString("wrong_password", comment: "Incorrect password")) // 🔹 Localized error
+    case AuthErrorCode.emailAlreadyInUse.rawValue:
+        return .custom(NSLocalizedString("email_already_registered", comment: "Email already registered")) // 🔹 Localized error
+    case AuthErrorCode.networkError.rawValue:
+        return .custom(NSLocalizedString("network_error", comment: "Network error")) // 🔹 Localized error
+    case AuthErrorCode.userDisabled.rawValue:
+        return .custom(NSLocalizedString("account_disabled", comment: "Account disabled")) // 🔹 Localized error
+    default:
+        return .custom(NSLocalizedString("unexpected_error", comment: "Authentication failed")) // 🔹 Localized error
+    }
+}
+
 }

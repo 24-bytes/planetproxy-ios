@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var isConnected: Bool = false
     @State private var showSubscriptionBanner: Bool = true
+    let navigation: NavigationCoordinator
 
     var body: some View {
         ZStack {
@@ -29,7 +30,8 @@ struct HomeView: View {
                 }
 
                 // VPN Connect Button
-                VPNConnectButton(isConnected: $isConnected)
+                VPNConnectButton(isConnected: $isConnected, navigation: navigation) // ✅ Pass explicitly
+
 
                 // IP Details
                 IPDetailsCardView(

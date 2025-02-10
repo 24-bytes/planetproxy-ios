@@ -2,6 +2,8 @@ import SwiftUI
 
 struct VPNConnectButton: View {
     @Binding var isConnected: Bool
+    @EnvironmentObject var authViewModel: AuthViewModel
+    let navigation: NavigationCoordinator
 
     var body: some View {
         VStack(spacing: 10) {
@@ -10,10 +12,14 @@ struct VPNConnectButton: View {
                 .font(.system(size: 14))
 
             Button(action: {
-                withAnimation {
-                    isConnected.toggle()
+                if authViewModel.isAuthenticated {
+                    withAnimation {
+                        isConnected.toggle() // ✅ Toggle only if authenticated
+                    }
+                } else {
+                    navigation.navigateToLogin() // ✅ Redirect to login if not authenticated
                 }
-            }) {
+            }){
                 ZStack {
                     Circle()
                         .fill(isConnected ? Color.green.opacity(0.3) : Color.red.opacity(0.3))

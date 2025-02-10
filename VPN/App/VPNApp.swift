@@ -22,7 +22,9 @@
             .environmentObject(authViewModel)
             .environmentObject(navigation)
             .preferredColorScheme(.dark)
-
+            .onAppear {
+                authViewModel.loadAuthState() // ✅ Load auth state at startup
+            }
        }
       }
     }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AuthButton: View {
-    let title: String
+    let titleKey: String // 🔹 Use LocalizedStringKey
     let action: () -> Void
     var isLoading: Bool = false
     var style: ButtonStyle = .primary
@@ -13,7 +13,7 @@ struct AuthButton: View {
         var backgroundColor: Color {
             switch self {
             case .primary:
-                return Color.purple // Updated to match UI design
+                return Color.purple
             case .secondary:
                 return Color.white
             }
@@ -46,14 +46,13 @@ struct AuthButton: View {
                         .progressViewStyle(CircularProgressViewStyle(tint: style.foregroundColor))
                 } else {
                     HStack {
-                        if title.contains("Google") {
-                            Image("google_logo") // Make sure to add google_logo in Assets.xcassets
+                        if titleKey.contains("sign_in_with_google") || titleKey.contains("sign_up_with_google") {
+                            Image("google_logo")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 24, height: 24)
                         }
-
-                        Text(title)
+                        Text(LocalizedStringKey(titleKey)) // 🔹 Localized text
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundColor(style.foregroundColor)
                     }
@@ -69,17 +68,5 @@ struct AuthButton: View {
             )
         }
         .disabled(isLoading)
-    }
-}
-
-struct AuthButton_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 12) {
-            AuthButton(title: "Sign In", action: {})
-            AuthButton(title: "Sign In with Google", action: {}, style: .secondary)
-            AuthButton(title: "Loading...", action: {}, isLoading: true)
-        }
-        .padding()
-        .background(Color.black.edgesIgnoringSafeArea(.all)) // Preview with a dark background
     }
 }

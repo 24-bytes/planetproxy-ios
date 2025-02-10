@@ -7,160 +7,177 @@ import GoogleSignIn
 @MainActor
 class AuthViewModel: ObservableObject {
     @Published var isAuthenticated = false
-    @Published var isLoading = false
-    @Published var user: User?
-    @Published var errorMessage: String?
+       @Published var isLoading = false
+       @Published var user: User?
+       @Published var errorMessage: String?
+        @Published var rememberedEmail: String = ""
+        @Published var rememberedPassword: String = ""
 
-    private var authCheckTimer: Timer?
+       private let signUpUseCase: SignUpUseCaseProtocol
+       private let signInUseCase: SignInUseCaseProtocol
+       private let signInWithGoogleUseCase: SignInWithGoogleUseCaseProtocol
+       private let rememberUserUseCase: RememberUserUseCaseProtocol
 
-    private let signUpUseCase: SignUpUseCaseProtocol
-    private let signInUseCase: SignInUseCaseProtocol
-    private let signInWithGoogleUseCase: SignInWithGoogleUseCaseProtocol
+       init(
+           signUpUseCase: SignUpUseCaseProtocol = SignUpUseCase(),
+           signInUseCase: SignInUseCaseProtocol = SignInUseCase(),
+           signInWithGoogleUseCase: SignInWithGoogleUseCaseProtocol = SignInWithGoogleUseCase(),
+           rememberUserUseCase: RememberUserUseCaseProtocol = RememberUserUseCase()
+       ) {
+           self.signUpUseCase = signUpUseCase
+           self.signInUseCase = signInUseCase
+           self.signInWithGoogleUseCase = signInWithGoogleUseCase
+           self.rememberUserUseCase = rememberUserUseCase
+       
+           loadAuthState()
+           loadRememberedCredentials() // ✅ Load credentials at launch
+       }
 
-    init(
-        signUpUseCase: SignUpUseCaseProtocol = SignUpUseCase(),
-        signInUseCase: SignInUseCaseProtocol = SignInUseCase(),
-        signInWithGoogleUseCase: SignInWithGoogleUseCaseProtocol = SignInWithGoogleUseCase()
-    ) {
-        self.signUpUseCase = signUpUseCase
-        self.signInUseCase = signInUseCase
-        self.signInWithGoogleUseCase = signInWithGoogleUseCase
-        
-        checkAuthStatus()
-        startAuthCheckTimer()
-    }
-
-    private func startAuthCheckTimer() {
-        authCheckTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            Task { @MainActor in
-                self?.checkAuthStatus()
+    func loadAuthState() {
+            if let authToken = UserDefaults.standard.string(forKey: "authToken"),
+               let expiryDate = UserDefaults.standard.object(forKey: "tokenExpiry") as? Date,
+               expiryDate > Date() {
+                isAuthenticated = true
+            } else {
+                isAuthenticated = false
             }
         }
-    }
 
-    func checkAuthStatus() {
-        guard let expiryDate = UserDefaults.standard.object(forKey: "tokenExpiry") as? Date else {
-            print("❌ No token expiry found, logging out")
-            signOut()
-            return
+        func loadRememberedCredentials() {
+            if let credentials = rememberUserUseCase.getUserCredentials() {
+                rememberedEmail = credentials.email
+                rememberedPassword = credentials.password
+            }
         }
-
-        let currentTime = Date()
-        print("🔎 Checking Token Expiry: \(expiryDate) | Current Time: \(currentTime)")
-
-        if currentTime >= expiryDate {
-            print("⏳ Token Expired! Logging Out.")
-            signOut()
-        } else {
-            self.user = Auth.auth().currentUser
-            self.isAuthenticated = (self.user != nil)
-            print("✅ User is still authenticated")
-        }
-    }
-
-    private func storeAuthToken(_ token: String, rememberMe: Bool) {
-        let expiryTime = rememberMe ? 30 * 24 * 60 * 60 : 60 // 30 days or 1 minute
-        let expiryDate = Date().addingTimeInterval(Double(expiryTime))
-
-        UserDefaults.standard.set(token, forKey: "authToken")
-        UserDefaults.standard.set(expiryDate, forKey: "tokenExpiry")
-        self.isAuthenticated = true
-    }
-
+    
     func signIn(email: String, password: String, rememberMe: Bool) {
         guard FormValidator.isValidEmail(email) else {
-            errorMessage = "Invalid email format"
-            return
-        }
-        guard FormValidator.isNotEmpty(password) else {
-            errorMessage = "Password cannot be empty"
-            return
-        }
-        
+        errorMessage = NSLocalizedString("invalid_email", comment: "Invalid email format") // 🔹 Localized
+        clearErrorMessageAfterDelay()
+        return
+    }
+    guard FormValidator.isNotEmpty(password) else {
+        errorMessage = NSLocalizedString("empty_password", comment: "Empty password error") // 🔹 Localized
+        clearErrorMessageAfterDelay()
+        return
+    }
+
         Task {
             isLoading = true
             errorMessage = nil
             do {
                 let token = try await signInUseCase.execute(email: email, password: password, rememberMe: rememberMe)
-                storeAuthToken(token, rememberMe: rememberMe)
+                storeAuthToken(token, rememberMe: rememberMe, email: email, password: password)
+
+                // ✅ If user logs in but unchecks "Remember Me", clear stored credentials
+                if !rememberMe {
+                    rememberUserUseCase.clearUserCredentials()
+                    rememberedEmail = ""
+                    rememberedPassword = ""
+                }
+
+                isAuthenticated = true
+            } catch let authError as AuthError {
+                self.errorMessage = authError.localizedDescription // ✅ Uses mapped error
+                clearErrorMessageAfterDelay()
             } catch {
-                self.errorMessage = error.localizedDescription
+                self.errorMessage = "Unexpected error. Please try again." // ✅ Fallback message
+                clearErrorMessageAfterDelay()
             }
             isLoading = false
         }
     }
 
-    func signUp(email: String, password: String, rememberMe: Bool) {
-        guard FormValidator.isValidEmail(email) else {
-            errorMessage = "Invalid email format"
-            return
-        }
-        guard FormValidator.isValidPassword(password) else {
-            errorMessage = "Password must be at least 8 characters, include 1 uppercase letter, 1 digit, and 1 special character"
-            return
-        }
-        
-        Task {
-            isLoading = true
-            errorMessage = nil
+
+        func signOut() {
             do {
-                let token = try await signUpUseCase.execute(email: email, password: password, rememberMe: rememberMe)
-                storeAuthToken(token, rememberMe: rememberMe)
+                try Auth.auth().signOut()
+                UserDefaults.standard.removeObject(forKey: "authToken")
+                UserDefaults.standard.removeObject(forKey: "tokenExpiry")
+
+                rememberedEmail = ""
+                rememberedPassword = ""
+                isAuthenticated = false
+                loadRememberedCredentials()
             } catch {
-                self.errorMessage = error.localizedDescription
+                errorMessage = "Sign out failed"
             }
-            isLoading = false
         }
+
+       func signUp(email: String, password: String, rememberMe: Bool) {
+           guard FormValidator.isValidEmail(email) else {
+        errorMessage = NSLocalizedString("invalid_email", comment: "Invalid email format") // 🔹 Localized
+        clearErrorMessageAfterDelay()
+        return
     }
+    guard FormValidator.isValidPassword(password) else {
+        errorMessage = NSLocalizedString("password_requirement", comment: "Password must be at least 8 characters, include 1 uppercase letter, 1 digit, and 1 special character") // 🔹 Localized
+        clearErrorMessageAfterDelay()
+        return
+    }
+
+
+           Task {
+               isLoading = true
+               errorMessage = nil
+               do {
+                   let token = try await signUpUseCase.execute(email: email, password: password, rememberMe: rememberMe)
+                   storeAuthToken(token, rememberMe: rememberMe, email: email, password: password)
+               } catch let authError as AuthError {
+                   self.errorMessage = authError.localizedDescription // ✅ Uses mapped error
+                   clearErrorMessageAfterDelay()
+               } catch {
+                   self.errorMessage = "Unexpected error. Please try again." // ✅ Fallback message
+                   clearErrorMessageAfterDelay()
+               }
+               isLoading = false
+           }
+       }
+
+       func storeAuthToken(_ token: String, rememberMe: Bool, email: String? = nil, password: String? = nil) {
+           let expiryTime = rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60
+           let expiryDate = Date().addingTimeInterval(Double(expiryTime))
+
+           UserDefaults.standard.set(token, forKey: "authToken")
+           UserDefaults.standard.set(expiryDate, forKey: "tokenExpiry")
+
+           if rememberMe, let email = email, let password = password {
+               UserDefaults.standard.set(email, forKey: "rememberedEmail")
+               UserDefaults.standard.set(password, forKey: "rememberedPassword")
+           }
+
+           print("✅ Token stored. Expiry: \(expiryDate)")
+       }
+
+       func loadRememberedUser() -> (email: String, password: String)? {
+           return rememberUserUseCase.getUserCredentials()
+       }
+
+        func loadRememberedUser() {
+            if let credentials = rememberUserUseCase.getUserCredentials() {
+                signIn(email: credentials.email, password: credentials.password, rememberMe: true)
+            }
+        }
 
     func signInWithGoogle(rememberMe: Bool) {
         Task {
             isLoading = true
             errorMessage = nil
 
-            guard let clientID = FirebaseApp.app()?.options.clientID else {
-                self.errorMessage = "Missing Client ID"
-                isLoading = false
-                return
-            }
-            guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                  let rootViewController = await windowScene.windows.first?.rootViewController else {
-                      self.errorMessage = "Cannot find root view controller"
-                      isLoading = false
-                      return
-                  }
-            
-            let config = GIDConfiguration(clientID: clientID)
-            GIDSignIn.sharedInstance.configuration = config
-            
             do {
-                let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
-                guard let idToken = result.user.idToken?.tokenString else {
-                    self.errorMessage = "Missing ID Token"
-                    isLoading = false
-                    return
-                }
-                
-                let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: "")
-                let authResult = try await Auth.auth().signIn(with: credential)
-                
-                let firebaseToken = try await authResult.user.getIDToken()
+                let firebaseToken = try await signInWithGoogleUseCase.execute(rememberMe: rememberMe)
                 storeAuthToken(firebaseToken, rememberMe: rememberMe)
+
+                DispatchQueue.main.async {
+                    self.isAuthenticated = true
+                    NavigationCoordinator.shared.navigateToHome()
+                }
             } catch {
                 self.errorMessage = error.localizedDescription
+                clearErrorMessageAfterDelay()
             }
-            isLoading = false
-        }
-    }
 
-    func signOut() {
-        do {
-            try Auth.auth().signOut()
-            UserDefaults.standard.removeObject(forKey: "authToken")
-            UserDefaults.standard.removeObject(forKey: "tokenExpiry")
-            self.isAuthenticated = false
-        } catch {
-            self.errorMessage = "Sign out failed"
+            isLoading = false
         }
     }
 
@@ -177,4 +194,11 @@ class AuthViewModel: ObservableObject {
             isLoading = false
         }
     }
+    
+    private func clearErrorMessageAfterDelay() {
+           DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+               self.errorMessage = nil
+           }
+       }
 }
+

@@ -6,106 +6,105 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var rememberMe: Bool = false
-    @State private var showingSignUp = false
+    @State private var showingSignUp: Bool = false
     @EnvironmentObject var authViewModel: AuthViewModel
-    
+
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.edgesIgnoringSafeArea(.all) // Background Color
-                
+                Color.black.edgesIgnoringSafeArea(.all)
+
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
-                        // Header
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Log in")
+                            Text(LocalizedStringKey("sign_in"))
                                 .font(.system(size: 30, weight: .bold))
                                 .foregroundColor(.white)
 
-                            Text("Welcome back! Please enter your details.")
+                            Text(LocalizedStringKey("welcome_back"))
                                 .foregroundColor(.gray)
                         }
-                        
-                        // Form Fields
+
                         VStack(spacing: 16) {
                             AuthTextField(
-                                title: "Email",
-                                placeholder: "Enter your email",
+                                titleKey: "email",
+                                placeholderKey: "enter_email",
                                 text: $email
                             )
-                            
                             AuthTextField(
-                                title: "Password",
-                                placeholder: "Enter your password",
+                                titleKey: "password",
+                                placeholderKey: "enter_password",
                                 text: $password,
                                 isSecure: true
                             )
-                            
-                            if let errorMessage = authViewModel.errorMessage {
-                                Text(errorMessage)
-                                    .foregroundColor(.red)
-                                    .font(.system(size: 14))
-                            }
                         }
-                        
-                        // Remember Me & Forgot Password
+
+                        if let errorMessage = authViewModel.errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .font(.system(size: 14))
+                                .transition(.opacity)
+                        }
+
                         HStack {
-                            Toggle("Remember for 30 days", isOn: $rememberMe)
+                            Toggle(LocalizedStringKey("remember_me"), isOn: $rememberMe)
                                 .toggleStyle(CheckboxToggleStyle())
                                 .foregroundColor(.gray)
-                            
+
                             Spacer()
-                            
-                            Button("Forgot password?") {
+
+                            Button(LocalizedStringKey("forgot_password")) {
                                 authViewModel.resetPassword(email: email)
                             }
                             .foregroundColor(.purple)
-                            .font(.system(size: 14, weight: .medium))
                         }
-                        
-                        // Buttons
+
                         VStack(spacing: 16) {
                             AuthButton(
-                                title: "Sign in",
-                                action: { authViewModel.signIn(email: email, password: password, rememberMe: rememberMe) },
+                                titleKey: "sign_in",
+                                action: {
+                                    authViewModel.signIn(email: email, password: password, rememberMe: rememberMe)
+                                },
                                 isLoading: authViewModel.isLoading
                             )
-                            
+
                             AuthButton(
-                                title: "Sign in with Google",
-                                action: { authViewModel.signInWithGoogle(rememberMe: rememberMe) },
+                                titleKey: "sign_in_with_google",
+                                action: {
+                                    authViewModel.signInWithGoogle(rememberMe: rememberMe)
+                                },
                                 isLoading: authViewModel.isLoading,
                                 style: .secondary
                             )
                         }
-                        .padding(.top, 8)
-                        
-                        // Sign Up Prompt
+
                         HStack {
-                            Text("Don't have an account?")
+                            Text(LocalizedStringKey("already_have_account"))
                                 .foregroundColor(.gray)
-                            
-                            Button("Sign up") {
+
+                            Button(LocalizedStringKey("sign_up")) {
                                 showingSignUp = true
                             }
                             .foregroundColor(.purple)
                         }
-                        .font(.system(size: 14))
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 8)
-                        
-                        Spacer()
                     }
                     .padding(24)
                 }
             }
-            .navigationBarHidden(true)
+            .onAppear {
+                if !authViewModel.rememberedEmail.isEmpty {
+                    email = authViewModel.rememberedEmail
+                    password = authViewModel.rememberedPassword
+                    rememberMe = true
+                }
+            }
         }
         .sheet(isPresented: $showingSignUp) {
             SignUpView()
         }
     }
 }
+
 
 struct CheckboxToggleStyle: ToggleStyle {
     func makeBody(configuration: Configuration) -> some View {

@@ -8,16 +8,22 @@
 import SwiftUI
 
 class NavigationCoordinator: ObservableObject {
-    @Published var path: [Route] = []
-
-    func navigate(to route: Route) {
-        if !path.contains(route) {
-            path.append(route)
+    static let shared = NavigationCoordinator()
+    @Published var path = NavigationPath()
+    
+    func navigateToHome() {
+        DispatchQueue.main.async {
+            self.path.removeLast(self.path.count) // Clear previous navigation stack
+            self.path.append(Route.home)
         }
     }
-
-    func reset() {
-        path.removeAll()
-    }
+    
+    func navigateToLogin() {
+            DispatchQueue.main.async {
+                self.path.removeLast(self.path.count) // Clear previous navigation stack
+                self.path.append(Route.login) // ✅ Redirect to login
+            }
+        }
 }
+
 

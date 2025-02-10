@@ -1,26 +1,26 @@
 import SwiftUI
 
 struct AuthTextField: View {
-    let title: String
-    let placeholder: String
+    let titleKey: String
+    let placeholderKey: String
     @Binding var text: String
     var isSecure: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(title)
+            Text(LocalizedStringKey(titleKey))
                 .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.white.opacity(0.8))
 
             if isSecure {
-                SecureField(placeholder, text: $text)
+                SecureField(LocalizedStringKey(placeholderKey), text: $text)
                     .textFieldStyle(AuthTextFieldStyle())
             } else {
-                TextField(placeholder, text: $text)
+                TextField(LocalizedStringKey(placeholderKey), text: $text)
                     .textFieldStyle(AuthTextFieldStyle())
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .keyboardType(title == "Email" ? .emailAddress : .default)
+                    .keyboardType(titleKey == "email" ? .emailAddress : .default)
             }
         }
     }
@@ -41,8 +41,8 @@ struct AuthTextFieldStyle: TextFieldStyle {
 struct AuthTextField_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            AuthTextField(title: "Email", placeholder: "Enter your email", text: .constant(""))
-            AuthTextField(title: "Password", placeholder: "Enter your password", text: .constant(""), isSecure: true)
+            AuthTextField(titleKey: "email", placeholderKey: "enter_email", text: .constant(""))
+            AuthTextField(titleKey: "password", placeholderKey: "enter_password", text: .constant(""), isSecure: true)
         }
         .padding()
     }
