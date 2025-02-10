@@ -11,9 +11,16 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
 
         let window = UIWindow(windowScene: windowScene)
+        
+        let splashView = UIHostingController(rootView: SplashView().onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                let contentView = UIHostingController(rootView: ContentView().environmentObject(AuthViewModel()))
+                self.window?.rootViewController = contentView
+                self.window?.makeKeyAndVisible()
+            }
+        })
 
-        let contentView = ContentView().environmentObject(AuthViewModel())
-        window.rootViewController = UIHostingController(rootView: contentView)
+        window.rootViewController = splashView
         self.window = window
         window.makeKeyAndVisible()
     }

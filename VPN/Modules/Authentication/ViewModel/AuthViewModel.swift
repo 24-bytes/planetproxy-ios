@@ -52,12 +52,12 @@ class AuthViewModel: ObservableObject {
     
     func signIn(email: String, password: String, rememberMe: Bool) {
         guard FormValidator.isValidEmail(email) else {
-        errorMessage = NSLocalizedString("invalid_email", comment: "Invalid email format") // 🔹 Localized
+        errorMessage = NSLocalizedString("invalid_email", comment: "Invalid email format")
         clearErrorMessageAfterDelay()
         return
     }
     guard FormValidator.isNotEmpty(password) else {
-        errorMessage = NSLocalizedString("empty_password", comment: "Empty password error") // 🔹 Localized
+        errorMessage = NSLocalizedString("empty_password", comment: "Empty password error")
         clearErrorMessageAfterDelay()
         return
     }
@@ -69,7 +69,7 @@ class AuthViewModel: ObservableObject {
                 let token = try await signInUseCase.execute(email: email, password: password, rememberMe: rememberMe)
                 storeAuthToken(token, rememberMe: rememberMe, email: email, password: password)
 
-                // ✅ If user logs in but unchecks "Remember Me", clear stored credentials
+                // If user logs in but unchecks "Remember Me", clear stored credentials
                 if !rememberMe {
                     rememberUserUseCase.clearUserCredentials()
                     rememberedEmail = ""
@@ -78,10 +78,10 @@ class AuthViewModel: ObservableObject {
 
                 isAuthenticated = true
             } catch let authError as AuthError {
-                self.errorMessage = authError.localizedDescription // ✅ Uses mapped error
+                self.errorMessage = authError.localizedDescription
                 clearErrorMessageAfterDelay()
             } catch {
-                self.errorMessage = "Unexpected error. Please try again." // ✅ Fallback message
+                self.errorMessage = "Unexpected error. Please try again."
                 clearErrorMessageAfterDelay()
             }
             isLoading = false
@@ -106,12 +106,12 @@ class AuthViewModel: ObservableObject {
 
        func signUp(email: String, password: String, rememberMe: Bool) {
            guard FormValidator.isValidEmail(email) else {
-        errorMessage = NSLocalizedString("invalid_email", comment: "Invalid email format") // 🔹 Localized
+        errorMessage = NSLocalizedString("invalid_email", comment: "Invalid email format")
         clearErrorMessageAfterDelay()
         return
     }
     guard FormValidator.isValidPassword(password) else {
-        errorMessage = NSLocalizedString("password_requirement", comment: "Password must be at least 8 characters, include 1 uppercase letter, 1 digit, and 1 special character") // 🔹 Localized
+        errorMessage = NSLocalizedString("password_requirement", comment: "Password must be at least 8 characters, include 1 uppercase letter, 1 digit, and 1 special character")
         clearErrorMessageAfterDelay()
         return
     }
@@ -124,10 +124,10 @@ class AuthViewModel: ObservableObject {
                    let token = try await signUpUseCase.execute(email: email, password: password, rememberMe: rememberMe)
                    storeAuthToken(token, rememberMe: rememberMe, email: email, password: password)
                } catch let authError as AuthError {
-                   self.errorMessage = authError.localizedDescription // ✅ Uses mapped error
+                   self.errorMessage = authError.localizedDescription
                    clearErrorMessageAfterDelay()
                } catch {
-                   self.errorMessage = "Unexpected error. Please try again." // ✅ Fallback message
+                   self.errorMessage = "Unexpected error. Please try again."
                    clearErrorMessageAfterDelay()
                }
                isLoading = false
@@ -145,8 +145,6 @@ class AuthViewModel: ObservableObject {
                UserDefaults.standard.set(email, forKey: "rememberedEmail")
                UserDefaults.standard.set(password, forKey: "rememberedPassword")
            }
-
-           print("✅ Token stored. Expiry: \(expiryDate)")
        }
 
        func loadRememberedUser() -> (email: String, password: String)? {

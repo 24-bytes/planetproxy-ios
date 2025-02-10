@@ -140,12 +140,8 @@ class AuthRepository: AuthRepositoryProtocol {
             UserDefaults.standard.set(authToken, forKey: "authToken")
             UserDefaults.standard.set(expiryDate, forKey: "tokenExpiry")
 
-            print("✅ Successfully received and stored token: \(authToken)")
-            print("⏳ Token Expiry Set To: \(expiryDate)")
-
             return authToken
         } catch {
-            print("❌ Error parsing backend response: \(error.localizedDescription)")
             throw NSError(domain: "AuthError", code: -6, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON format"])
         }
     }
@@ -153,22 +149,22 @@ class AuthRepository: AuthRepositoryProtocol {
 
     private func mapAuthError(_ error: Error) -> AuthError {
     guard let error = error as NSError?, error.domain == AuthErrorDomain else {
-        return .custom(NSLocalizedString("unexpected_error", comment: "Generic auth failure")) // 🔹 Localized error
+        return .custom(NSLocalizedString("unexpected_error", comment: "Generic auth failure"))
     }
 
     switch error.code {
     case AuthErrorCode.userNotFound.rawValue:
-        return .custom(NSLocalizedString("user_not_found", comment: "User does not exist")) // 🔹 Localized error
+        return .custom(NSLocalizedString("user_not_found", comment: "User does not exist"))
     case AuthErrorCode.wrongPassword.rawValue:
-        return .custom(NSLocalizedString("wrong_password", comment: "Incorrect password")) // 🔹 Localized error
+        return .custom(NSLocalizedString("wrong_password", comment: "Incorrect password"))
     case AuthErrorCode.emailAlreadyInUse.rawValue:
-        return .custom(NSLocalizedString("email_already_registered", comment: "Email already registered")) // 🔹 Localized error
+        return .custom(NSLocalizedString("email_already_registered", comment: "Email already registered"))
     case AuthErrorCode.networkError.rawValue:
-        return .custom(NSLocalizedString("network_error", comment: "Network error")) // 🔹 Localized error
+        return .custom(NSLocalizedString("network_error", comment: "Network error"))
     case AuthErrorCode.userDisabled.rawValue:
-        return .custom(NSLocalizedString("account_disabled", comment: "Account disabled")) // 🔹 Localized error
+        return .custom(NSLocalizedString("account_disabled", comment: "Account disabled"))
     default:
-        return .custom(NSLocalizedString("unexpected_error", comment: "Authentication failed")) // 🔹 Localized error
+        return .custom(NSLocalizedString("unexpected_error", comment: "Authentication failed"))
     }
 }
 

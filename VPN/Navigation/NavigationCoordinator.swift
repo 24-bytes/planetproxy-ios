@@ -21,7 +21,7 @@ class NavigationCoordinator: ObservableObject {
     func navigateToLogin() {
             DispatchQueue.main.async {
                 self.path.removeLast(self.path.count) // Clear previous navigation stack
-                self.path.append(Route.login) // ✅ Redirect to login
+                self.path.append(Route.login)
             }
         }
 }

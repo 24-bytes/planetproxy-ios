@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AuthButton: View {
-    let titleKey: String // 🔹 Use LocalizedStringKey
+    let titleKey: String
     let action: () -> Void
     var isLoading: Bool = false
     var style: ButtonStyle = .primary
@@ -52,7 +52,7 @@ struct AuthButton: View {
                                 .scaledToFit()
                                 .frame(width: 24, height: 24)
                         }
-                        Text(LocalizedStringKey(titleKey)) // 🔹 Localized text
+                        Text(LocalizedStringKey(titleKey))
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundColor(style.foregroundColor)
                     }

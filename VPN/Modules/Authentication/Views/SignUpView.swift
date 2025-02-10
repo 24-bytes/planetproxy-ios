@@ -21,11 +21,11 @@ struct SignUpView: View {
                     VStack(alignment: .leading, spacing: 24) {
                         // Header
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Sign up")
+                            Text(LocalizedStringKey("sign_up_title"))
                                 .font(.system(size: 30, weight: .bold))
                                 .foregroundColor(.white)
-                            
-                            Text("Start your 30-day free trial.")
+
+                            Text(LocalizedStringKey("start_trial_message"))
                                 .foregroundColor(.gray)
                         }
                         
@@ -67,13 +67,13 @@ struct SignUpView: View {
                             // Buttons
                             VStack(spacing: 16) {
                                 AuthButton(
-                                    titleKey: NSLocalizedString("create_account", comment: "Sign up button"),
+                                    titleKey:"create_account",
                                     action: { authViewModel.signUp(email: email, password: password, rememberMe: rememberMe) },
                                     isLoading: authViewModel.isLoading
                                 )
                                 
                                 AuthButton(
-                                    titleKey: NSLocalizedString("sign_up_google", comment: "Google sign up"),
+                                    titleKey:"sign_up_with_google",
                                     action: { authViewModel.signInWithGoogle(rememberMe: rememberMe) },
                                     isLoading: authViewModel.isLoading,
                                     style: .secondary
@@ -82,16 +82,16 @@ struct SignUpView: View {
                             .padding(.top, 8)
                             
                             // Sign In Prompt
-                            HStack {
-                                Text("Already have an account?")
-                                    .foregroundColor(.gray)
-                                
-                                Button("Log in") {
-                                    dismiss()
-                                }
-                                .foregroundColor(.purple)
+                        HStack {
+                            Text(LocalizedStringKey("already_have_account"))
+                                .foregroundColor(.gray)
+
+                            Button(LocalizedStringKey("sign_in")) {
+                                dismiss()
                             }
-                            .font(.system(size: 14))
+                            .foregroundColor(.purple)
+                        }
+                            
                             .frame(maxWidth: .infinity, alignment: .center)
                             .padding(.top, 8)
                             

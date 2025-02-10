@@ -48,6 +48,7 @@ struct LoginView: View {
 
                         HStack {
                             Toggle(LocalizedStringKey("remember_me"), isOn: $rememberMe)
+                                .font(.system(size: 18))
                                 .toggleStyle(CheckboxToggleStyle())
                                 .foregroundColor(.gray)
 
@@ -79,7 +80,7 @@ struct LoginView: View {
                         }
 
                         HStack {
-                            Text(LocalizedStringKey("already_have_account"))
+                            Text(LocalizedStringKey("no_account_sign_up"))
                                 .foregroundColor(.gray)
 
                             Button(LocalizedStringKey("sign_up")) {
