@@ -1,6 +1,6 @@
-import SwiftUI
 import Firebase
 import GoogleSignIn
+import SwiftUI
 
 struct LoginView: View {
     @State private var email: String = ""
@@ -47,10 +47,13 @@ struct LoginView: View {
                         }
 
                         HStack {
-                            Toggle(LocalizedStringKey("remember_me"), isOn: $rememberMe)
-                                .font(.system(size: 18))
-                                .toggleStyle(CheckboxToggleStyle())
-                                .foregroundColor(.gray)
+                            Toggle(
+                                LocalizedStringKey("remember_me"),
+                                isOn: $rememberMe
+                            )
+                            .font(.system(size: 18))
+                            .toggleStyle(CheckboxToggleStyle())
+                            .foregroundColor(.gray)
 
                             Spacer()
 
@@ -61,14 +64,24 @@ struct LoginView: View {
                         }
 
                         VStack(spacing: 16) {
-                            AuthButton(title: "sign_in",
-                                       action: { authViewModel.signIn(email: email, password: password, rememberMe: rememberMe) },
-                                       isLoading: authViewModel.loadingButtonType == .signIn)
+                            AuthButton(
+                                title: "sign_in",
+                                action: {
+                                    authViewModel.signIn(
+                                        email: email, password: password,
+                                        rememberMe: rememberMe)
+                                },
+                                isLoading: authViewModel.loadingButtonType
+                                    == .signIn)
 
                             GoogleAuthButton(
                                 title: "sign_in_with_google",
-                                action: { authViewModel.signInWithGoogle(rememberMe: rememberMe) },
-                                isLoading: authViewModel.loadingButtonType == .googleSignIn
+                                action: {
+                                    authViewModel.signInWithGoogle(
+                                        rememberMe: rememberMe)
+                                },
+                                isLoading: authViewModel.loadingButtonType
+                                    == .googleSignIn
                             )
 
                         }
@@ -100,15 +113,17 @@ struct LoginView: View {
     }
 }
 
-
 struct CheckboxToggleStyle: ToggleStyle {
     func makeBody(configuration: Configuration) -> some View {
         HStack {
-            Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
-                .foregroundColor(configuration.isOn ? .purple : .gray)
-                .onTapGesture {
-                    configuration.isOn.toggle()
-                }
+            Image(
+                systemName: configuration.isOn
+                    ? "checkmark.square.fill" : "square"
+            )
+            .foregroundColor(configuration.isOn ? .purple : .gray)
+            .onTapGesture {
+                configuration.isOn.toggle()
+            }
             configuration.label
         }
     }

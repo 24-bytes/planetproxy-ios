@@ -1,7 +1,7 @@
 import Foundation
 
 struct APIEndpoints {
-    private static let baseURL = "https://your-backend.com/api"
+    private static let baseURL = "https://api.planet-proxy.com/gateway/api"
 
     struct Servers {
         static func getVpnServers() -> URL? {

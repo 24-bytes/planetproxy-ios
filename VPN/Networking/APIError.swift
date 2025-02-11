@@ -13,7 +13,7 @@ enum APIError: Error {
     case decodingFailed
     case unauthorized
     case unknown(Error)
-    
+
     var localizedDescription: String {
         switch self {
         case .invalidURL:

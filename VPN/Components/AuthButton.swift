@@ -37,7 +37,9 @@ struct AuthButton: View {
             ZStack {
                 if isLoading {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: style.foregroundColor))
+                        .progressViewStyle(
+                            CircularProgressViewStyle(
+                                tint: style.foregroundColor))
                 } else {
                     Text(LocalizedStringKey(title))
                         .font(.system(size: 16, weight: .semibold))

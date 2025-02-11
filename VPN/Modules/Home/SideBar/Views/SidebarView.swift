@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct SidebarView: View {
-    @EnvironmentObject var sidebarViewModel: SidebarViewModel // ✅ Now using environment object
-    @EnvironmentObject var authViewModel: AuthViewModel // ✅ Injected AuthViewModel
+    @EnvironmentObject var sidebarViewModel: SidebarViewModel 
+    @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var navigation: NavigationCoordinator
 
     var body: some View {
@@ -14,34 +14,37 @@ struct SidebarView: View {
             }
 
             HStack {
-                VStack(alignment: .leading, spacing: 16) { // ✅ Reduced spacing from 24 to 16
+                VStack(alignment: .leading, spacing: 16) {
                     // Close Button (Moved Down)
                     Button(action: { sidebarViewModel.isSidebarOpen = false }) {
                         Image(systemName: "xmark")
                             .foregroundColor(.white)
                             .font(.title2)
-                            .padding(.top, 40) // ✅ Move close button down
-                            .padding(.leading, 16) // ✅ Align properly
+                            .padding(.top, 40)
+                            .padding(.leading, 16)
                     }
 
                     // Welcome Text
                     Text("Welcome back,\n**Christopher Flem**")
                         .font(.title3)
                         .foregroundColor(.white)
-                        .padding(.horizontal, 16) // ✅ Added padding for alignment
+                        .padding(.horizontal, 16)
 
                     // Sidebar Menu Items
                     ForEach(sidebarViewModel.menuItems) { item in
-                        SidebarItemView(item: item, viewModel: sidebarViewModel, navigation: navigation)
-                            .padding(.leading, 16) // ✅ Align menu items properly
+                        SidebarItemView(
+                            item: item, viewModel: sidebarViewModel,
+                            navigation: navigation
+                        )
+                        .padding(.leading, 16)
                     }
 
                     Spacer()
 
                     // Footer
                     SidebarFooterView()
-                        .padding(.leading, 16) // ✅ Align footer properly
-                        .padding(.bottom, 20) // ✅ Prevents it from sticking to the bottom
+                        .padding(.leading, 16)
+                        .padding(.bottom, 20)
                 }
                 .frame(width: 330)
                 .background(Color.black)

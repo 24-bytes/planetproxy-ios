@@ -9,7 +9,7 @@ struct SplashView: View {
             Color.black
                 .edgesIgnoringSafeArea(.all)
 
-            Image("Logo") // Ensure asset exists
+            Image("Logo")  // Ensure asset exists
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 120, height: 120)

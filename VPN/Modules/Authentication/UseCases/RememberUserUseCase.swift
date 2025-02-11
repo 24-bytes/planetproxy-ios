@@ -13,9 +13,8 @@ class RememberUserUseCase: RememberUserUseCaseProtocol {
     func getUserCredentials() -> (email: String, password: String)? {
         return authRepository.getUserCredentials()
     }
-    
+
     func clearUserCredentials() {
         return authRepository.clearUserCredentials()
     }
 }
-

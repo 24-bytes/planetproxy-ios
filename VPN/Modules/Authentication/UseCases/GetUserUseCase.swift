@@ -5,12 +5,12 @@
 //  Created by Arunachalam K on 04/02/2025.
 //
 
-protocol SignUpUseCaseProtocol {
+protocol GetUserUseCaseProtocol {
     func execute(email: String, password: String, rememberMe: Bool) async throws
         -> String
 }
 
-class SignUpUseCase: SignUpUseCaseProtocol {
+class GetUserUseCase: GetUserUseCaseProtocol {
     private let authRepository: AuthRepositoryProtocol
 
     init(authRepository: AuthRepositoryProtocol = AuthRepository()) {

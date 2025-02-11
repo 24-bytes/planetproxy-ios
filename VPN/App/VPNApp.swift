@@ -1,10 +1,10 @@
-import SwiftUI
 import Firebase
-import GoogleSignIn
 import FirebaseCore
+import GoogleSignIn
+import SwiftUI
 
 struct VPNApp: App {
-    
+
     init() {
         FirebaseApp.configure()
     }

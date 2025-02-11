@@ -20,7 +20,8 @@ struct AuthTextField: View {
                     .textFieldStyle(AuthTextFieldStyle())
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .keyboardType(titleKey == "email" ? .emailAddress : .default)
+                    .keyboardType(
+                        titleKey == "email" ? .emailAddress : .default)
             }
         }
     }
@@ -37,12 +38,15 @@ struct AuthTextFieldStyle: TextFieldStyle {
     }
 }
 
-
 struct AuthTextField_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            AuthTextField(titleKey: "email", placeholderKey: "enter_email", text: .constant(""))
-            AuthTextField(titleKey: "password", placeholderKey: "enter_password", text: .constant(""), isSecure: true)
+            AuthTextField(
+                titleKey: "email", placeholderKey: "enter_email",
+                text: .constant(""))
+            AuthTextField(
+                titleKey: "password", placeholderKey: "enter_password",
+                text: .constant(""), isSecure: true)
         }
         .padding()
     }
