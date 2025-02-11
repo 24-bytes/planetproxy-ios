@@ -1,39 +1,56 @@
-//
-//  NavBar.swift
-//  VPN
-//
-//  Created by Siddhant Kundlik Thaware on 05/02/25.
-//
-
 import SwiftUI
 
 struct NavBar: View {
+    @EnvironmentObject var sidebarViewModel: SidebarViewModel // ✅ Sidebar ViewModel
+
     var body: some View {
         HStack {
-            Image("menu_icon") // Replace with your menu icon asset
-                .resizable()
-                .scaledToFit()
-                .frame(width: 24, height: 24)
+            // Sidebar Toggle Button
+            Button(action: {
+                withAnimation {
+                    sidebarViewModel.isSidebarOpen.toggle() // ✅ Toggle sidebar
+                }
+            }) {
+                Image(systemName: "square.grid.2x2")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.white)
+            }
 
             Spacer()
 
+            // App Title
             Text("Planet Proxy")
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
 
             Spacer()
 
+            // Premium Logo with Badge
             ZStack {
-                Image("premium_icon") // Replace with your premium cloud image
+                RoundedRectangle(cornerRadius: 6)
+                    .frame(width: 32, height: 32)
+                    .foregroundColor(Color.purple.opacity(0.8)) // Background color for logo
+                
+                Image("Logo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 24, height: 24)
+                    .frame(width: 32, height: 32)
+                    .foregroundColor(.white)
 
-                Image("star_icon") // Replace with your small star icon
-                    .resizable()
-                    .scaledToFit()
+                // Small Star Badge
+                Circle()
                     .frame(width: 12, height: 12)
-                    .offset(x: 10, y: -10)
+                    .foregroundColor(.orange)
+                    .overlay(
+                        Image(systemName: "star.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 8, height: 8)
+                            .foregroundColor(.white)
+                    )
+                    .offset(x: 10, y: 10)
             }
         }
         .padding(.horizontal)

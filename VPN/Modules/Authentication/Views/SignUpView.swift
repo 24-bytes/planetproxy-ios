@@ -66,17 +66,14 @@ struct SignUpView: View {
                         }
                             // Buttons
                             VStack(spacing: 16) {
-                                AuthButton(
-                                    titleKey:"create_account",
-                                    action: { authViewModel.signUp(email: email, password: password, rememberMe: rememberMe) },
-                                    isLoading: authViewModel.isLoading
-                                )
-                                
-                                AuthButton(
-                                    titleKey:"sign_up_with_google",
+                               AuthButton(title: "sign_up",
+                                           action: { authViewModel.signUp(email: email, password: password, rememberMe: rememberMe) },
+                                           isLoading: authViewModel.loadingButtonType == .signUp)
+
+                                GoogleAuthButton(
+                                    title: "sign_up_with_google",
                                     action: { authViewModel.signInWithGoogle(rememberMe: rememberMe) },
-                                    isLoading: authViewModel.isLoading,
-                                    style: .secondary
+                                    isLoading: authViewModel.loadingButtonType == .googleSignIn
                                 )
                             }
                             .padding(.top, 8)

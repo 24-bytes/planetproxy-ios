@@ -7,23 +7,31 @@ import GoogleSignIn
 @MainActor
 class AuthViewModel: ObservableObject {
     @Published var isAuthenticated = false
-       @Published var isLoading = false
-       @Published var user: User?
-       @Published var errorMessage: String?
-        @Published var rememberedEmail: String = ""
-        @Published var rememberedPassword: String = ""
-
+    @Published var isLoading = false
+    @Published var loadingButtonType: AuthButtonType? = nil
+    @Published var user: User?
+    @Published var errorMessage: String?
+    @Published var rememberedEmail: String = ""
+    @Published var rememberedPassword: String = ""
+        
+       private let authRepository: AuthRepositoryProtocol
        private let signUpUseCase: SignUpUseCaseProtocol
        private let signInUseCase: SignInUseCaseProtocol
        private let signInWithGoogleUseCase: SignInWithGoogleUseCaseProtocol
        private let rememberUserUseCase: RememberUserUseCaseProtocol
+    
+    enum AuthButtonType {
+            case signIn, signUp, googleSignIn
+        }
 
        init(
+           authRepository: AuthRepositoryProtocol = AuthRepository(),
            signUpUseCase: SignUpUseCaseProtocol = SignUpUseCase(),
            signInUseCase: SignInUseCaseProtocol = SignInUseCase(),
            signInWithGoogleUseCase: SignInWithGoogleUseCaseProtocol = SignInWithGoogleUseCase(),
            rememberUserUseCase: RememberUserUseCaseProtocol = RememberUserUseCase()
        ) {
+           self.authRepository = authRepository
            self.signUpUseCase = signUpUseCase
            self.signInUseCase = signInUseCase
            self.signInWithGoogleUseCase = signInWithGoogleUseCase
@@ -37,9 +45,9 @@ class AuthViewModel: ObservableObject {
             if let authToken = UserDefaults.standard.string(forKey: "authToken"),
                let expiryDate = UserDefaults.standard.object(forKey: "tokenExpiry") as? Date,
                expiryDate > Date() {
-                isAuthenticated = true
+                self.isAuthenticated = true
             } else {
-                isAuthenticated = false
+                self.isAuthenticated = false
             }
         }
 
@@ -63,28 +71,27 @@ class AuthViewModel: ObservableObject {
     }
 
         Task {
-            isLoading = true
+            DispatchQueue.main.async { self.loadingButtonType = .signIn }
             errorMessage = nil
             do {
                 let token = try await signInUseCase.execute(email: email, password: password, rememberMe: rememberMe)
-                storeAuthToken(token, rememberMe: rememberMe, email: email, password: password)
+                authRepository.storeAuthToken(token, rememberMe: rememberMe, email: email, password: password)
 
-                // If user logs in but unchecks "Remember Me", clear stored credentials
                 if !rememberMe {
                     rememberUserUseCase.clearUserCredentials()
                     rememberedEmail = ""
                     rememberedPassword = ""
                 }
 
-                isAuthenticated = true
+                self.isAuthenticated = true
             } catch let authError as AuthError {
                 self.errorMessage = authError.localizedDescription
                 clearErrorMessageAfterDelay()
             } catch {
-                self.errorMessage = "Unexpected error. Please try again."
+                self.errorMessage = NSLocalizedString("unexpected_error", comment:"Unexpected error. Please try again.")
                 clearErrorMessageAfterDelay()
             }
-            isLoading = false
+            DispatchQueue.main.async { self.loadingButtonType = nil }
         }
     }
 
@@ -97,10 +104,10 @@ class AuthViewModel: ObservableObject {
 
                 rememberedEmail = ""
                 rememberedPassword = ""
-                isAuthenticated = false
+                self.isAuthenticated = false
                 loadRememberedCredentials()
             } catch {
-                errorMessage = "Sign out failed"
+                errorMessage = NSLocalizedString("unexpected_error", comment:"Unexpected error. Please try again.")
             }
         }
 
@@ -118,34 +125,25 @@ class AuthViewModel: ObservableObject {
 
 
            Task {
-               isLoading = true
+               DispatchQueue.main.async { self.loadingButtonType = .signUp }
                errorMessage = nil
                do {
                    let token = try await signUpUseCase.execute(email: email, password: password, rememberMe: rememberMe)
-                   storeAuthToken(token, rememberMe: rememberMe, email: email, password: password)
+                   authRepository.storeAuthToken(token, rememberMe: rememberMe, email: email, password: password)
+                   
+                   self.isAuthenticated = true
                } catch let authError as AuthError {
                    self.errorMessage = authError.localizedDescription
                    clearErrorMessageAfterDelay()
                } catch {
-                   self.errorMessage = "Unexpected error. Please try again."
+                   self.errorMessage = NSLocalizedString("unexpected_error", comment:"Unexpected error. Please try again.")
                    clearErrorMessageAfterDelay()
                }
-               isLoading = false
+               DispatchQueue.main.async { self.loadingButtonType = nil }
            }
        }
 
-       func storeAuthToken(_ token: String, rememberMe: Bool, email: String? = nil, password: String? = nil) {
-           let expiryTime = rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60
-           let expiryDate = Date().addingTimeInterval(Double(expiryTime))
-
-           UserDefaults.standard.set(token, forKey: "authToken")
-           UserDefaults.standard.set(expiryDate, forKey: "tokenExpiry")
-
-           if rememberMe, let email = email, let password = password {
-               UserDefaults.standard.set(email, forKey: "rememberedEmail")
-               UserDefaults.standard.set(password, forKey: "rememberedPassword")
-           }
-       }
+       
 
        func loadRememberedUser() -> (email: String, password: String)? {
            return rememberUserUseCase.getUserCredentials()
@@ -159,15 +157,15 @@ class AuthViewModel: ObservableObject {
 
     func signInWithGoogle(rememberMe: Bool) {
         Task {
-            isLoading = true
+            DispatchQueue.main.async { self.loadingButtonType = .googleSignIn }
             errorMessage = nil
 
             do {
                 let firebaseToken = try await signInWithGoogleUseCase.execute(rememberMe: rememberMe)
-                storeAuthToken(firebaseToken, rememberMe: rememberMe)
+                authRepository.storeAuthToken(firebaseToken, rememberMe: rememberMe, email: nil, password: nil)
 
+                self.isAuthenticated = true
                 DispatchQueue.main.async {
-                    self.isAuthenticated = true
                     NavigationCoordinator.shared.navigateToHome()
                 }
             } catch {
@@ -175,7 +173,7 @@ class AuthViewModel: ObservableObject {
                 clearErrorMessageAfterDelay()
             }
 
-            isLoading = false
+            DispatchQueue.main.async { self.loadingButtonType = nil }
         }
     }
 

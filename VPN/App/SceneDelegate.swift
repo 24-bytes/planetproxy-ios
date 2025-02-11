@@ -11,10 +11,19 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        
+
+        let authViewModel = AuthViewModel()
+        let sidebarViewModel = SidebarViewModel()
+        let navigation = NavigationCoordinator()
+
         let splashView = UIHostingController(rootView: SplashView().onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                let contentView = UIHostingController(rootView: ContentView().environmentObject(AuthViewModel()))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                let contentView = UIHostingController(
+                    rootView: ContentView()
+                        .environmentObject(authViewModel)
+                        .environmentObject(navigation)
+                        .environmentObject(sidebarViewModel)
+                )
                 self.window?.rootViewController = contentView
                 self.window?.makeKeyAndVisible()
             }

@@ -11,6 +11,7 @@ protocol AuthRepositoryProtocol {
     func storeUserCredentials(email: String, password: String)
     func getUserCredentials() -> (email: String, password: String)?
     func clearUserCredentials()
+    func storeAuthToken(_ token: String, rememberMe: Bool, email: String?, password: String?)
 }
 
 class AuthRepository: AuthRepositoryProtocol {
@@ -85,6 +86,19 @@ class AuthRepository: AuthRepositoryProtocol {
         defaults.set(email, forKey: "rememberedEmail")
         defaults.set(password, forKey: "rememberedPassword")
         defaults.set(expiryDate, forKey: "credentialsExpiry")
+    }
+    
+    func storeAuthToken(_ token: String, rememberMe: Bool, email: String? = nil, password: String? = nil) {
+        let expiryTime = rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60
+        let expiryDate = Date().addingTimeInterval(Double(expiryTime))
+
+        UserDefaults.standard.set(token, forKey: "authToken")
+        UserDefaults.standard.set(expiryDate, forKey: "tokenExpiry")
+
+        if rememberMe, let email = email, let password = password {
+            UserDefaults.standard.set(email, forKey: "rememberedEmail")
+            UserDefaults.standard.set(password, forKey: "rememberedPassword")
+        }
     }
 
     func getUserCredentials() -> (email: String, password: String)? {

@@ -30,7 +30,7 @@ struct HomeView: View {
                 }
 
                 // VPN Connect Button
-                VPNConnectButton(isConnected: $isConnected, navigation: navigation) // ✅ Pass explicitly
+                VPNConnectButton(isConnected: $isConnected, navigation: navigation)
 
 
                 // IP Details

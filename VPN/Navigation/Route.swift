@@ -11,6 +11,10 @@ enum Route: Hashable {
     case login
     case home
     case profile
+    case accountInfo // ✅ Sidebar Screens
+    case settings
+    case faq
+    case support
+    case rateUs
+    case privacyPolicy
 }
-
-

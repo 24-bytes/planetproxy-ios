@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct AuthButton: View {
-    let titleKey: String
+    let title: String
     let action: () -> Void
-    var isLoading: Bool = false
+    let isLoading: Bool
     var style: ButtonStyle = .primary
 
     enum ButtonStyle {
@@ -12,28 +12,22 @@ struct AuthButton: View {
 
         var backgroundColor: Color {
             switch self {
-            case .primary:
-                return Color.purple
-            case .secondary:
-                return Color.white
+            case .primary: return Color.purple
+            case .secondary: return Color.white
             }
         }
 
         var foregroundColor: Color {
             switch self {
-            case .primary:
-                return Color.white
-            case .secondary:
-                return Color.black
+            case .primary: return Color.white
+            case .secondary: return Color.black
             }
         }
 
         var borderColor: Color {
             switch self {
-            case .primary:
-                return Color.clear
-            case .secondary:
-                return Color.gray.opacity(0.5)
+            case .primary: return Color.clear
+            case .secondary: return Color.gray.opacity(0.5)
             }
         }
     }
@@ -45,17 +39,9 @@ struct AuthButton: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: style.foregroundColor))
                 } else {
-                    HStack {
-                        if titleKey.contains("sign_in_with_google") || titleKey.contains("sign_up_with_google") {
-                            Image("google_logo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24, height: 24)
-                        }
-                        Text(LocalizedStringKey(titleKey))
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(style.foregroundColor)
-                    }
+                    Text(LocalizedStringKey(title))
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(style.foregroundColor)
                 }
             }
             .frame(maxWidth: .infinity)

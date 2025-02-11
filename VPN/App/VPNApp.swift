@@ -12,6 +12,7 @@ struct VPNApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var sidebarViewModel = SidebarViewModel()
     @StateObject private var navigation = NavigationCoordinator()
 
     @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore = false
@@ -22,7 +23,7 @@ struct VPNApp: App {
             if isSplashScreenShown {
                 SplashView()
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 isSplashScreenShown = false
                                 hasLaunchedBefore = true
@@ -33,6 +34,7 @@ struct VPNApp: App {
                 ContentView()
                     .environmentObject(authViewModel)
                     .environmentObject(navigation)
+                    .environmentObject(sidebarViewModel)
                     .preferredColorScheme(.dark)
                     .onAppear {
                         authViewModel.loadAuthState()

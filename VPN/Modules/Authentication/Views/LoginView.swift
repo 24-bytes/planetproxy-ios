@@ -61,22 +61,16 @@ struct LoginView: View {
                         }
 
                         VStack(spacing: 16) {
-                            AuthButton(
-                                titleKey: "sign_in",
-                                action: {
-                                    authViewModel.signIn(email: email, password: password, rememberMe: rememberMe)
-                                },
-                                isLoading: authViewModel.isLoading
+                            AuthButton(title: "sign_in",
+                                       action: { authViewModel.signIn(email: email, password: password, rememberMe: rememberMe) },
+                                       isLoading: authViewModel.loadingButtonType == .signIn)
+
+                            GoogleAuthButton(
+                                title: "sign_in_with_google",
+                                action: { authViewModel.signInWithGoogle(rememberMe: rememberMe) },
+                                isLoading: authViewModel.loadingButtonType == .googleSignIn
                             )
 
-                            AuthButton(
-                                titleKey: "sign_in_with_google",
-                                action: {
-                                    authViewModel.signInWithGoogle(rememberMe: rememberMe)
-                                },
-                                isLoading: authViewModel.isLoading,
-                                style: .secondary
-                            )
                         }
 
                         HStack {
