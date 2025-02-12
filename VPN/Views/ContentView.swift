@@ -16,8 +16,6 @@ struct ContentView: View {
                                 LoginView()
                             case .home:
                                 HomeView(navigation: navigation)
-                            case .settings:
-                                ProfileView()
                             case .accountInfo, .profile:
                                 if authViewModel.isAuthenticated {
                                     ProfileView()
@@ -27,6 +25,16 @@ struct ContentView: View {
                                             navigation.navigateToLogin() // ✅ Redirect to Login
                                         }
                                 }
+                            case .settings:
+                                SettingsView()
+                            case .faq:
+                                FAQView()
+                            case .support:
+                                SupportView()
+                            case .rateUs:
+                                RateUsView()
+                            case .privacyPolicy:
+                                VPNServersView()
                             default:
                                 ProfileView()
                             }
@@ -37,17 +45,17 @@ struct ContentView: View {
             SidebarView()
         }
         .onChange(of: sidebarViewModel.selectedDestination) { _ in
-            if let newRoute = sidebarViewModel.selectedDestination {
-                if newRoute == .accountInfo, !authViewModel.isAuthenticated {
-                    navigation.navigateToLogin()
-                } else {
-                    navigation.path.append(newRoute)
+                    if let newRoute = sidebarViewModel.selectedDestination {
+                        let mappedRoute = sidebarViewModel.mapDestinationToRoute(newRoute)
+                        navigation.path.append(mappedRoute)
+                    }
                 }
-            }
-        }
+        
         .onChange(of: authViewModel.isAuthenticated) { isAuthenticated in
             if isAuthenticated {
                 navigation.navigateToHome() // ✅ Redirect to Home after login
+            } else {
+                navigation.navigateToLogin()
             }
         }
     }

@@ -7,6 +7,7 @@ protocol VpnRemoteServiceProtocol {
     func startVpnSession(request: StartSessionRequest) async throws -> StartSessionResult
     func endVpnSession(request: EndSessionRequest) async throws
     func createSubscription(subscriptionPlan: String) async throws -> CreateSubscriptionResponse
+    func getUser() async throws -> UserModel
 }
 
 class VpnRemoteService: VpnRemoteServiceProtocol {
@@ -63,4 +64,12 @@ class VpnRemoteService: VpnRemoteServiceProtocol {
         
         return try await apiClient.request(url: url, method: .get)
     }
+    
+    func getUser() async throws -> UserModel {
+            guard let url = APIEndpoints.User.getUser()?.absoluteString else {
+                throw APIError.invalidURL
+            }
+            return try await apiClient.request(url: url, method: .get)
+        }
+
 }

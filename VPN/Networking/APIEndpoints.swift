@@ -34,4 +34,11 @@ struct APIEndpoints {
             return URL(string: "\(baseURL)/payments/subscriptions/create/\(subscriptionPlan)")
         }
     }
+    
+    struct User {
+            static func getUser() -> URL? {
+                return URL(string: "\(baseURL)/auth/user")
+            }
+        }
+
 }

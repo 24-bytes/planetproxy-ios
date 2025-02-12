@@ -17,12 +17,24 @@ class SidebarViewModel: ObservableObject {
     func selectMenuItem(_ destination: SidebarDestination, navigation: NavigationCoordinator, authViewModel: AuthViewModel) {
         Task { @MainActor in
             if destination == .accountInfo && !authViewModel.isAuthenticated {
-                navigation.navigateToLogin() // ✅ Redirect to Login
+                navigation.navigateToLogin() // Redirect to Login
             } else {
                 selectedDestination = destination
-                navigation.path.append(Route.accountInfo) // ✅ Navigate properly
+                navigation.path.append(mapDestinationToRoute(destination)) // ✅ Convert destination to Route
             }
             isSidebarOpen = false
+        }
+    }
+
+    // ✅ Converts SidebarDestination to Route Enum
+    func mapDestinationToRoute(_ destination: SidebarDestination) -> Route {
+        switch destination {
+        case .accountInfo: return .accountInfo
+        case .settings: return .settings
+        case .faq: return .faq
+        case .support: return .support
+        case .rateUs: return .rateUs
+        case .privacyPolicy: return .privacyPolicy
         }
     }
 }
