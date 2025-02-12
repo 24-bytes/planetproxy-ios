@@ -37,7 +37,7 @@ struct VPNApp: App {
                     .environmentObject(sidebarViewModel)
                     .preferredColorScheme(.dark)
                     .onAppear {
-                        authViewModel.loadAuthState()
+                        
                     }
             }
         }

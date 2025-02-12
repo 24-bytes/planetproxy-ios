@@ -16,6 +16,7 @@ protocol AuthRepositoryProtocol {
     func clearUserCredentials()
     func storeAuthToken(
         _ token: String, rememberMe: Bool, email: String?, password: String?)
+    func loadAuthState() -> Bool
 }
 
 class AuthRepository: AuthRepositoryProtocol {
@@ -88,12 +89,16 @@ class AuthRepository: AuthRepositoryProtocol {
     func signOut() throws {
         do {
             try Auth.auth().signOut()
-            defaults.removeObject(forKey: "authToken")
+            UserDefaults.standard.removeObject(forKey: "authToken")
             clearUserCredentials()
         } catch {
             throw AuthError.unknown(error)
         }
     }
+    
+    func loadAuthState() -> Bool {
+            return defaults.string(forKey: "authToken") != nil
+        }
 
     func resetPassword(email: String) async throws {
         do {
@@ -110,16 +115,8 @@ class AuthRepository: AuthRepositoryProtocol {
         defaults.set(expiryDate, forKey: "credentialsExpiry")
     }
 
-    func storeAuthToken(
-        _ token: String, rememberMe: Bool, email: String? = nil,
-        password: String? = nil
-    ) {
-        let expiryTime = rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60
-        let expiryDate = Date().addingTimeInterval(Double(expiryTime))
-
+    func storeAuthToken(_ token: String, rememberMe: Bool, email: String?, password: String?) {
         UserDefaults.standard.set(token, forKey: "authToken")
-        UserDefaults.standard.set(expiryDate, forKey: "tokenExpiry")
-
         if rememberMe, let email = email, let password = password {
             UserDefaults.standard.set(email, forKey: "rememberedEmail")
             UserDefaults.standard.set(password, forKey: "rememberedPassword")

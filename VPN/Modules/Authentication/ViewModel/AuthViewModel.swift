@@ -18,7 +18,9 @@ class AuthViewModel: ObservableObject {
     private let signUpUseCase: SignUpUseCaseProtocol
     private let signInUseCase: SignInUseCaseProtocol
     private let signInWithGoogleUseCase: SignInWithGoogleUseCaseProtocol
+    private let signOutUseCase: SignOutUseCaseProtocol
     private let rememberUserUseCase: RememberUserUseCaseProtocol
+    private let loadAuthStateUseCase: LoadAuthStateUseCaseProtocol
 
     enum AuthButtonType {
         case signIn, signUp, googleSignIn
@@ -30,29 +32,20 @@ class AuthViewModel: ObservableObject {
         signInUseCase: SignInUseCaseProtocol = SignInUseCase(),
         signInWithGoogleUseCase: SignInWithGoogleUseCaseProtocol =
             SignInWithGoogleUseCase(),
-        rememberUserUseCase: RememberUserUseCaseProtocol = RememberUserUseCase()
+        signOutUseCase: SignOutUseCaseProtocol = SignOutUseCase(),
+        rememberUserUseCase: RememberUserUseCaseProtocol = RememberUserUseCase(),
+        loadAuthStateUseCase: LoadAuthStateUseCaseProtocol = LoadAuthStateUseCase()
     ) {
         self.authRepository = authRepository
         self.signUpUseCase = signUpUseCase
         self.signInUseCase = signInUseCase
+        self.signOutUseCase = signOutUseCase
         self.signInWithGoogleUseCase = signInWithGoogleUseCase
         self.rememberUserUseCase = rememberUserUseCase
+        self.loadAuthStateUseCase = loadAuthStateUseCase
+        self.isAuthenticated = loadAuthStateUseCase.execute()
 
-        loadAuthState()
-        loadRememberedCredentials()  // ✅ Load credentials at launch
-    }
-
-    //todo:// Move this to usecase
-    func loadAuthState() {
-        if let authToken = UserDefaults.standard.string(forKey: "authToken"),
-            let expiryDate = UserDefaults.standard.object(forKey: "tokenExpiry")
-                as? Date,
-            expiryDate > Date()
-        {
-            self.isAuthenticated = true
-        } else {
-            self.isAuthenticated = false
-        }
+        loadRememberedCredentials()
     }
 
     func loadRememberedCredentials() {
@@ -108,21 +101,17 @@ class AuthViewModel: ObservableObject {
 
     func signOut() {
         do {
-            //todo:// Create a signoutUseCase and move the logic in useCase
-            try Auth.auth().signOut()
-            UserDefaults.standard.removeObject(forKey: "authToken")
-            UserDefaults.standard.removeObject(forKey: "tokenExpiry")
-
+            try signOutUseCase.execute()
             rememberedEmail = ""
             rememberedPassword = ""
+
             self.isAuthenticated = false
             loadRememberedCredentials()
         } catch {
-            errorMessage = NSLocalizedString(
-                "unexpected_error",
-                comment: "Unexpected error. Please try again.")
+            errorMessage = NSLocalizedString("unexpected_error", comment: "Unexpected error. Please try again.")
         }
     }
+
 
     func signUp(email: String, password: String, rememberMe: Bool) {
         guard FormValidator.isValidEmail(email) else {
@@ -163,10 +152,6 @@ class AuthViewModel: ObservableObject {
             }
             DispatchQueue.main.async { self.loadingButtonType = nil }
         }
-    }
-
-    func loadRememberedUser() -> (email: String, password: String)? {
-        return rememberUserUseCase.getUserCredentials()
     }
 
     func loadRememberedUser() {
@@ -221,4 +206,5 @@ class AuthViewModel: ObservableObject {
             self.errorMessage = nil
         }
     }
+    
 }
