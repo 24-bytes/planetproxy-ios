@@ -1,0 +1,65 @@
+//
+//  Localizable.strings
+//  VPN
+//
+//  Created by Siddhant Kundlik Thaware on 10/02/25.
+//
+
+// Authentication Buttons
+"sign_in" = "Sign In";
+"sign_in_with_google" = "Sign In with Google";
+"sign_up" = "Sign Up";
+"sign_up_with_google" = "Sign Up with Google";
+"create_account" = "Create Account";
+"loading" = "Loading...";
+
+// Authentication Text Fields
+"email" = "Email";
+"enter_email" = "Enter your email";
+"password" = "Password";
+"enter_password" = "Enter your password";
+"confirm_password" = "Confirm Password";
+"enter_confirm_password" = "Re-enter your password";
+"name" = "Name";
+"enter_name" = "Enter your name";
+
+// Authentication Messages
+"forgot_password" = "Forgot password?";
+"remember_me" = "Remember for 30 Days";
+"already_have_account" = "Already have an account?";
+"welcome_back" = "Welcome back! Please enter your details.";
+"start_trial" = "Start your 30-day free trial.";
+"no_account_sign_up" = "Don't have an account? ";
+
+// Onboarding
+"get_started" = "Get Started";
+"how_it_works" = "How it Works";
+"features" = "Features";
+"next" = "Next";
+"skip" = "Skip";
+
+// Error Messages
+"invalid_email" = "Invalid email format";
+"empty_password" = "Password cannot be empty";
+"password_requirement" = "Password must be at least 8 characters, include 1 uppercase letter, 1 digit, and 1 special character";
+"user_not_found" = "User does not exist. Please sign up.";
+"wrong_password" = "Incorrect password. Please try again.";
+"email_already_registered" = "This email is already registered. Try signing in instead.";
+"network_error" = "Network error. Please check your internet connection.";
+"account_disabled" = "Your account has been disabled. Contact support.";
+"unexpected_error" = "Unexpected error. Please try again.";
+
+"name" = "Name";
+"enter_name" = "Enter your name";
+"email" = "Email";
+"enter_email" = "Enter your email";
+"password" = "Password";
+"create_password" = "Create a password";
+"remember_me" = "Remember Me for 30 Days";
+"create_account" = "Create account";
+"sign_up_google" = "Sign up with Google";
+"already_have_account" = "Already have an account?";
+"log_in" = "Log in";
+
+"sign_up_title" = "Sign up";
+"start_trial_message" = "Start your 30-day free trial.";

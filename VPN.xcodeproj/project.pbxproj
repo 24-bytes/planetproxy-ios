@@ -7,83 +7,104 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		988947A62D6760CACB91210F /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30260EEC3089DAD95A0F6207 /* Pods_VPN.framework */; };
+		2477B7898F1C4000B8BE36FF /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0F2704382D4B5605006CE1E9 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
-		0F2705512D4B5703006CE1E9 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
-		0FBEBE592D4B5127001E8362 /* VPN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VPN.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		30260EEC3089DAD95A0F6207 /* Pods_VPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		327D0E61368876A885BCB3A6 /* Pods-VPN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.debug.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.debug.xcconfig"; sourceTree = "<group>"; };
-		CCD09E534DA2094DAD3A7709 /* Pods-VPN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.release.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.release.xcconfig"; sourceTree = "<group>"; };
+		0F0186F32D51062E00BF45DF /* VPN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VPN.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F01876E2D51079E00BF45DF /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
+		0F0187872D51079E00BF45DF /* VPN.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = VPN.xcodeproj; sourceTree = "<group>"; };
+		0F01882A2D5107AA00BF45DF /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
+		169CE99698E86539571F2FBA /* Pods-VPN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.release.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.release.xcconfig"; sourceTree = "<group>"; };
+		AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2E46A8CA191C4CCCEA1CE1E /* Pods-VPN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.debug.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0FDA18E02D573C1300A6415A /* Exceptions for "VPN" folder in "VPN" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0F0186F22D51062E00BF45DF /* VPN */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		0FBEBE5B2D4B5127001E8362 /* VPN */ = {
+		0F0186F52D51062E00BF45DF /* VPN */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0FDA18E02D573C1300A6415A /* Exceptions for "VPN" folder in "VPN" target */,
+			);
 			path = VPN;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0FBEBE562D4B5127001E8362 /* Frameworks */ = {
+		0F0186F02D51062E00BF45DF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				988947A62D6760CACB91210F /* Pods_VPN.framework in Frameworks */,
+				2477B7898F1C4000B8BE36FF /* Pods_VPN.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0F27044E2D4B5605006CE1E9 /* Products */ = {
+		0F0186EA2D51062E00BF45DF = {
+			isa = PBXGroup;
+			children = (
+				0F0186F52D51062E00BF45DF /* VPN */,
+				0F0186F42D51062E00BF45DF /* Products */,
+				44A46701A8114790EF1EC25A /* Pods */,
+				5C5F6DFDD1CF15752A7DC011 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0F0186F42D51062E00BF45DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0F0186F32D51062E00BF45DF /* VPN.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0F01878E2D51079E00BF45DF /* Products */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0F27056A2D4B5703006CE1E9 /* Products */ = {
+		0F0187902D51079E00BF45DF /* Products */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0FBEBE502D4B5127001E8362 = {
+		0F01884C2D5107AA00BF45DF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0FBEBE5B2D4B5127001E8362 /* VPN */,
-				0FBEBE5A2D4B5127001E8362 /* Products */,
-				8AD23A98148A2E52F9F79372 /* Pods */,
-				A0179E8142E97751481F1BF2 /* Frameworks */,
-			);
-			sourceTree = "<group>";
-		};
-		0FBEBE5A2D4B5127001E8362 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0FBEBE592D4B5127001E8362 /* VPN.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8AD23A98148A2E52F9F79372 /* Pods */ = {
+		44A46701A8114790EF1EC25A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				327D0E61368876A885BCB3A6 /* Pods-VPN.debug.xcconfig */,
-				CCD09E534DA2094DAD3A7709 /* Pods-VPN.release.xcconfig */,
+				C2E46A8CA191C4CCCEA1CE1E /* Pods-VPN.debug.xcconfig */,
+				169CE99698E86539571F2FBA /* Pods-VPN.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		A0179E8142E97751481F1BF2 /* Frameworks */ = {
+		5C5F6DFDD1CF15752A7DC011 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				30260EEC3089DAD95A0F6207 /* Pods_VPN.framework */,
+				AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -91,73 +112,79 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0FBEBE582D4B5127001E8362 /* VPN */ = {
+		0F0186F22D51062E00BF45DF /* VPN */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0FBEBE672D4B5128001E8362 /* Build configuration list for PBXNativeTarget "VPN" */;
+			buildConfigurationList = 0F0187012D51063000BF45DF /* Build configuration list for PBXNativeTarget "VPN" */;
 			buildPhases = (
-				55BCA2CBD8D44A5775AF84F4 /* [CP] Check Pods Manifest.lock */,
-				0FBEBE552D4B5127001E8362 /* Sources */,
-				0FBEBE562D4B5127001E8362 /* Frameworks */,
-				0FBEBE572D4B5127001E8362 /* Resources */,
+				3DF15B0F8D884BE3C6FC512D /* [CP] Check Pods Manifest.lock */,
+				0F0186EF2D51062E00BF45DF /* Sources */,
+				0F0186F02D51062E00BF45DF /* Frameworks */,
+				0F0186F12D51062E00BF45DF /* Resources */,
+				C6F912FAAA8DBF5B7D44DC77 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				0FBEBE5B2D4B5127001E8362 /* VPN */,
+				0F0186F52D51062E00BF45DF /* VPN */,
 			);
 			name = VPN;
 			productName = VPN;
-			productReference = 0FBEBE592D4B5127001E8362 /* VPN.app */;
+			productReference = 0F0186F32D51062E00BF45DF /* VPN.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		0FBEBE512D4B5127001E8362 /* Project object */ = {
+		0F0186EB2D51062E00BF45DF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					0FBEBE582D4B5127001E8362 = {
+					0F0186F22D51062E00BF45DF = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = 0FBEBE542D4B5127001E8362 /* Build configuration list for PBXProject "VPN" */;
+			buildConfigurationList = 0F0186EE2D51062E00BF45DF /* Build configuration list for PBXProject "VPN" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				hi,
 				Base,
 			);
-			mainGroup = 0FBEBE502D4B5127001E8362;
+			mainGroup = 0F0186EA2D51062E00BF45DF;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 0FBEBE5A2D4B5127001E8362 /* Products */;
+			productRefGroup = 0F0186F42D51062E00BF45DF /* Products */;
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0F27044E2D4B5605006CE1E9 /* Products */;
-					ProjectRef = 0F2704382D4B5605006CE1E9 /* Pods.xcodeproj */;
+					ProductGroup = 0F01878E2D51079E00BF45DF /* Products */;
+					ProjectRef = 0F01876E2D51079E00BF45DF /* Pods.xcodeproj */;
 				},
 				{
-					ProductGroup = 0F27056A2D4B5703006CE1E9 /* Products */;
-					ProjectRef = 0F2705512D4B5703006CE1E9 /* Pods.xcodeproj */;
+					ProductGroup = 0F01884C2D5107AA00BF45DF /* Products */;
+					ProjectRef = 0F01882A2D5107AA00BF45DF /* Pods.xcodeproj */;
+				},
+				{
+					ProductGroup = 0F0187902D51079E00BF45DF /* Products */;
+					ProjectRef = 0F0187872D51079E00BF45DF /* VPN.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				0FBEBE582D4B5127001E8362 /* VPN */,
+				0F0186F22D51062E00BF45DF /* VPN */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0FBEBE572D4B5127001E8362 /* Resources */ = {
+		0F0186F12D51062E00BF45DF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -167,7 +194,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		55BCA2CBD8D44A5775AF84F4 /* [CP] Check Pods Manifest.lock */ = {
+		3DF15B0F8D884BE3C6FC512D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -189,10 +216,27 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C6F912FAAA8DBF5B7D44DC77 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0FBEBE552D4B5127001E8362 /* Sources */ = {
+		0F0186EF2D51062E00BF45DF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -202,7 +246,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		0FBEBE652D4B5128001E8362 /* Debug */ = {
+		0F0186FF2D51063000BF45DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -265,7 +309,7 @@
 			};
 			name = Debug;
 		};
-		0FBEBE662D4B5128001E8362 /* Release */ = {
+		0F0187002D51063000BF45DF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -321,9 +365,9 @@
 			};
 			name = Release;
 		};
-		0FBEBE682D4B5128001E8362 /* Debug */ = {
+		0F0187022D51063000BF45DF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 327D0E61368876A885BCB3A6 /* Pods-VPN.debug.xcconfig */;
+			baseConfigurationReference = C2E46A8CA191C4CCCEA1CE1E /* Pods-VPN.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -331,7 +375,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VPN/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VPN/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -342,7 +388,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = plantproxy.VPN;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.VPN";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -350,9 +396,9 @@
 			};
 			name = Debug;
 		};
-		0FBEBE692D4B5128001E8362 /* Release */ = {
+		0F0187032D51063000BF45DF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CCD09E534DA2094DAD3A7709 /* Pods-VPN.release.xcconfig */;
+			baseConfigurationReference = 169CE99698E86539571F2FBA /* Pods-VPN.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -360,7 +406,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VPN/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VPN/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -371,7 +419,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = plantproxy.VPN;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.VPN";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -382,25 +430,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0FBEBE542D4B5127001E8362 /* Build configuration list for PBXProject "VPN" */ = {
+		0F0186EE2D51062E00BF45DF /* Build configuration list for PBXProject "VPN" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0FBEBE652D4B5128001E8362 /* Debug */,
-				0FBEBE662D4B5128001E8362 /* Release */,
+				0F0186FF2D51063000BF45DF /* Debug */,
+				0F0187002D51063000BF45DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0FBEBE672D4B5128001E8362 /* Build configuration list for PBXNativeTarget "VPN" */ = {
+		0F0187012D51063000BF45DF /* Build configuration list for PBXNativeTarget "VPN" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0FBEBE682D4B5128001E8362 /* Debug */,
-				0FBEBE692D4B5128001E8362 /* Release */,
+				0F0187022D51063000BF45DF /* Debug */,
+				0F0187032D51063000BF45DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 0FBEBE512D4B5127001E8362 /* Project object */;
+	rootObject = 0F0186EB2D51062E00BF45DF /* Project object */;
 }

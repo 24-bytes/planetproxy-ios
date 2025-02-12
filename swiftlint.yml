@@ -1,0 +1,32 @@
+# Core configuration
+disabled_rules:
+  - colon
+  - comma
+  - trailing_whitespace
+
+opt_in_rules:
+  - empty_count
+  - unused_import
+  - force_cast
+  - file_header
+
+included:
+  - "VPN"       # Directory of Swift files
+  - "Tests"
+
+excluded:
+  - "Pods"
+  - "Carthage"
+  - "Build"
+  - "Scripts"
+
+# Customizing the severity of rules
+warning_rules:
+  - force_try
+  - force_unwrapping
+  - empty_count
+  - file_header
+
+error_rules:
+  - line_length
+
