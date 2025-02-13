@@ -59,7 +59,7 @@ struct VPNServerCountryHeaderView: View {
                 .padding(.horizontal, 3)
             }
         }
-        .background(Color.gray.opacity(0.2))
+        .background(Color.cardBg)
         .cornerRadius(12)
         .padding(.horizontal)
     }
