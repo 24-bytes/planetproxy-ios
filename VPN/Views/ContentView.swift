@@ -34,7 +34,9 @@ struct ContentView: View {
                             case .rateUs:
                                 RateUsView()
                             case .privacyPolicy:
-                                VPNServersView()
+                                PrivacyPolicyView()
+                            case .servers:
+                                VPNServersView(navigation: navigation)
                             default:
                                 ProfileView()
                             }

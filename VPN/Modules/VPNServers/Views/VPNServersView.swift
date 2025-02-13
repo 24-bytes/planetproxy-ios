@@ -1,38 +1,59 @@
-
 import SwiftUI
 
 struct VPNServersView: View {
     @StateObject private var viewModel = VPNServersViewModel()
+    let navigation: NavigationCoordinator
 
     var body: some View {
         VStack {
+            // Header
             HStack {
-                Button(action: { /* Navigate Back */ }) {
+                Button(action: { navigation.navigateToHome() }) {
                     Image(systemName: "arrow.left")
                         .foregroundColor(.white)
+                        .font(.system(size: 20))
                 }
 
-                Text("Servers")
-                    .font(.title2)
-                    .bold()
+                Spacer()
+
+                Text(NSLocalizedString("Servers", comment: "Servers Header"))
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
 
                 Spacer()
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.top, 10)
 
+            // Tab Selector
             VPNServerTabView(selectedTab: $viewModel.selectedTab)
-            VPNServerSearchView(searchQuery: $viewModel.searchQuery)
 
-            if viewModel.isLoading {
-                ProgressView()
-            } else {
-                ScrollView {
-                    ForEach(viewModel.filteredServers()) { country in
-                        VPNServerCountryHeaderView(country: country)
+            // Search Bar with Extra Vertical Spacing
+            VPNServerSearchView(searchQuery: $viewModel.searchQuery)
+                .padding(.bottom, 12) // ✅ Adds vertical spacing below search bar
+
+            // Full-Screen Fixed Content
+            ZStack {
+                // Background for Full-Screen Consistency
+                VStack {
+                    Spacer() // ✅ Prevents shifting by keeping space
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                // Actual Content
+                if viewModel.isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                } else {
+                    ScrollView {
+                        ForEach(viewModel.filteredServers()) { country in
+                            VPNServerCountryHeaderView(country: country)
+                                .padding(.bottom, 6)
+                        }
                     }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity) // ✅ Ensures full-height layout
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {

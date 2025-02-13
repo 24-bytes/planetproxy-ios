@@ -23,4 +23,10 @@ class NavigationCoordinator: ObservableObject {
             self.path.append(Route.profile)
         }
     }
+    
+    func navigateToServers() {
+        DispatchQueue.main.async {
+            self.path.append(Route.servers)
+        }
+    }
 }

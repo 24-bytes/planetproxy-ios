@@ -22,7 +22,7 @@ struct SubscriptionExpiredView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color.gray.opacity(0.6))
+                .fill(Color.cardBg)
                 .shadow(color: Color.gray.opacity(0.15), radius: 5, x: 0, y: 2)
         )
         .padding(.horizontal)
