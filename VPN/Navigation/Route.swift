@@ -18,4 +18,5 @@ enum Route: Hashable {
     case rateUs
     case privacyPolicy
     case servers
+    case subscription
 }

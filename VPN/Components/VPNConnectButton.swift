@@ -2,47 +2,60 @@ import SwiftUI
 
 struct VPNConnectButton: View {
     @Binding var isConnected: Bool
-    @EnvironmentObject var authViewModel: AuthViewModel
-    let navigation: NavigationCoordinator
 
     var body: some View {
-        VStack(spacing: 10) {
-            Text(isConnected ? "Your connection is secure" : "Your connection is unsecure")
-                .foregroundColor(.white)
-                .font(.system(size: 14))
+        ZStack {
+            // ✅ Background Glow Gradient
+            RadialGradient(
+                gradient: Gradient(colors: [
+                    Color.green.opacity(0.4),
+                    Color.black.opacity(0.8)
+                ]),
+                center: .center,
+                startRadius: 10,
+                endRadius: 200 // ✅ Soft spread for glow
+            )
+            .ignoresSafeArea()
 
-            Button(action: {
-                if authViewModel.isAuthenticated {
-                    withAnimation {
-                        isConnected.toggle() // ✅ Toggle only if authenticated
-                    }
-                } else {
-                    navigation.navigateToLogin() // ✅ Redirect to login if not authenticated
-                }
-            }){
-                ZStack {
-                    Circle()
-                        .fill(isConnected ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
-                        .frame(width: 160, height: 160)
-                        .shadow(color: isConnected ? .green : .red, radius: 15)
+            // ✅ Outer Glow Layer
+            RoundedRectangle(cornerRadius: 45)
+                .fill(Color.green.opacity(0.2))
+                .frame(width: 220, height: 220)
+                .blur(radius: 40) // ✅ Smooth Glow Effect
+            
 
-                    RoundedRectangle(cornerRadius: 25)
-                        .fill(isConnected ? Color.green : Color.white)
-                        .frame(width: 130, height: 130)
-                        .overlay(
-                            Image(isConnected ? "vpn_on_icon" : "vpn_off_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                        )
-                        .shadow(color: isConnected ? .green : .red, radius: 10)
-                }
-            }
-
-            Text(isConnected ? "Disconnect" : "Connect now")
-                .foregroundColor(.white)
-                .font(.system(size: 16, weight: .bold))
+            // ✅ Inner Green Button
+            RoundedRectangle(cornerRadius: 35)
+                .fill(Color.connectButton) // ✅ Light green exact shade
+                .frame(width: 150, height: 150)
+                .overlay(
+                    Image("thunderbolt") // ✅ Thunderbolt Icon
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 60, height: 60)
+                        .foregroundColor(.black) // ✅ Icon in center
+                )
+            
+            // ✅ Outer Border
+            RoundedRectangle(cornerRadius: 35)
+                .stroke(Color.white, lineWidth: 4)
+                .frame(width: 140, height: 140)
+                .shadow(color: Color.green.opacity(0.7), radius: 20) // ✅ Soft Shadow Effect
         }
-        .padding(.vertical)
+        .onTapGesture {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                isConnected.toggle()
+            }
+        }
+    }
+}
+
+// ✅ Live Preview
+struct VPNConnectButton_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            VPNConnectButton(isConnected: .constant(false))
+        }
     }
 }

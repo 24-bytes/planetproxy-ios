@@ -3,6 +3,7 @@ import SwiftUI
 struct VPNServersView: View {
     @StateObject private var viewModel = VPNServersViewModel()
     let navigation: NavigationCoordinator
+    let tabs = ["Default", "Browsing", "Gaming"]
 
     var body: some View {
         VStack {
@@ -26,7 +27,7 @@ struct VPNServersView: View {
             .padding(.top, 10)
 
             // Tab Selector
-            VPNServerTabView(selectedTab: $viewModel.selectedTab)
+            VPNServerTabView(selectedTab: $viewModel.selectedTab, tabs: tabs)
 
             // Search Bar with Extra Vertical Spacing
             VPNServerSearchView(searchQuery: $viewModel.searchQuery)

@@ -2,68 +2,81 @@ import SwiftUI
 
 struct ServerDetailsCardView: View {
     let navigation: NavigationCoordinator
-
-    var location: String = "California, USA"
-    var countryCode: String? = "us"
-    var ipAddress: String = "120.88.42.1"
-    var serverCount: Int = 2789
+    var location: String
+    var flagUrl: String
+    var ipAddress: String
+    var serverCount: Int
+    var purpose: String // Determines the server type icon
 
     var body: some View {
-        HStack(spacing: 12) { // ✅ Ensures proper spacing in horizontal layout
-            // ✅ Left Section: Icon & Server Details
-            HStack(spacing: 10) {
-                Image("server_icon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 30, height: 30)
+        HStack(spacing: 12) {
+            ZStack {
+                            Circle()
+                                .fill(Color(hex: "#6A5ACD")) // Soft purple background
+                                .frame(width: 50, height: 50)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(location)
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.white)
-
-                        if let countryCode = countryCode {
-                            Image(countryCode)
+                            Image(systemName: getServerIcon(for: purpose))
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 24, height: 16)
-                                .cornerRadius(4)
-                        } else {
-                            Image(systemName: "flag.fill")
-                                .font(.system(size: 16))
-                                .foregroundColor(.gray)
+                                .frame(width: 28, height: 28)
+                                .foregroundColor(.white) // Icon in white for contrast
                         }
+                        .padding(.leading, 10) // ✅ Adjusting left spacing
+            
+            // ✅ Middle Section: Server Details
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 12) {
+                    Text(location)
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.white)
+
+                    // ✅ Circular Country Flag
+                    AsyncImage(url: URL(string: flagUrl)) { image in
+                        image.resizable()
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 1))
+                    } placeholder: {
+                        Image(systemName: "globe")
+                            .foregroundColor(.gray)
                     }
-
-                    Text("VPN IP: \(ipAddress)")
-                        .font(.system(size: 14))
-                        .foregroundColor(.gray)
-
-                    Text("\(serverCount) servers nearby for fast gaming.")
-                        .font(.system(size: 14))
-                        .foregroundColor(.blue)
+                    .frame(width: 24, height: 24) // Smaller for accuracy
                 }
+
+                Text("VPN IP: \(ipAddress)")
+                    .font(.system(size: 14))
+                    .foregroundColor(.gray)
+
+                Text("\(serverCount) servers nearby for fast gaming.")
+                    .font(.system(size: 14))
+                    .foregroundColor(Color.customPurple)
             }
 
             Spacer()
-
-            // ✅ Right Section: Arrow Button
-            Button(action: { navigation.navigateToServers() }) {
-                Image(systemName: "arrow.right")
-                    .foregroundColor(.white)
-                    .font(.system(size: 18))
-                    .frame(width: 40, height: 40)
-                    .background(Color.gray.opacity(0.2)) // ✅ Grey background
-                    .clipShape(Circle()) // ✅ Circular shape
-            }
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color.cardBg)
+                .fill(Color(hex: "#14131A")) // Dark background
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.blue.opacity(0.2), lineWidth: 1)
+                )
                 .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 0, y: 3)
         )
         .padding(.horizontal)
+    }
+
+    // ✅ Determines the system image based on server purpose
+    private func getServerIcon(for purpose: String) -> String {
+        switch purpose.lowercased() {
+        case "game":
+            return "gamecontroller.fill"
+        case "safe-browsing":
+            return "shield.lefthalf.filled"
+        case "streaming":
+            return "play.tv.fill"
+        default:
+            return "network"
+        }
     }
 }

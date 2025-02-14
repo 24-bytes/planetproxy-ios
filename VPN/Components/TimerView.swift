@@ -9,9 +9,9 @@ import SwiftUI
 
 struct TimerView: View {
     @State private var elapsedTime: Int = 225 // Static time (3 min 45 sec)
-    let navigation: NavigationCoordinator
     let location: String
     let ipAddress: String
+    let onDisconnect: () -> Void
 
     var body: some View {
         VStack(spacing: 16) {
@@ -26,8 +26,8 @@ struct TimerView: View {
                 .foregroundColor(.gray)
 
             // Change Server Button
-            Button(action: { navigation.navigateToServers() }) {
-                Text("Change server")
+            Button(action: { onDisconnect() }) {
+                Text("Disconnect")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.customPurple)
             }

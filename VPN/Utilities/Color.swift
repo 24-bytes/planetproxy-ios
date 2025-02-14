@@ -15,4 +15,8 @@ extension Color {
     static let customPurple = Color(hex: "#7F56D9")
     
     static let cardBg = Color(hex: "#15171D")
+    
+    static let fieldBg = Color(hex: "#374151")
+    
+    static let connectButton = Color(hex: "#A0FD71")
 }

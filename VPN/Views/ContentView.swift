@@ -16,15 +16,8 @@ struct ContentView: View {
                                 LoginView()
                             case .home:
                                 HomeView(navigation: navigation)
-                            case .accountInfo, .profile:
-                                if authViewModel.isAuthenticated {
-                                    ProfileView()
-                                } else {
-                                    LoginView()
-                                        .onAppear {
-                                            navigation.navigateToLogin() // ✅ Redirect to Login
-                                        }
-                                }
+                            case .accountInfo:
+                                AccountInfoView()
                             case .settings:
                                 SettingsView()
                             case .faq:
@@ -35,6 +28,8 @@ struct ContentView: View {
                                 RateUsView()
                             case .privacyPolicy:
                                 PrivacyPolicyView()
+                            case .subscription:
+                                SubscriptionView()
                             case .servers:
                                 VPNServersView(navigation: navigation)
                             default:

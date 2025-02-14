@@ -1,24 +1,23 @@
 import SwiftUI
-import Combine
 
 class AccountInfoViewModel: ObservableObject {
-    @Published var user: UserModel?
+    @Published var accountInfo: AccountInfoModel?
     @Published var isLoading = false
     @Published var errorMessage: String?
 
-    private let vpnRemoteService: VpnRemoteServiceProtocol
+    private let fetchAccountInfoUseCase: FetchAccountInfoUseCaseProtocol
 
-    init(vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()) {
-        self.vpnRemoteService = vpnRemoteService
+    init(fetchAccountInfoUseCase: FetchAccountInfoUseCaseProtocol = FetchAccountInfoUseCase()) {
+        self.fetchAccountInfoUseCase = fetchAccountInfoUseCase
     }
 
-    func fetchUserData() {
+    func fetchAccountData() {
         Task {
             isLoading = true
             do {
-                let fetchedUser = try await vpnRemoteService.getUser()
+                let userData = try await fetchAccountInfoUseCase.execute()
                 DispatchQueue.main.async {
-                    self.user = fetchedUser
+                    self.accountInfo = userData
                     self.isLoading = false
                 }
             } catch {

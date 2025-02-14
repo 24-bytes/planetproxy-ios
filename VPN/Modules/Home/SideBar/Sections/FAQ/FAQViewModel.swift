@@ -1,9 +1,10 @@
 import SwiftUI
 
+// ✅ View Model for FAQ
 class FAQViewModel: ObservableObject {
     @Published var faqItems: [FAQItem] = FAQItem.sampleFAQs
     @Published var searchText = ""
-    
+
     var filteredFAQs: [FAQItem] {
         if searchText.isEmpty {
             return faqItems
@@ -13,7 +14,7 @@ class FAQViewModel: ObservableObject {
             item.answer.localizedCaseInsensitiveContains(searchText)
         }
     }
-    
+
     func toggleItem(_ item: FAQItem) {
         if let index = faqItems.firstIndex(where: { $0.id == item.id }) {
             faqItems[index].isExpanded.toggle()

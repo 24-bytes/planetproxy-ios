@@ -2,6 +2,12 @@ import SwiftUI
 
 struct VPNServerListItemView: View {
     let server: VPNServerModel
+    @State private var displayedLatency: Int
+
+    init(server: VPNServerModel) {
+        self.server = server
+        _displayedLatency = State(initialValue: server.latency) // ✅ Set initial latency
+    }
 
     var body: some View {
         HStack {
@@ -20,9 +26,10 @@ struct VPNServerListItemView: View {
                 .frame(width: 20, height: 20) // Adjusted size
 
             // Latency Information
-            Text("\(server.latency) ms")
-                .font(.system(size: 14, weight: .ultraLight))
-                .foregroundColor(.gray)
+            Text("\(displayedLatency) ms")
+                    .font(.system(size: 14, weight: .ultraLight))
+                    .foregroundColor(.gray)
+                    .animation(.easeInOut(duration: 0.2), value: displayedLatency)
 
             // Connect Button
             Button(action: { connectToServer() }) {
@@ -36,24 +43,19 @@ struct VPNServerListItemView: View {
                             .stroke(Color.customPurple, lineWidth: 1)
                     )
             }
+        }.onAppear {
+            startLatencyUpdates()
         }
         .padding()
         .background(Color.black) // ✅ Now properly black
         .cornerRadius(10)
         .padding(.horizontal, 6)
     }
-
-    // Determine Signal Strength Icon
-    private func getSignalStrengthIcon(_ strength: Int) -> String {
-        switch strength {
-        case 80...100:
-            return "chart.bar.fill" // ✅ Highest strength (Green)
-        case 50..<80:
-            return "chart.bar.fill" // ✅ Medium strength (Yellow)
-        case 0..<50:
-            return "chart.bar.fill" // ✅ Low strength (Red)
-        default:
-            return "chart.bar" // Default to weakest signal
+    
+    private func startLatencyUpdates() {
+        Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
+            let newLatency = (server.latency - 5...server.latency + 5).randomElement() ?? server.latency
+            displayedLatency = max(1, newLatency) // ✅ Prevent negative latency
         }
     }
 

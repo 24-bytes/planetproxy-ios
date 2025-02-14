@@ -29,4 +29,10 @@ class NavigationCoordinator: ObservableObject {
             self.path.append(Route.servers)
         }
     }
+    
+    func navigateToSubscription() {
+        DispatchQueue.main.async {
+            self.path.append(Route.subscription)
+        }
+    }
 }

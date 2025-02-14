@@ -2,61 +2,82 @@ import SwiftUI
 
 struct FAQView: View {
     @StateObject private var viewModel = FAQViewModel()
-    
+
     var body: some View {
         VStack {
-            SearchBar(text: $viewModel.searchText)
-            
-            List(viewModel.filteredFAQs) { item in
-                FAQItemView(item: item) {
-                    viewModel.toggleItem(item)
+            // ✅ Header Section
+            HStack {
+                Button(action: { /* Navigate Back */ }) {
+                    Image(systemName: "arrow.left")
+                        .foregroundColor(.white)
+                        .font(.system(size: 20))
                 }
+
+                Spacer()
+
+                Text("FAQ")
+                    .font(.system(size: 22, weight: .bold))
+                    .foregroundColor(.white)
+
+                Spacer()
+            }
+            .padding(.horizontal)
+            .padding(.top, 10)
+
+            // ✅ FAQ List
+            ScrollView {
+                VStack(spacing: 0) { // ✅ Removed spacing to align properly
+                    ForEach(viewModel.faqItems) { item in
+                        FAQItemView(item: item) {
+                            viewModel.toggleItem(item)
+                        }
+                    }
+                }
+                .padding(.top, 8)
             }
         }
-        .navigationTitle("FAQ")
-    }
-}
-
-struct SearchBar: View {
-    @Binding var text: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "magnifyingglass")
-                .foregroundColor(.gray)
-            
-            TextField("Search FAQ", text: $text)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-        }
-        .padding(.horizontal)
+        .background(Color.black.edgesIgnoringSafeArea(.all))
     }
 }
 
 struct FAQItemView: View {
     let item: FAQItem
     let action: () -> Void
-    
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 0) { // ✅ No spacing for better alignment
             Button(action: action) {
                 HStack {
-                    Text(item.question)
-                        .fontWeight(.semibold)
-                    Spacer()
-                    Image(systemName: item.isExpanded ? "chevron.up" : "chevron.down")
+                    Text("Q: \(item.question)")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, alignment: .leading) // ✅ Left-aligned
+
+                    Image(systemName: item.isExpanded ? "minus" : "plus")
+                        .foregroundColor(.gray)
+                        .font(.system(size: 18, weight: .bold)) // ✅ Correct icon size
                 }
+                .padding(.vertical, 27) // ✅ Increased tap area
             }
-            
+
             if item.isExpanded {
                 Text(item.answer)
-                    .foregroundColor(.secondary)
-                    .padding(.top, 4)
+                    .font(.system(size: 16))
+                    .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .leading) // ✅ Left-aligned answer
+                    .padding(.bottom, 12) // ✅ Proper spacing before underline
             }
+
+            Rectangle() // ✅ Grey underline
+                .frame(height: 1)
+                .foregroundColor(Color.gray.opacity(0.4))
+                .padding(.top, 0) // ✅ Aligns perfectly with questions
         }
-        .padding(.vertical, 4)
+        .padding(.horizontal) // ✅ Ensures proper alignment
     }
 }
 
+// ✅ Preview
 #Preview {
     FAQView()
 }
