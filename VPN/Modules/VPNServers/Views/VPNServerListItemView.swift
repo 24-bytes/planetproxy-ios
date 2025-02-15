@@ -74,7 +74,13 @@ struct VPNServerListItemView: View {
 
     // Mock Function to Handle Connection
     private func connectToServer() {
-        print("Connecting to \(server.serverName) at \(server.ipAddress)...")
-        // TODO: Implement VPN connection logic
+        Task {
+            do {
+                let tunnel = try await VPNConnectionManager.shared.fetchAndDecodePeer(for: server.countryId)
+                try VPNConnectionManager.shared.connectToVPN()
+            } catch {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
     }
 }

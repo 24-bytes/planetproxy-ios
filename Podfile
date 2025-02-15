@@ -10,6 +10,7 @@ target 'VPN' do
   pod 'Firebase/Auth', '9.6.0'
   pod 'GoogleSignIn', '~> 7.0'
   pod 'Alamofire', '~> 5.8'
+  pod 'WireGuardKit'
 
   # Linting
   pod 'SwiftLint'

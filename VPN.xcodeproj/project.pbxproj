@@ -7,10 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03E867DA2D612123002035A6 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E867D92D612123002035A6 /* NetworkExtension.framework */; };
+		03E867E22D612123002035A6 /* ProxyPro.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 03E867D82D612123002035A6 /* ProxyPro.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2477B7898F1C4000B8BE36FF /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		03E867E02D612123002035A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F0186EB2D51062E00BF45DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 03E867D72D612123002035A6;
+			remoteInfo = ProxyPro;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		03E867E32D612123002035A6 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				03E867E22D612123002035A6 /* ProxyPro.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		03E867D82D612123002035A6 /* ProxyPro.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ProxyPro.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		03E867D92D612123002035A6 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		0F0186F32D51062E00BF45DF /* VPN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VPN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F01876E2D51079E00BF45DF /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
 		0F0187872D51079E00BF45DF /* VPN.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = VPN.xcodeproj; sourceTree = "<group>"; };
@@ -21,6 +49,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		03E867E72D612123002035A6 /* Exceptions for "ProxyPro" folder in "ProxyPro" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 03E867D72D612123002035A6 /* ProxyPro */;
+		};
 		0FDA18E02D573C1300A6415A /* Exceptions for "VPN" folder in "VPN" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -31,6 +66,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		03E867DB2D612123002035A6 /* ProxyPro */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				03E867E72D612123002035A6 /* Exceptions for "ProxyPro" folder in "ProxyPro" target */,
+			);
+			path = ProxyPro;
+			sourceTree = "<group>";
+		};
 		0F0186F52D51062E00BF45DF /* VPN */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -42,6 +85,14 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		03E867D52D612123002035A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03E867DA2D612123002035A6 /* NetworkExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F0186F02D51062E00BF45DF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -57,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				0F0186F52D51062E00BF45DF /* VPN */,
+				03E867DB2D612123002035A6 /* ProxyPro */,
 				0F0186F42D51062E00BF45DF /* Products */,
 				44A46701A8114790EF1EC25A /* Pods */,
 				5C5F6DFDD1CF15752A7DC011 /* Frameworks */,
@@ -67,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				0F0186F32D51062E00BF45DF /* VPN.app */,
+				03E867D82D612123002035A6 /* ProxyPro.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */,
+				03E867D92D612123002035A6 /* NetworkExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,6 +166,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		03E867D72D612123002035A6 /* ProxyPro */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03E867E62D612123002035A6 /* Build configuration list for PBXNativeTarget "ProxyPro" */;
+			buildPhases = (
+				03E867D42D612123002035A6 /* Sources */,
+				03E867D52D612123002035A6 /* Frameworks */,
+				03E867D62D612123002035A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				03E867DB2D612123002035A6 /* ProxyPro */,
+			);
+			name = ProxyPro;
+			packageProductDependencies = (
+			);
+			productName = ProxyPro;
+			productReference = 03E867D82D612123002035A6 /* ProxyPro.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		0F0186F22D51062E00BF45DF /* VPN */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0F0187012D51063000BF45DF /* Build configuration list for PBXNativeTarget "VPN" */;
@@ -121,10 +197,12 @@
 				0F0186F02D51062E00BF45DF /* Frameworks */,
 				0F0186F12D51062E00BF45DF /* Resources */,
 				C6F912FAAA8DBF5B7D44DC77 /* [CP] Embed Pods Frameworks */,
+				03E867E32D612123002035A6 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				03E867E12D612123002035A6 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				0F0186F52D51062E00BF45DF /* VPN */,
@@ -144,6 +222,9 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					03E867D72D612123002035A6 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					0F0186F22D51062E00BF45DF = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -179,11 +260,19 @@
 			projectRoot = "";
 			targets = (
 				0F0186F22D51062E00BF45DF /* VPN */,
+				03E867D72D612123002035A6 /* ProxyPro */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		03E867D62D612123002035A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F0186F12D51062E00BF45DF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -236,6 +325,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		03E867D42D612123002035A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F0186EF2D51062E00BF45DF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -245,7 +341,65 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		03E867E12D612123002035A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 03E867D72D612123002035A6 /* ProxyPro */;
+			targetProxy = 03E867E02D612123002035A6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		03E867E42D612123002035A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ProxyPro/ProxyPro.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ProxyPro/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ProxyPro;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.VPN.ProxyPro";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		03E867E52D612123002035A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ProxyPro/ProxyPro.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ProxyPro/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ProxyPro;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.VPN.ProxyPro";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		0F0186FF2D51063000BF45DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -371,6 +525,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VPN/VPN.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VPN/Preview Content\"";
@@ -402,6 +557,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VPN/VPN.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VPN/Preview Content\"";
@@ -430,6 +586,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		03E867E62D612123002035A6 /* Build configuration list for PBXNativeTarget "ProxyPro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03E867E42D612123002035A6 /* Debug */,
+				03E867E52D612123002035A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0F0186EE2D51062E00BF45DF /* Build configuration list for PBXProject "VPN" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

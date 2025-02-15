@@ -1,11 +1,12 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var isConnected: Bool = false
+
     let navigation: NavigationCoordinator
     @StateObject private var vpnViewModel = VPNServersViewModel()
+    @StateObject private var vpnConnectModel = VPNConnectionViewModel()
     @State private var showDisconnectPopup: Bool = false
-
+    
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -18,7 +19,7 @@ struct HomeView: View {
 
                 VStack(spacing: 20) {
 
-                    if isConnected {
+                    if vpnConnectModel.isConnected {
                         SubscriptionExpiredView()
                             .padding(.top, 30)
                         MetricsView(downloadSpeed: 445.7, uploadSpeed: 765.7)
@@ -31,7 +32,11 @@ struct HomeView: View {
                     } else {
                         Spacer()
                         WelcomeSubscription()
-                        VPNConnectButton(isConnected: $isConnected)
+                        if let firstServer = vpnViewModel.servers.first?.servers.first {
+                                        VPNConnectButton(server: firstServer) // ✅ Pass a valid server
+                                    } else {
+                                        Text("No servers available") // Show a message if no servers are loaded
+                                    }
                         if let firstServer = vpnViewModel.servers.first,
                                                    let firstServerDetails = firstServer.servers.first {
                                                     ServerDetailsCardView(
@@ -54,7 +59,7 @@ struct HomeView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-                .animation(.easeInOut(duration: 0.3), value: isConnected)
+                .animation(.easeInOut(duration: 0.3), value: vpnConnectModel.isConnected)
 
                 Spacer()
 
@@ -73,19 +78,6 @@ struct HomeView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             
-            VStack {
-                if showDisconnectPopup {
-                    DisconnectConfirmationView(
-                        isPresented: $showDisconnectPopup,
-                        onDisconnectConfirmed: {
-                            isConnected = false
-                        }
-                    )
-                    .transition(.move(edge: .bottom))
-                    .animation(.easeInOut(duration: 0.3))
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         }
     }
 }
