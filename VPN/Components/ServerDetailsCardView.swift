@@ -24,10 +24,10 @@ struct ServerDetailsCardView: View {
                         .padding(.leading, 10) // ✅ Adjusting left spacing
             
             // ✅ Middle Section: Server Details
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 12) {
                     Text(location)
-                        .font(.system(size: 16, weight: .bold))
+                        .font(.system(size: 18, weight: .bold))
                         .foregroundColor(.white)
 
                     // ✅ Circular Country Flag

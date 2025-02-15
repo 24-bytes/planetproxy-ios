@@ -6,23 +6,7 @@ struct FAQView: View {
     var body: some View {
         VStack {
             // ✅ Header Section
-            HStack {
-                Button(action: { /* Navigate Back */ }) {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(.white)
-                        .font(.system(size: 20))
-                }
-
-                Spacer()
-
-                Text("FAQ")
-                    .font(.system(size: 22, weight: .bold))
-                    .foregroundColor(.white)
-
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.top, 10)
+            ToolbarView(title: "FAQ")
 
             // ✅ FAQ List
             ScrollView {
@@ -37,6 +21,7 @@ struct FAQView: View {
             }
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -75,9 +60,4 @@ struct FAQItemView: View {
         }
         .padding(.horizontal) // ✅ Ensures proper alignment
     }
-}
-
-// ✅ Preview
-#Preview {
-    FAQView()
 }

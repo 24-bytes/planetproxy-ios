@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct SubscriptionView: View {
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
+            ToolbarView(title: "Subscription")
+
             // ✅ Header Text
             Text("Current plan")
                 .font(.system(size: 18, weight: .bold))
@@ -26,8 +30,8 @@ struct SubscriptionView: View {
             Spacer()
 
             // ✅ Buttons
-            actionButtons
-        }
+           // actionButtons
+        }.navigationBarBackButtonHidden(true)
         .padding()
         .background(Color.black.edgesIgnoringSafeArea(.all)) // ✅ Background color
     }
@@ -109,9 +113,4 @@ struct SubscriptionView: View {
             }
         }
     }
-}
-
-// ✅ Preview
-#Preview {
-    SubscriptionView()
 }

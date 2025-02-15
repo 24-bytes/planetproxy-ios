@@ -7,25 +7,7 @@ struct VPNServersView: View {
 
     var body: some View {
         VStack {
-            // Header
-            HStack {
-                Button(action: { navigation.navigateToHome() }) {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(.white)
-                        .font(.system(size: 20))
-                }
-
-                Spacer()
-
-                Text(NSLocalizedString("Servers", comment: "Servers Header"))
-                    .font(.system(size: 22, weight: .bold))
-                    .foregroundColor(.white)
-
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.top, 10)
-
+            ToolbarView(title: "Servers")
             // Tab Selector
             VPNServerTabView(selectedTab: $viewModel.selectedTab, tabs: tabs)
 
@@ -62,5 +44,6 @@ struct VPNServersView: View {
                 await viewModel.fetchServers()
             }
         }
+            .navigationBarBackButtonHidden(true)
     }
 }

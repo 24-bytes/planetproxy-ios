@@ -33,7 +33,7 @@ struct ContentView: View {
                             case .servers:
                                 VPNServersView(navigation: navigation)
                             default:
-                                ProfileView()
+                                AccountInfoView()
                             }
                         }
                 }

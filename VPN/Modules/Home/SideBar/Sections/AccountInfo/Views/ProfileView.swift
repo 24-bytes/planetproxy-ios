@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfileView: View {
     var accountInfo: AccountInfoModel?
+    var authViewModel: AuthViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -100,9 +101,7 @@ struct ProfileView: View {
     }
 
     private var logoutButton: some View {
-        Button(action: {
-            print("Logging out...") // TODO: Implement actual logout functionality
-        }) {
+        Button(action: {authViewModel.signOut()}) {
             HStack(spacing: 8) {
                 Image(systemName: "rectangle.portrait.and.arrow.forward") // ✅ Matches provided logout icon
                     .foregroundColor(.gray)

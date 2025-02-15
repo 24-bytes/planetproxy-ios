@@ -7,23 +7,8 @@ struct SettingsView: View {
     var body: some View {
         VStack(spacing: 16) {
             // ✅ Header Section
-            HStack {
-                Button(action: { /* Navigate Back */ }) {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(.white)
-                        .font(.system(size: 20))
-                }
-                
-                Spacer()
-
-                Text("Settings")
-                    .font(.system(size: 22, weight: .bold))
-                    .foregroundColor(.white)
-
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.top, 10)
+            ToolbarView(title: "Settings")
+              
 
             // ✅ Settings List
             ScrollView {
@@ -48,6 +33,7 @@ struct SettingsView: View {
             }
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
+        .navigationBarBackButtonHidden(true)
     }
 }
     

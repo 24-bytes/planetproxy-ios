@@ -3,30 +3,13 @@ import SwiftUI
 struct AccountInfoView: View {
     @State private var selectedTab = "Profile"
     @StateObject private var viewModel = AccountInfoViewModel()
-
+    @StateObject private var authViewModel = AuthViewModel()
+    
     var body: some View {
         VStack {
-            // ✅ Header Section (Back Button + Title)
-            HStack {
-                Button(action: { /* Navigate Back */ }) {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(.white)
-                        .font(.system(size: 20))
-                }
-
-                Spacer()
-
-                Text("Account information")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(.white)
-
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.top, 10)
-
+            ToolbarView(title: "Account Information")
             // ✅ Tab Selector
-            VPNServerTabView(selectedTab: $selectedTab, tabs: ["Profile", "Subscription"])
+            VPNServerTabView(selectedTab: $selectedTab, tabs: ["Profile"])
 
             // ✅ Content Based on Selected Tab
             selectedTabView
@@ -37,7 +20,7 @@ struct AccountInfoView: View {
         .background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
             viewModel.fetchAccountData()
-        }
+        }.navigationBarBackButtonHidden(true)
     }
 
     // ✅ View Based on Selected Tab
@@ -45,13 +28,13 @@ struct AccountInfoView: View {
     private var selectedTabView: some View {
         switch selectedTab {
         case "Profile":
-            ProfileView(accountInfo: viewModel.accountInfo)
+            ProfileView(accountInfo: viewModel.accountInfo, authViewModel: authViewModel)
         case "Subscription":
             SubscriptionView()
         case "Security":
             SecurityView()
         default:
-            ProfileView(accountInfo: viewModel.accountInfo)
+            ProfileView(accountInfo: viewModel.accountInfo, authViewModel: authViewModel)
         }
     }
 }
