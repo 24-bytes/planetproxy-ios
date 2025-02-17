@@ -1,137 +1,161 @@
 import Foundation
 import NetworkExtension
-import CommonCrypto
+import WireGuardKit
+import os.log
 
 class VPNConnectionManager {
     static let shared = VPNConnectionManager()
+    weak var delegate: VPNManagerDelegate?
     
-    private var tunnel: TunnelConfiguration?
+    private let logger = Logger(subsystem: "net.planet-proxy.VPN", category: "VPNManager")
+    private var tunnelManager: NETunnelProviderManager?
+    private var observerAdded = false
     
-    func fetchAndDecodePeer(for countryId: Int) async throws -> TunnelConfiguration {
-        let url = URL(string: "http://194.164.171.104:8080/api/peer/\(countryId)?purpose=gaming,streaming,general")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        
-        let decoder = JSONDecoder()
-        let response = try decoder.decode(PeerResponse.self, from: data)
-        
-        print("🔹 Encrypted peer data received: \(response.data)")
-
-        guard let decryptedData = decryptWireGuardPeer(encryptedText: response.data) else {
-            throw NSError(domain: "VPNError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to decrypt peer data"])
-        }
-
-        print("✅ Decrypted WireGuard config:\n\(decryptedData)")
-
-        let tunnelConfig = try WireGuardConfigParser.parse(decryptedData)
-        self.tunnel = tunnelConfig
-        return tunnelConfig
+    private init() {
+        setupVPNObserver()
+        loadVPNConfiguration()
     }
-
     
-    func connectToVPN() {
-        guard let tunnel = tunnel else {
-            print("No tunnel configuration available")
+    private func setupVPNObserver() {
+        guard !observerAdded else { return }
+        
+        NotificationCenter.default.addObserver(
+            forName: .NEVPNStatusDidChange,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let connection = notification.object as? NEVPNConnection else { return }
+            self?.handleVPNStatusChange(connection.status)
+        }
+        observerAdded = true
+    }
+    
+    private func handleVPNStatusChange(_ status: NEVPNStatus) {
+        logger.debug("VPN status changed: \(status.rawValue)")
+        let vpnStatus: VPNConnectionStatus
+        
+        switch status {
+        case .invalid:
+            vpnStatus = .failed(.tunnelConfigurationFailed)
+        case .disconnected:
+            vpnStatus = .disconnected
+        case .connecting:
+            vpnStatus = .connecting
+        case .connected:
+            vpnStatus = .connected
+        case .disconnecting:
+            vpnStatus = .disconnecting
+        case .reasserting:
+            vpnStatus = .connecting
+        @unknown default:
+            vpnStatus = .disconnected
+        }
+        
+        delegate?.vpnStatusDidChange(vpnStatus)
+    }
+    
+    private func loadVPNConfiguration() {
+        Task {
+            do {
+                let managers = try await NETunnelProviderManager.loadAllFromPreferences()
+                tunnelManager = managers.first ?? NETunnelProviderManager()
+                logger.debug("Loaded VPN configuration")
+            } catch {
+                logger.error("Failed to load VPN configuration: \(error.localizedDescription)")
+                delegate?.vpnDidFail(with: .loadConfigurationFailed)
+            }
+        }
+    }
+    
+    func configureVPN() async throws {
+        do {
+            let manager = tunnelManager ?? NETunnelProviderManager()
+            let tunnelProtocol = NETunnelProviderProtocol()
+            
+            // Configure the protocol
+            tunnelProtocol.providerBundleIdentifier = "net.planet-proxy.VPN.ProxyPro"
+            tunnelProtocol.serverAddress = "WireGuard VPN"
+            
+            // Parse and validate WireGuard configuration
+            guard let _ = try? TunnelConfiguration(fromWgQuickConfig: WireGuardConfig.config) else {
+                throw VPNError.invalidWireGuardConfig
+            }
+            
+            // Set WireGuard configuration
+            tunnelProtocol.providerConfiguration = [
+                "wgQuickConfig": WireGuardConfig.config
+            ]
+            
+            manager.protocolConfiguration = tunnelProtocol
+            manager.localizedDescription = "Planet Proxy VPN"
+            manager.isEnabled = true
+            
+            try await manager.saveToPreferences()
+            try await manager.loadFromPreferences()
+            
+            self.tunnelManager = manager
+            logger.info("VPN configured successfully")
+            
+        } catch {
+            logger.error("Failed to configure VPN: \(error.localizedDescription)")
+            throw VPNError.systemConfigurationFailed
+        }
+    }
+    
+    func connect() async throws {
+        guard let manager = tunnelManager else {
+            try await configureVPN()
+        }
+        
+        do {
+            guard let session = tunnelManager?.connection as? NETunnelProviderSession else {
+                throw VPNError.tunnelConfigurationFailed
+            }
+            
+            try session.startVPNTunnel()
+            logger.info("VPN connection started")
+            
+        } catch {
+            logger.error("Failed to start VPN: \(error.localizedDescription)")
+            throw VPNError.tunnelStartFailed(error.localizedDescription)
+        }
+    }
+    
+    func disconnect() async throws {
+        guard let manager = tunnelManager else {
             return
         }
-
-        let vpnManager = NEVPNManager.shared()
-        vpnManager.loadFromPreferences { error in
-            if let error = error {
-                print("❌ Failed to load VPN preferences: \(error.localizedDescription)")
-                return
-            }
-
-            let protocolConfig = NETunnelProviderProtocol()
-            protocolConfig.providerBundleIdentifier = "net.planet-proxy.VPN.ProxyPro" // Ensure this matches your app extension!
-
-            // ✅ Ensure proper WireGuard configuration format
-            protocolConfig.providerConfiguration = [
-                "PrivateKey": tunnel.privateKey,
-                "Address": tunnel.address,
-                "DNS": tunnel.dns,
-                "PeerPublicKey": tunnel.peerPublicKey,
-                "AllowedIPs": tunnel.allowedIPs,
-                "Endpoint": tunnel.endpoint
-            ]
-            protocolConfig.disconnectOnSleep = false
-
-            vpnManager.protocolConfiguration = protocolConfig
-            vpnManager.isOnDemandEnabled = true
-            vpnManager.isEnabled = true
-
-            vpnManager.saveToPreferences { error in
-                if let error = error {
-                    print("❌ Failed to save VPN configuration: \(error.localizedDescription)")
-                    return
-                }
-                do {
-                    try vpnManager.connection.startVPNTunnel()
-                    print("✅ VPN Connected Successfully")
-                } catch {
-                    print("❌ Error starting VPN tunnel: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
-
-    
-    func disconnectVPN() {
-        let vpnManager = NEVPNManager.shared()
-        vpnManager.loadFromPreferences { error in
-            if let error = error {
-                print("Failed to load VPN preferences: \(error.localizedDescription)")
-                return
-            }
-            vpnManager.connection.stopVPNTunnel()
+        
+        do {
+            manager.connection.stopVPNTunnel()
+            logger.info("VPN disconnected")
+            
+        } catch {
+            logger.error("Failed to stop VPN: \(error.localizedDescription)")
+            throw VPNError.tunnelStopFailed(error.localizedDescription)
         }
     }
     
-    // AES Decryption using CommonCrypto
-    private func decryptWireGuardPeer(encryptedText: String) -> String? {
-        print("⚠️ Skipping AES decryption - Returning hardcoded WireGuard config")
-
-        return """
-        [Interface]
-        PrivateKey = EK9vI5t3PsLrbj8+QNNGuvgxuvWiOQgTXITD/GCT0kY=
-        Address = 10.0.0.2/32
-        MTU = 1420
-        DNS = 1.1.1.1
-        [Peer]
-        PublicKey = eNbLo3tabMFyrZEg4s5BA3Nqm23G97JwzAX1QoCUfnU=
-        AllowedIPs = 0.0.0.0/0
-        Endpoint = 194.164.127.128:65141
-        PersistentKeepalive = 21
-        """
-    }
-
-    
-    private func deriveKey(from secret: String) -> Data {
-        var key = secret.data(using: .utf8)!
-        if key.count < kCCKeySizeAES256 {
-            key.append(contentsOf: [UInt8](repeating: 0, count: kCCKeySizeAES256 - key.count))
-        } else if key.count > kCCKeySizeAES256 {
-            key = key.prefix(kCCKeySizeAES256) // Trim to required length
+    func getCurrentStatus() -> VPNConnectionStatus {
+        guard let status = tunnelManager?.connection.status else {
+            return .disconnected
         }
-        return key
+        
+        switch status {
+        case .invalid:
+            return .failed(.tunnelConfigurationFailed)
+        case .disconnected:
+            return .disconnected
+        case .connecting:
+            return .connecting
+        case .connected:
+            return .connected
+        case .disconnecting:
+            return .disconnecting
+        case .reasserting:
+            return .connecting
+        @unknown default:
+            return .disconnected
+        }
     }
-
-
-}
-
-/// Struct to hold WireGuard Tunnel Configuration
-struct TunnelConfiguration {
-    let privateKey: String
-    let address: String
-    let dns: String
-    let peerPublicKey: String
-    let allowedIPs: String
-    let endpoint: String
-}
-
-/// API Response Structure
-struct PeerResponse: Codable {
-    let success: Bool
-    let code: Int
-    let error: String
-    let data: String
 }

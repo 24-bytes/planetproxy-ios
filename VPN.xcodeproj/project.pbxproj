@@ -7,12 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03B0D6F02D61F430000E5B38 /* WireGuardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 03B0D6EF2D61F430000E5B38 /* WireGuardKit */; };
 		03E867DA2D612123002035A6 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E867D92D612123002035A6 /* NetworkExtension.framework */; };
 		03E867E22D612123002035A6 /* ProxyPro.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 03E867D82D612123002035A6 /* ProxyPro.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		2477B7898F1C4000B8BE36FF /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */; };
+		827C03BA63C607D150604F4B /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 513764B2D4C5C73072162178 /* Pods_VPN.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		033BE8D72D61BE6F006E2B02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F0186EB2D51062E00BF45DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 033BE8D32D61BE1E006E2B02;
+			remoteInfo = WireGuardGoBridge;
+		};
 		03E867E02D612123002035A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0F0186EB2D51062E00BF45DF /* Project object */;
@@ -43,12 +51,19 @@
 		0F01876E2D51079E00BF45DF /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
 		0F0187872D51079E00BF45DF /* VPN.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = VPN.xcodeproj; sourceTree = "<group>"; };
 		0F01882A2D5107AA00BF45DF /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
-		169CE99698E86539571F2FBA /* Pods-VPN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.release.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.release.xcconfig"; sourceTree = "<group>"; };
-		AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C2E46A8CA191C4CCCEA1CE1E /* Pods-VPN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.debug.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.debug.xcconfig"; sourceTree = "<group>"; };
+		513764B2D4C5C73072162178 /* Pods_VPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7DC23FE9094D281EDB587E5 /* Pods-VPN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.release.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.release.xcconfig"; sourceTree = "<group>"; };
+		CE43594A2F8FB1049CF38A8E /* Pods-VPN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.debug.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		03210D842D61F5A200431787 /* Exceptions for "script" folder in "ProxyPro" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				build_wireguard_go_bridge.sh,
+			);
+			target = 03E867D72D612123002035A6 /* ProxyPro */;
+		};
 		03E867E72D612123002035A6 /* Exceptions for "ProxyPro" folder in "ProxyPro" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -66,6 +81,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		033BE8CF2D61BD2C006E2B02 /* script */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				03210D842D61F5A200431787 /* Exceptions for "script" folder in "ProxyPro" target */,
+			);
+			path = script;
+			sourceTree = "<group>";
+		};
 		03E867DB2D612123002035A6 /* ProxyPro */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -90,6 +113,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				03E867DA2D612123002035A6 /* NetworkExtension.framework in Frameworks */,
+				03B0D6F02D61F430000E5B38 /* WireGuardKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,7 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2477B7898F1C4000B8BE36FF /* Pods_VPN.framework in Frameworks */,
+				827C03BA63C607D150604F4B /* Pods_VPN.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +131,7 @@
 		0F0186EA2D51062E00BF45DF = {
 			isa = PBXGroup;
 			children = (
+				033BE8CF2D61BD2C006E2B02 /* script */,
 				0F0186F52D51062E00BF45DF /* VPN */,
 				03E867DB2D612123002035A6 /* ProxyPro */,
 				0F0186F42D51062E00BF45DF /* Products */,
@@ -148,8 +173,8 @@
 		44A46701A8114790EF1EC25A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C2E46A8CA191C4CCCEA1CE1E /* Pods-VPN.debug.xcconfig */,
-				169CE99698E86539571F2FBA /* Pods-VPN.release.xcconfig */,
+				CE43594A2F8FB1049CF38A8E /* Pods-VPN.debug.xcconfig */,
+				A7DC23FE9094D281EDB587E5 /* Pods-VPN.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -157,13 +182,31 @@
 		5C5F6DFDD1CF15752A7DC011 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */,
 				03E867D92D612123002035A6 /* NetworkExtension.framework */,
+				513764B2D4C5C73072162178 /* Pods_VPN.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		033BE8D32D61BE1E006E2B02 /* WireGuardGoBridge */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 033BE8D42D61BE1E006E2B02 /* Build configuration list for PBXLegacyTarget "WireGuardGoBridge" */;
+			buildPhases = (
+			);
+			buildToolPath = "$(PROJECT_DIR)/script/build_wireguard_go_bridge.sh";
+			dependencies = (
+			);
+			name = WireGuardGoBridge;
+			packageProductDependencies = (
+			);
+			passBuildSettingsInEnvironment = 1;
+			productName = WireGuardGoBridge;
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		03E867D72D612123002035A6 /* ProxyPro */ = {
@@ -177,13 +220,13 @@
 			buildRules = (
 			);
 			dependencies = (
+				033BE8D82D61BE6F006E2B02 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				033BE8CF2D61BD2C006E2B02 /* script */,
 				03E867DB2D612123002035A6 /* ProxyPro */,
 			);
 			name = ProxyPro;
-			packageProductDependencies = (
-			);
 			productName = ProxyPro;
 			productReference = 03E867D82D612123002035A6 /* ProxyPro.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -192,12 +235,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0F0187012D51063000BF45DF /* Build configuration list for PBXNativeTarget "VPN" */;
 			buildPhases = (
-				3DF15B0F8D884BE3C6FC512D /* [CP] Check Pods Manifest.lock */,
+				331695E9795D8BADC9D1C243 /* [CP] Check Pods Manifest.lock */,
 				0F0186EF2D51062E00BF45DF /* Sources */,
 				0F0186F02D51062E00BF45DF /* Frameworks */,
 				0F0186F12D51062E00BF45DF /* Resources */,
-				C6F912FAAA8DBF5B7D44DC77 /* [CP] Embed Pods Frameworks */,
 				03E867E32D612123002035A6 /* Embed Foundation Extensions */,
+				A0C4B7E04F32B86DCA63887C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -222,6 +265,9 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					033BE8D32D61BE1E006E2B02 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					03E867D72D612123002035A6 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -240,6 +286,9 @@
 			);
 			mainGroup = 0F0186EA2D51062E00BF45DF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				03B0D6EE2D61F430000E5B38 /* XCRemoteSwiftPackageReference "wireguard-apple" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0F0186F42D51062E00BF45DF /* Products */;
 			projectDirPath = "";
@@ -261,6 +310,7 @@
 			targets = (
 				0F0186F22D51062E00BF45DF /* VPN */,
 				03E867D72D612123002035A6 /* ProxyPro */,
+				033BE8D32D61BE1E006E2B02 /* WireGuardGoBridge */,
 			);
 		};
 /* End PBXProject section */
@@ -283,7 +333,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3DF15B0F8D884BE3C6FC512D /* [CP] Check Pods Manifest.lock */ = {
+		331695E9795D8BADC9D1C243 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -305,7 +355,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C6F912FAAA8DBF5B7D44DC77 /* [CP] Embed Pods Frameworks */ = {
+		A0C4B7E04F32B86DCA63887C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -342,6 +392,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		033BE8D82D61BE6F006E2B02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 033BE8D32D61BE1E006E2B02 /* WireGuardGoBridge */;
+			targetProxy = 033BE8D72D61BE6F006E2B02 /* PBXContainerItemProxy */;
+		};
 		03E867E12D612123002035A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 03E867D72D612123002035A6 /* ProxyPro */;
@@ -350,12 +405,41 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		033BE8D52D61BE1E006E2B02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		033BE8D62D61BE1E006E2B02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		03E867E42D612123002035A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ProxyPro/ProxyPro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(SRCROOT)/SourcePackages/checkouts/wireguard-apple",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ProxyPro/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ProxyPro;
@@ -370,6 +454,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -521,7 +606,7 @@
 		};
 		0F0187022D51063000BF45DF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2E46A8CA191C4CCCEA1CE1E /* Pods-VPN.debug.xcconfig */;
+			baseConfigurationReference = CE43594A2F8FB1049CF38A8E /* Pods-VPN.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -553,7 +638,7 @@
 		};
 		0F0187032D51063000BF45DF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 169CE99698E86539571F2FBA /* Pods-VPN.release.xcconfig */;
+			baseConfigurationReference = A7DC23FE9094D281EDB587E5 /* Pods-VPN.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -586,6 +671,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		033BE8D42D61BE1E006E2B02 /* Build configuration list for PBXLegacyTarget "WireGuardGoBridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				033BE8D52D61BE1E006E2B02 /* Debug */,
+				033BE8D62D61BE1E006E2B02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		03E867E62D612123002035A6 /* Build configuration list for PBXNativeTarget "ProxyPro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -614,6 +708,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		03B0D6EE2D61F430000E5B38 /* XCRemoteSwiftPackageReference "wireguard-apple" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://git.zx2c4.com/wireguard-apple";
+			requirement = {
+				kind = exactVersion;
+				version = "1.0.15-26";
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		03B0D6EF2D61F430000E5B38 /* WireGuardKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 03B0D6EE2D61F430000E5B38 /* XCRemoteSwiftPackageReference "wireguard-apple" */;
+			productName = WireGuardKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0F0186EB2D51062E00BF45DF /* Project object */;
 }

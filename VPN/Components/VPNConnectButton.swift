@@ -1,24 +1,58 @@
 import SwiftUI
 
 struct VPNConnectButton: View {
-    @StateObject private var vpnViewModel = VPNConnectionViewModel()
-    let server: VPNServerModel // ✅ Add the selected server
-
-    var body: some View {
-        Button(action: {
-            Task {
-                if vpnViewModel.isConnected {
-                    vpnViewModel.disconnectServer()
-                } else {
-                    await vpnViewModel.connectToServer(server) // ✅ Pass the server argument
+    @StateObject private var viewModel = VPNConnectionViewModel()
+        
+        var body: some View {
+            VStack(spacing: 20) {
+                statusView
+                
+                Button(action: {
+                    viewModel.toggleConnection()
+                }) {
+                    if viewModel.isConnecting {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                    } else {
+                        Text(viewModel.connectionStatus == .connected ? "Disconnect" : "Connect")
+                            .font(.headline)
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(viewModel.isConnecting)
+                
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                        .padding()
                 }
             }
-        }) {
-            Text(vpnViewModel.isConnected ? "Disconnect" : "Connect")
-                .foregroundColor(.white)
-                .padding()
-                .background(vpnViewModel.isConnected ? Color.red : Color.green)
-                .cornerRadius(10)
+            .padding()
         }
-    }
+        
+        private var statusView: some View {
+            HStack {
+                Circle()
+                    .fill(statusColor)
+                    .frame(width: 12, height: 12)
+                
+                Text(viewModel.connectionStatus.description)
+                    .font(.subheadline)
+            }
+        }
+        
+        private var statusColor: Color {
+            switch viewModel.connectionStatus {
+            case .connected:
+                return .green
+            case .connecting, .disconnecting:
+                return .orange
+            case .disconnected:
+                return .red
+            case .failed:
+                return .red
+            }
+        }
 }

@@ -121,7 +121,6 @@ PODS:
   - nanopb/encode (2.30909.1)
   - PromisesObjC (2.4.0)
   - SwiftLint (0.58.1)
-  - WireGuardKit (0.3)
 
 DEPENDENCIES:
   - Alamofire (~> 5.8)
@@ -129,7 +128,6 @@ DEPENDENCIES:
   - Firebase/Core (= 9.6.0)
   - GoogleSignIn (~> 7.0)
   - SwiftLint
-  - WireGuardKit
 
 SPEC REPOS:
   trunk:
@@ -151,7 +149,6 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - SwiftLint
-    - WireGuardKit
 
 SPEC CHECKSUMS:
   Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
@@ -172,8 +169,7 @@ SPEC CHECKSUMS:
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   SwiftLint: 6c8820d22c8f74baadd5684e00bb7356c34610a1
-  WireGuardKit: 8b9e7f28441b67aafe60d59c15b8c70bed5ab092
 
-PODFILE CHECKSUM: 819178970da39ddd5187a95fa972282a4bd69d60
+PODFILE CHECKSUM: 67b974c64157f74fb8806a6c562dbc913e7a450b
 
 COCOAPODS: 1.16.2

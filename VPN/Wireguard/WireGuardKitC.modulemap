@@ -1,0 +1,12 @@
+module WireGuardKitC {
+    umbrella header "WireGuardKitC.h"
+    export *
+    module * { export * }
+    
+    explicit module WireGuardKitC {
+        header "WireGuardKitC.h"
+        export *
+    }
+    
+    requires objc
+}
