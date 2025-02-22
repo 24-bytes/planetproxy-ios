@@ -4,6 +4,7 @@ struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var navigation = NavigationCoordinator()
     @EnvironmentObject var sidebarViewModel: SidebarViewModel
+    @StateObject private var accountInfoViewModel = AccountInfoViewModel()
 
     var body: some View {
         ZStack {
@@ -39,7 +40,10 @@ struct ContentView: View {
                 }
             }
 
-            SidebarView()
+            SidebarView(
+                userInfoModel: accountInfoViewModel,
+                navigation: navigation
+            )
         }
         .onChange(of: sidebarViewModel.selectedDestination) { _ in
                     if let newRoute = sidebarViewModel.selectedDestination {

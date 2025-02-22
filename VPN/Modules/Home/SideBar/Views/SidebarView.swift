@@ -2,8 +2,8 @@ import SwiftUI
 
 struct SidebarView: View {
     @EnvironmentObject var sidebarViewModel: SidebarViewModel 
-    @EnvironmentObject var authViewModel: AuthViewModel
-    @EnvironmentObject var navigation: NavigationCoordinator
+    let userInfoModel: AccountInfoViewModel
+    let navigation: NavigationCoordinator
 
     var body: some View {
         ZStack {
@@ -25,7 +25,8 @@ struct SidebarView: View {
                     }
 
                     // Welcome Text
-                    Text("Welcome back,\n**Christopher Flem**")
+                    let userName = userInfoModel.accountInfo?.name ?? ""
+                    Text("Welcome back \(userName)")
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding(.horizontal, 16)
@@ -54,6 +55,8 @@ struct SidebarView: View {
             }
             .offset(x: sidebarViewModel.isSidebarOpen ? 0 : -360)
             .animation(.easeInOut(duration: 0.3))
-        }
+        }.onAppear {
+            userInfoModel.fetchAccountData()
+        }.navigationBarBackButtonHidden(true)
     }
 }

@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2477B7898F1C4000B8BE36FF /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */; };
+		E2B8A7ECCA1F16A7ABE73260 /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 067189BBE2A41B03AF6AFD91 /* Pods_VPN.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		067189BBE2A41B03AF6AFD91 /* Pods_VPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F0186F32D51062E00BF45DF /* VPN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VPN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F01876E2D51079E00BF45DF /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
 		0F0187872D51079E00BF45DF /* VPN.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = VPN.xcodeproj; sourceTree = "<group>"; };
 		0F01882A2D5107AA00BF45DF /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
-		169CE99698E86539571F2FBA /* Pods-VPN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.release.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.release.xcconfig"; sourceTree = "<group>"; };
-		AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C2E46A8CA191C4CCCEA1CE1E /* Pods-VPN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.debug.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.debug.xcconfig"; sourceTree = "<group>"; };
+		2C73F8061D99FE2DFE15E54D /* Pods-VPN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.debug.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.debug.xcconfig"; sourceTree = "<group>"; };
+		7DC9B6413CB3FB18B03F2A7E /* Pods-VPN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPN.release.xcconfig"; path = "Target Support Files/Pods-VPN/Pods-VPN.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -46,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2477B7898F1C4000B8BE36FF /* Pods_VPN.framework in Frameworks */,
+				E2B8A7ECCA1F16A7ABE73260 /* Pods_VPN.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 				0F0186F52D51062E00BF45DF /* VPN */,
 				0F0186F42D51062E00BF45DF /* Products */,
 				44A46701A8114790EF1EC25A /* Pods */,
-				5C5F6DFDD1CF15752A7DC011 /* Frameworks */,
+				59F5E89F1818DB754CA984D0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,16 +95,16 @@
 		44A46701A8114790EF1EC25A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C2E46A8CA191C4CCCEA1CE1E /* Pods-VPN.debug.xcconfig */,
-				169CE99698E86539571F2FBA /* Pods-VPN.release.xcconfig */,
+				2C73F8061D99FE2DFE15E54D /* Pods-VPN.debug.xcconfig */,
+				7DC9B6413CB3FB18B03F2A7E /* Pods-VPN.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		5C5F6DFDD1CF15752A7DC011 /* Frameworks */ = {
+		59F5E89F1818DB754CA984D0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AE7C836A4B719A048C0AA2C7 /* Pods_VPN.framework */,
+				067189BBE2A41B03AF6AFD91 /* Pods_VPN.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -116,11 +116,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0F0187012D51063000BF45DF /* Build configuration list for PBXNativeTarget "VPN" */;
 			buildPhases = (
-				3DF15B0F8D884BE3C6FC512D /* [CP] Check Pods Manifest.lock */,
+				77614FFE3F95B45277C8CB5F /* [CP] Check Pods Manifest.lock */,
 				0F0186EF2D51062E00BF45DF /* Sources */,
 				0F0186F02D51062E00BF45DF /* Frameworks */,
 				0F0186F12D51062E00BF45DF /* Resources */,
-				C6F912FAAA8DBF5B7D44DC77 /* [CP] Embed Pods Frameworks */,
+				6CACC097B3A325AEF8798595 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -194,7 +194,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3DF15B0F8D884BE3C6FC512D /* [CP] Check Pods Manifest.lock */ = {
+		6CACC097B3A325AEF8798595 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		77614FFE3F95B45277C8CB5F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -214,23 +231,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C6F912FAAA8DBF5B7D44DC77 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VPN/Pods-VPN-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -367,7 +367,7 @@
 		};
 		0F0187022D51063000BF45DF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2E46A8CA191C4CCCEA1CE1E /* Pods-VPN.debug.xcconfig */;
+			baseConfigurationReference = 2C73F8061D99FE2DFE15E54D /* Pods-VPN.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -398,7 +398,7 @@
 		};
 		0F0187032D51063000BF45DF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 169CE99698E86539571F2FBA /* Pods-VPN.release.xcconfig */;
+			baseConfigurationReference = 7DC9B6413CB3FB18B03F2A7E /* Pods-VPN.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

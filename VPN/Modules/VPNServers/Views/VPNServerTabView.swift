@@ -9,7 +9,7 @@ struct VPNServerTabView: View {
             ForEach(tabs, id: \.self) { tab in
                 Button(action: { selectedTab = tab }) {
                     VStack(spacing: 4) {
-                        Text(tab)
+                        Text(NSLocalizedString("tab", comment: "tab"))
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(selectedTab == tab ? .white : .gray)
 
