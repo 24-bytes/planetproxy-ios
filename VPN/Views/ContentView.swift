@@ -24,7 +24,7 @@ struct ContentView: View {
                             case .faq:
                                 FAQView()
                             case .support:
-                                SupportView()
+                                SupportView(navigation: navigation)
                             case .rateUs:
                                 RateUsView()
                             case .privacyPolicy:

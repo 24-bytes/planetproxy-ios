@@ -1470,6 +1470,10 @@ Copyright 2022 Google
    limitations under the License.
 
 
+## FreshchatSDK
+
+See https://www.freshworks.com/terms
+
 ## GTMAppAuth
 
 

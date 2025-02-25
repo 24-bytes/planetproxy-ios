@@ -2,6 +2,7 @@ import Firebase
 import FirebaseCore
 import GoogleSignIn
 import UIKit
+import FreshchatSDK
 
 @main
 final class AppDelegate: NSObject, UIApplicationDelegate {
@@ -12,6 +13,17 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             .LaunchOptionsKey: Any]?
     ) -> Bool {
         FirebaseApp.configure()
+        
+        let freshchatConfig = FreshchatConfig(appID: "YOUR-APP-ID", andAppKey: "YOUR-APP-KEY")
+            freshchatConfig.domain = "YOUR-DOMAIN"
+            
+            // Enable or disable features
+            freshchatConfig.gallerySelectionEnabled = true
+            freshchatConfig.cameraCaptureEnabled = true
+            freshchatConfig.teamMemberInfoVisible = true
+            freshchatConfig.showNotificationBanner = true
+
+            Freshchat.sharedInstance().initWith(freshchatConfig)
 
         return true
     }
@@ -42,4 +54,15 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         sceneConfig.delegateClass = SceneDelegate.self
         return sceneConfig
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Freshchat.sharedInstance().setPushRegistrationToken(deviceToken)
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if Freshchat.sharedInstance().isFreshchatNotification(userInfo) {
+            Freshchat.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
+        }
+    }
+
 }

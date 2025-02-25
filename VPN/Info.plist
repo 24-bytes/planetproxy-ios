@@ -22,5 +22,15 @@
 		<string>googlechrome</string>
 		<string>com.googleusercontent.apps.798535883903-72u1vmc7kuef5ntld002voko4e9ru6if</string>
 	</array>
+
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to let you attach images in support chat.</string>
+
+    <key>NSCameraUsageDescription</key>
+    <string>We need access to your camera to allow capturing and sending images in support chat.</string>
+
+    <key>NSUserNotificationUsageDescription</key>
+    <string>Allow notifications to receive support messages and important updates.</string>
+
 </dict>
 </plist>
