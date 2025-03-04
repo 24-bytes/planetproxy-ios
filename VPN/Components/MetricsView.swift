@@ -8,37 +8,54 @@
 import SwiftUI
 
 struct MetricsView: View {
-    var downloadSpeed: Double
-    var uploadSpeed: Double
-
+    @StateObject private var metricsManager = VPNMetricsManager.shared
+    
     var body: some View {
         HStack {
-            VStack {
-                Text("Download")
-                    .font(.system(size: 14))
-                    .foregroundColor(.gray)
+            // Download Section
+            VStack(spacing: 8) {
+                HStack(spacing: 6) {
+                    Text("Download")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.gray)
+                                        
+                    Image("download_arrow") // Placeholder for downward arrow image
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                }
 
-                Text("\(String(format: "%.1f", downloadSpeed)) MB")
-                    .font(.system(size: 18, weight: .bold))
+                Text(metricsManager.formattedDataReceived)
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
             }
+            .frame(maxWidth: .infinity)
 
-            Spacer()
+            // Vertical Divider (Grey Line)
+            Rectangle()
+                .frame(width: 1, height: 40)
+                .foregroundColor(Color.gray.opacity(0.5))
 
-            VStack {
+            // Upload Section
+            VStack(spacing: 8) {
+                HStack(spacing: 6) {
                 Text("Upload")
-                    .font(.system(size: 14))
+                    .font(.system(size: 14, weight: .medium))
                     .foregroundColor(.gray)
+                    
+                    Image("upload_arrow") // Placeholder for upward arrow image
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                }
 
-                Text("\(String(format: "%.1f", uploadSpeed)) MB")
-                    .font(.system(size: 18, weight: .bold))
+                Text(metricsManager.formattedDataSent)
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
             }
+            .frame(maxWidth: .infinity)
         }
-        .padding()
-        .background(Color.black.opacity(0.3))
-        .cornerRadius(12)
-        .shadow(color: Color.gray.opacity(0.2), radius: 5)
+        .padding() // Matched to Figma UI
+        .cornerRadius(16) // More rounded corners
+        .shadow(color: Color.gray.opacity(0.2), radius: 4)
         .padding(.horizontal)
     }
 }

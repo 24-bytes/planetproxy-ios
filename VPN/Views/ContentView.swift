@@ -4,6 +4,7 @@ struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var navigation = NavigationCoordinator()
     @EnvironmentObject var sidebarViewModel: SidebarViewModel
+    @StateObject private var accountInfoViewModel = AccountInfoViewModel()
 
     var body: some View {
         ZStack {
@@ -16,15 +17,8 @@ struct ContentView: View {
                                 LoginView()
                             case .home:
                                 HomeView(navigation: navigation)
-                            case .accountInfo, .profile:
-                                if authViewModel.isAuthenticated {
-                                    ProfileView()
-                                } else {
-                                    LoginView()
-                                        .onAppear {
-                                            navigation.navigateToLogin() // ✅ Redirect to Login
-                                        }
-                                }
+                            case .accountInfo:
+                                AccountInfoView()
                             case .settings:
                                 SettingsView()
                             case .faq:
@@ -34,15 +28,22 @@ struct ContentView: View {
                             case .rateUs:
                                 RateUsView()
                             case .privacyPolicy:
-                                VPNServersView()
+                                PrivacyPolicyView()
+                            case .subscription:
+                                SubscriptionView()
+                            case .servers:
+                                VPNServersView(navigation: navigation)
                             default:
-                                ProfileView()
+                                AccountInfoView()
                             }
                         }
                 }
             }
 
-            SidebarView()
+            SidebarView(
+                userInfoModel: accountInfoViewModel,
+                navigation: navigation
+            )
         }
         .onChange(of: sidebarViewModel.selectedDestination) { _ in
                     if let newRoute = sidebarViewModel.selectedDestination {

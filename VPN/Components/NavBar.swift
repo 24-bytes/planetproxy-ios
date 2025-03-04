@@ -2,6 +2,7 @@ import SwiftUI
 
 struct NavBar: View {
     @EnvironmentObject var sidebarViewModel: SidebarViewModel // ✅ Sidebar ViewModel
+    let navigation: NavigationCoordinator
 
     var body: some View {
         HStack {
@@ -33,12 +34,14 @@ struct NavBar: View {
                     .frame(width: 32, height: 32)
                     .foregroundColor(Color.purple.opacity(0.8)) // Background color for logo
                 
-                Image("Logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 32, height: 32)
-                    .foregroundColor(.white)
-
+                Button(action: { navigation.navigateToSubscription() }) {Image(
+                    "Logo"
+                )
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(.white)
+                }
                 // Small Star Badge
                 Circle()
                     .frame(width: 12, height: 12)

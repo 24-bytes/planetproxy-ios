@@ -1,68 +1,79 @@
-
 import SwiftUI
 
 struct VPNServerListItemView: View {
     let server: VPNServerModel
+    @StateObject private var vpnManager = VPNConnectionManager.shared
+    @State private var displayedLatency: Int
+    @State private var connectionError: String?
+
+    init(server: VPNServerModel) {
+        self.server = server
+        _displayedLatency = State(initialValue: server.latency)
+    }
 
     var body: some View {
         HStack {
-            // Signal Strength Indicator
-            Image(systemName: getSignalStrengthIcon(server.signalStrength))
-                .foregroundColor(getSignalColor(server.signalStrength))
-                .frame(width: 20, height: 20)
-
             // Server Region Name
             Text(server.region)
-                .font(.system(size: 16))
+                .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.white)
 
             Spacer()
 
-            // Latency Information
-            Text("\(server.latency) ms")
-                .font(.system(size: 14))
-                .foregroundColor(.gray)
+            // Signal Strength Indicator
+            Image("signalStrength")
+                .resizable()
+                .renderingMode(.template)
+                .foregroundColor(getSignalColor(server.signalStrength))
+                .frame(width: 20, height: 20)
 
-            // Connect Button
-            Button(action: { connectToServer() }) {
-                Text("Connect")
-                    .font(.system(size: 14))
-                    .foregroundColor(.purple)
-                    .padding(.vertical, 6)
-                    .padding(.horizontal, 12)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.purple, lineWidth: 1)
-                    )
+            // Latency Information
+            Text("\(displayedLatency) ms")
+                .font(.system(size: 14, weight: .ultraLight))
+                .foregroundColor(.gray)
+                .animation(.easeInOut(duration: 0.2), value: displayedLatency)
+
+            // Connect/Selected Status
+            if vpnManager.selectedServer?.id == server.id {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.customPurple)
+                    .font(.system(size: 20))
+            } else {
+                Button(action: { selectServer() }) {
+                    Text("Select")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.customPurple)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.customPurple, lineWidth: 1)
+                        )
+                }
             }
         }
+        .onAppear {
+            startLatencyUpdates()
+        }
         .padding()
-        .background(Color.gray.opacity(0.15))
+        .background(Color.black)
         .cornerRadius(10)
-        .padding(.horizontal, 8)
+        .padding(.horizontal, 6)
     }
 
-    // Determine Signal Strength Icon
-    private func getSignalStrengthIcon(_ strength: Int) -> String {
-        switch strength {
-        case 80...100:
-            return "wifi"
-        case 50..<80:
-            return "wifi.exclamationmark"
-        case 0..<50:
-            return "wifi.slash"
-        default:
-            return "wifi.slash"
+    private func startLatencyUpdates() {
+        Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
+            let newLatency = (server.latency - 5...server.latency + 5).randomElement() ?? server.latency
+            displayedLatency = max(1, newLatency)
         }
     }
 
-    // Determine Signal Strength Color
     private func getSignalColor(_ strength: Int) -> Color {
         switch strength {
         case 80...100:
             return .green
         case 50..<80:
-            return .orange
+            return .yellow
         case 0..<50:
             return .red
         default:
@@ -70,31 +81,7 @@ struct VPNServerListItemView: View {
         }
     }
 
-    // Mock Function to Handle Connection
-    private func connectToServer() {
-        print("Connecting to \(server.serverName) at \(server.ipAddress)...")
-        // TODO: Implement VPN connection logic
+    private func selectServer() {
+        vpnManager.selectServer(server)
     }
-}
-
-#Preview {
-    VPNServerListItemView(
-        server: VPNServerModel(
-            id: 10,
-            serverName: "HOSTINGER_INDIA_2",
-            countryName: "India",
-            purpose: "game",
-            countryFlagUrl: "https://flagcdn.com/w160/in.png",
-            stealth: "95",
-            latency: 20,
-            region: "Mumbai",
-            signalStrength: 100,
-            serversCount: 253,
-            isPremium: false,
-            isDefault: false,
-            isActive: true,
-            countryId: 1,
-            ipAddress: "147.93.110.102"
-        )
-    )
 }
