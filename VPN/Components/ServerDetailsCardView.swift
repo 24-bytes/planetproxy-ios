@@ -6,21 +6,6 @@ struct ServerDetailsCardView: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            ZStack {
-                Button(action: {
-                    navigation.navigateToServers()
-                }) {
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .background(
-                            Circle()
-                                .fill(Color.gray.opacity(0.2))
-                        )
-                }
-                .frame(width: 44, height: 44)
-            }
             
             if let server = vpnManager.selectedServer {
                 // Server Icon
@@ -63,8 +48,26 @@ struct ServerDetailsCardView: View {
                 ProgressView("Loading server")
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
             }
-
+                        
             Spacer()
+            
+            ZStack {
+                Button(action: {
+                    navigation.navigateToServers()
+                }) {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .background(
+                            Circle()
+                                .fill(Color.gray.opacity(0.2))
+                        )
+                }
+                .frame(width: 44, height: 44)
+            }
+            
+
         }
         .padding()
         .background(

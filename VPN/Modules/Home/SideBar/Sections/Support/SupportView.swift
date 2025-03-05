@@ -1,48 +1,55 @@
 import SwiftUI
+import FreshchatSDK
 
 struct SupportView: View {
-    @State private var subject = ""
-    @State private var message = ""
-    @State private var isShowingAlert = false
+    @StateObject private var authViewModel = AuthViewModel()
+    @State private var showFreshchat = false
+    @State private var showLoginScreen = false
+    let navigation: NavigationCoordinator
     
     var body: some View {
-        VStack{
-            ToolbarView(title: "Support")
-            Form {
-                Section(header: Text("Contact Support")) {
-                    TextField("Subject", text: $subject)
-                    TextEditor(text: $message)
-                        .frame(height: 150)
+        VStack(spacing: 20) {
+            Text("Need Help?")
+                .font(.title)
+                .foregroundColor(.white)
+            
+            if authViewModel.user != nil {
+                // ✅ User is logged in, show Freshchat button
+                Button(action: {
+                    showFreshchat = true
+                }) {
+                    Text("Chat with Support")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .cornerRadius(8)
                 }
-                
-                Section {
-                    Button("Submit") {
-                        // TODO: Implement support ticket submission
-                        isShowingAlert = true
-                    }
-                    .disabled(subject.isEmpty || message.isEmpty)
+                .sheet(isPresented: $showFreshchat) {
+                    FreshchatView()
+                        .edgesIgnoringSafeArea(.all)
                 }
-                
-                Section(header: Text("Other Support Options")) {
-                    Link(destination: URL(string: "mailto:support@planetproxy.com")!) {
-                        Label("Email Support", systemImage: "envelope")
-                    }
+            } else {
+                // ❌ User is not logged in, show login prompt
+                VStack(spacing: 10) {
+                    Text("Please log in to contact support.")
+                        .foregroundColor(.gray)
                     
-                    Link(destination: URL(string: "https://planetproxy.com/support")!) {
-                        Label("Knowledge Base", systemImage: "book")
-                    }
-                    
-                    Link(destination: URL(string: "https://planetproxy.com/community")!) {
-                        Label("Community Forum", systemImage: "person.3")
+                    Button(action:{ navigation.navigateToLogin() }) {
+                        Text("Log In")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .cornerRadius(8)
                     }
                 }
-            }
-            .alert("Support Ticket Submitted", isPresented: $isShowingAlert) {
-                Button("OK", role: .cancel) { }
-            } message: {
-                Text("We'll get back to you as soon as possible.")
             }
         }
-            .navigationBarBackButtonHidden(true)
+        .padding()
+        .background(Color.black.edgesIgnoringSafeArea(.all))
     }
+
 }
