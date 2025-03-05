@@ -14,7 +14,7 @@ struct HomeView: View {
                 // Navbar Pinned to Top
                 NavBar(navigation: navigation)
                     .frame(maxWidth: .infinity, alignment: .top)
-                    .padding(.bottom, 10)
+                    .padding(.vertical, 10)
 
                 VStack(spacing: 20) {
                     if vpnManager.connectionStatus == .connected {
@@ -35,8 +35,7 @@ struct HomeView: View {
                         WelcomeSubscription()
                         
                         // VPN Connect Button
-                        VPNConnectButton()
-                            .padding(.vertical, 30)
+                        VPNConnectButton(size: 145)
                         
                         // Server Details Card
                         ServerDetailsCardView(navigation: navigation)
@@ -70,6 +69,7 @@ struct HomeView: View {
                 }
                     .padding(.bottom, 10)
             }
+            .padding(.horizontal, 15)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             
             VStack {

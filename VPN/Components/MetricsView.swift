@@ -56,6 +56,5 @@ struct MetricsView: View {
         .padding() // Matched to Figma UI
         .cornerRadius(16) // More rounded corners
         .shadow(color: Color.gray.opacity(0.2), radius: 4)
-        .padding(.horizontal)
     }
 }

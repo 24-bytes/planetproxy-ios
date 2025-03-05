@@ -3,6 +3,10 @@ import SwiftUI
 struct VPNConnectButton: View {
     @StateObject private var vpnManager = VPNConnectionManager.shared
     @State private var showNoServerAlert = false
+    @State private var isAnimatingGlow = false
+    @State private var isClicked = false
+    
+    let size: CGFloat // ✅ Main input parameter for scaling
     
     var body: some View {
         ZStack {
@@ -13,34 +17,40 @@ struct VPNConnectButton: View {
                     Color.black.opacity(0.8)
                 ]),
                 center: .center,
-                startRadius: 10,
-                endRadius: 200 // ✅ Soft spread for glow
+                startRadius: size * 0.05,
+                endRadius: size * 1.2
             )
             .ignoresSafeArea()
 
-            // ✅ Outer Glow Layer
-            RoundedRectangle(cornerRadius: 45)
+            // ✅ Outer Glow Layer (Pulsing Animation)
+            RoundedRectangle(cornerRadius: size * 0.2)
                 .fill((vpnManager.connectionStatus == .connected ? Color.green : Color.customPurple).opacity(0.2))
-                .frame(width: 220, height: 220)
-                .blur(radius: 40) // ✅ Smooth Glow Effect
+                .frame(width: size * 1.2, height: size * 1.2)
+                .blur(radius: size * 0.2)
+                .scaleEffect(isAnimatingGlow ? 1.8 : 1.0)
+                .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: isAnimatingGlow)
             
-            // ✅ Inner Green Button
-            RoundedRectangle(cornerRadius: 35)
-                .fill(vpnManager.connectionStatus == .connected ? Color.connectButton : Color.customPurple) // ✅ Light green exact shade
-                .frame(width: 150, height: 150)
+            // ✅ Inner Button (Click Animation)
+            RoundedRectangle(cornerRadius: size * 0.15)
+                .fill(vpnManager.connectionStatus == .connected ? Color.connectButton : Color.customPurple)
+                .frame(width: size, height: size)
                 .overlay(
-                    Image("thunderbolt") // ✅ Thunderbolt Icon
+                    Image("thunderbolt")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(.black) // ✅ Icon in center
+                        .frame(width: size * 0.4, height: size * 0.4)
+                        .foregroundColor(.black)
                 )
+                .scaleEffect(isClicked ? 0.9 : 1.0) // ✅ Click Shrink Effect
             
             // ✅ Outer Border
-            RoundedRectangle(cornerRadius: 35)
-                .stroke(Color.white, lineWidth: 4)
-                .frame(width: 140, height: 140)
-                .shadow(color: (vpnManager.connectionStatus == .connected ? Color.green : Color.customPurple).opacity(0.7), radius: 20) // ✅ Soft Shadow Effect
+            RoundedRectangle(cornerRadius: size * 0.15)
+                .stroke(Color.white, lineWidth: size * 0.03)
+                .frame(width: size * 0.9, height: size * 0.9)
+                .shadow(color: (vpnManager.connectionStatus == .connected ? Color.green : Color.customPurple).opacity(0.7), radius: size * 0.15)
+        }
+        .onAppear {
+            isAnimatingGlow = true
         }
         .onTapGesture {
             handleTap()
@@ -53,6 +63,15 @@ struct VPNConnectButton: View {
     }
     
     private func handleTap() {
+        withAnimation(.easeOut(duration: 0.1)) {
+            isClicked = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
+                isClicked = false
+            }
+        }
+        
         withAnimation(.easeInOut(duration: 0.3)) {
             if vpnManager.connectionStatus == .connected {
                 vpnManager.disconnect()
@@ -63,16 +82,6 @@ struct VPNConnectButton: View {
                     vpnManager.connectToSelectedServer()
                 }
             }
-        }
-    }
-}
-
-// ✅ Live Preview
-struct VPNConnectButton_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
-            VPNConnectButton()
         }
     }
 }
