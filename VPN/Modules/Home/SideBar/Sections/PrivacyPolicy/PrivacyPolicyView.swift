@@ -6,15 +6,8 @@ struct PrivacyPolicyView: View {
         ToolbarView(title: "Privacy Policy")
            
         WebView(url: URL(string: "https://planet-proxy.com/privacypolicy")!)
-            .edgesIgnoringSafeArea(.all) // ✅ Fullscreen scaling
-            .navigationTitle("Privacy Policy")
-            .navigationBarTitleDisplayMode(.inline)
+            .edgesIgnoringSafeArea(.all)
             .navigationBarBackButtonHidden(true)
     }
 
-}
-
-// ✅ Preview
-#Preview {
-    PrivacyPolicyView()
 }

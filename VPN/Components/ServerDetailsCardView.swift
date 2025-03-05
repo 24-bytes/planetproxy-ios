@@ -76,7 +76,6 @@ struct ServerDetailsCardView: View {
                 )
                 .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 0, y: 3)
         )
-        .padding(.horizontal)
     }
     
     private func getServerIcon(for purpose: String) -> String {

@@ -38,6 +38,5 @@ struct TimerView: View {
         .background(Color.cardBg)
         .cornerRadius(20)
         .shadow(color: Color.gray.opacity(0.2), radius: 6)
-        .padding(.horizontal)
     }
 }

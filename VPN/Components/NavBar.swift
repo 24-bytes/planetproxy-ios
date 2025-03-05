@@ -27,7 +27,26 @@ struct NavBar: View {
                 .foregroundColor(.white)
 
             Spacer()
-
+            
+            ZStack {
+                RoundedRectangle(cornerRadius: 6)
+                    .frame(width: 32, height: 32)
+                    .foregroundColor(.black)
+                
+                Button(action: { navigation.path.append(Route.support) }) {
+                    Image(systemName: "message")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.white)
+                }
+                // Small Star Badge
+                Circle()
+                    .frame(width: 8, height: 8)
+                    .foregroundColor(.red)
+                    .offset(x: 10, y: -8)
+            }
+            
             // Premium Logo with Badge
             ZStack {
                 RoundedRectangle(cornerRadius: 6)
@@ -56,6 +75,5 @@ struct NavBar: View {
                     .offset(x: 10, y: 10)
             }
         }
-        .padding(.horizontal)
     }
 }

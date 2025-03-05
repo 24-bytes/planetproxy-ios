@@ -34,7 +34,7 @@ struct ContentView: View {
                             case .servers:
                                 VPNServersView(navigation: navigation)
                             default:
-                                AccountInfoView()
+                                HomeView(navigation: navigation)
                             }
                         }
                 }
@@ -45,13 +45,6 @@ struct ContentView: View {
                 navigation: navigation
             )
         }
-        .onChange(of: sidebarViewModel.selectedDestination) { _ in
-                    if let newRoute = sidebarViewModel.selectedDestination {
-                        let mappedRoute = sidebarViewModel.mapDestinationToRoute(newRoute)
-                        navigation.path.append(mappedRoute)
-                    }
-                }
-        
         .onChange(of: authViewModel.isAuthenticated) { isAuthenticated in
             if isAuthenticated {
                 navigation.navigateToHome() // ✅ Redirect to Home after login

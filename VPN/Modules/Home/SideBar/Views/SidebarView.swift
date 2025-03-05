@@ -20,13 +20,13 @@ struct SidebarView: View {
                         Image(systemName: "xmark")
                             .foregroundColor(.white)
                             .font(.title2)
-                            .padding(.top, 40)
+                            .padding(.top, 60)
                             .padding(.leading, 16)
                     }
 
                     // Welcome Text
                     let userName = userInfoModel.accountInfo?.name ?? ""
-                    Text("Welcome back \(userName)")
+                    Text(userName.isEmpty ? "Please log in :)" : "Welcome back \(userName)")
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding(.horizontal, 16)

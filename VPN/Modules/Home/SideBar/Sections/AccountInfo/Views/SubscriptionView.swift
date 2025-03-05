@@ -11,28 +11,30 @@ struct SubscriptionView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack() {
             ToolbarView(title: "Subscription")
 
             // ✅ Header Text
-            Text("Current plan")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundColor(.white)
-
-            Text("Your next payment is scheduled for November 8, 2024.\nStay subscribed to continue enjoying premium features.")
-                .font(.system(size: 14))
-                .foregroundColor(.gray)
-                .lineSpacing(4)
-
-            // ✅ Plan Card
-            planCard
-
-            Spacer()
-
-            // ✅ Buttons
-           // actionButtons
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Current plan")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(.white)
+                
+                Text("Your next payment is scheduled for November 8, 2024.\nStay subscribed to continue enjoying premium features.")
+                    .font(.system(size: 14))
+                    .foregroundColor(.gray)
+                    .lineSpacing(4)
+                
+                // ✅ Plan Card
+                planCard
+                
+                Spacer()
+                
+                // ✅ Buttons
+                // actionButtons
+            }
+            .padding()
         }.navigationBarBackButtonHidden(true)
-        .padding()
         .background(Color.black.edgesIgnoringSafeArea(.all)) // ✅ Background color
     }
 
