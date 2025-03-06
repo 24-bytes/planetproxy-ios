@@ -71,12 +71,82 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             }
         }
         
-        override func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
-            // Add code here to handle the message.
-            if let handler = completionHandler {
-                handler(messageData)
+    override func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
+        guard let completionHandler = completionHandler else { return }
+        
+        // Ensure tunnel is active and interface name is available
+        guard let interfaceName = adapter.interfaceName else {
+            print("❌ Error: WireGuard interface is not available")
+            completionHandler(nil)
+            return
+        }
+        
+        // Fetch network traffic stats
+        getTunnelTraffic(interface: interfaceName) { txBytes, rxBytes in
+            guard let txBytes = txBytes, let rxBytes = rxBytes else {
+                print("❌ Error: Unable to retrieve tunnel traffic")
+                completionHandler(nil)
+                return
+            }
+
+            // Convert UInt64 values to Data
+            var response = Data()
+            var tx = txBytes
+            var rx = rxBytes
+            response.append(Data(bytes: &tx, count: MemoryLayout<UInt64>.size))
+            response.append(Data(bytes: &rx, count: MemoryLayout<UInt64>.size))
+
+            // Send stats back to VPNMetricsManager
+            completionHandler(response)
+        }
+    }
+    
+    private func getTunnelTraffic(interface: String, completion: @escaping (UInt64?, UInt64?) -> Void) {
+        var txBytes: UInt64 = 0
+        var rxBytes: UInt64 = 0
+
+        let stats = getifaddrsWrapper()
+        for stat in stats {
+            if stat.name == interface {
+                txBytes += stat.txBytes
+                rxBytes += stat.rxBytes
             }
         }
+
+        completion(txBytes, rxBytes)
+    }
+    
+    struct InterfaceStats {
+        let name: String
+        let txBytes: UInt64
+        let rxBytes: UInt64
+    }
+
+    func getifaddrsWrapper() -> [InterfaceStats] {
+        var results: [InterfaceStats] = []
+        var ifaddr: UnsafeMutablePointer<ifaddrs>? = nil
+
+        if getifaddrs(&ifaddr) == 0 {
+            var ptr = ifaddr
+            while ptr != nil {
+                if let name = ptr?.pointee.ifa_name {
+                    let interface = String(cString: name)
+                    let data = ptr?.pointee.ifa_data?.assumingMemoryBound(to: if_data.self)
+
+                    let txBytes = UInt64(data?.pointee.ifi_obytes ?? 0)
+                    let rxBytes = UInt64(data?.pointee.ifi_ibytes ?? 0)
+
+                    results.append(InterfaceStats(name: interface, txBytes: txBytes, rxBytes: rxBytes))
+                }
+                ptr = ptr?.pointee.ifa_next
+            }
+            freeifaddrs(ifaddr)
+        }
+
+        return results
+    }
+
+
         
         override func sleep(completionHandler: @escaping () -> Void) {
             // Add code here to get ready to sleep.

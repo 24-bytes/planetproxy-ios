@@ -2,12 +2,14 @@ import SwiftUI
 
 struct VPNServerListItemView: View {
     let server: VPNServerModel
+    let navigation: NavigationCoordinator
     @StateObject private var vpnManager = VPNConnectionManager.shared
     @State private var displayedLatency: Int
     @State private var connectionError: String?
 
-    init(server: VPNServerModel) {
+    init(server: VPNServerModel, navigation: NavigationCoordinator) {
         self.server = server
+        self.navigation = navigation
         _displayedLatency = State(initialValue: server.latency)
     }
 
@@ -39,8 +41,8 @@ struct VPNServerListItemView: View {
                     .foregroundColor(.customPurple)
                     .font(.system(size: 20))
             } else {
-                Button(action: { selectServer() }) {
-                    Text("Select")
+                Button(action: { selectServer(); navigation.navigateToHome() }) {
+                    Text("Connect")
                         .font(.system(size: 12, weight: .bold))
                         .foregroundColor(.customPurple)
                         .padding(.vertical, 4)

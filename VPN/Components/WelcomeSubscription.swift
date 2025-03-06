@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct WelcomeSubscription: View {
+    let navigation: NavigationCoordinator
+    
     var body: some View {
         ZStack{
             VStack(alignment: .leading, spacing: 8) {
@@ -17,7 +19,7 @@ struct WelcomeSubscription: View {
                 
                 // ✅ Join Now Button
                 Button(action: {
-                    print("Join Now Clicked") // ✅ Implement navigation action
+                    navigation.navigateToLogin()
                 }) {
                     Text("Join Now")
                         .font(.system(size: 14, weight: .bold))

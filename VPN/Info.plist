@@ -22,5 +22,10 @@
 		<string>googlechrome</string>
 		<string>com.googleusercontent.apps.798535883903-72u1vmc7kuef5ntld002voko4e9ru6if</string>
 	</array>
+	<!-- Freshchat Media Access Permissions -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To enable access to Photo Library for Freshchat.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To take images from the Camera for Freshchat.</string>
 </dict>
 </plist>

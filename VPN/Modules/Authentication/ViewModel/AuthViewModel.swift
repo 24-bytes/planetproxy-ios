@@ -168,24 +168,27 @@ class AuthViewModel: ObservableObject {
             errorMessage = nil
 
             do {
-                let firebaseToken = try await signInWithGoogleUseCase.execute(
-                    rememberMe: rememberMe)
-                authRepository.storeAuthToken(
-                    firebaseToken, rememberMe: rememberMe, email: nil,
-                    password: nil)
+                // ✅ Force clear old token before sign-in
+                UserDefaults.standard.removeObject(forKey: "authToken")
 
-                self.isAuthenticated = true
-                DispatchQueue.main.async {
+                let firebaseToken = try await signInWithGoogleUseCase.execute(rememberMe: rememberMe)
+
+                await MainActor.run {
+                    authRepository.storeAuthToken(firebaseToken, rememberMe: rememberMe, email: nil, password: nil)
+                    self.isAuthenticated = true
                     NavigationCoordinator.shared.navigateToHome()
                 }
             } catch {
-                self.errorMessage = error.localizedDescription
-                clearErrorMessageAfterDelay()
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    clearErrorMessageAfterDelay()
+                }
             }
 
             DispatchQueue.main.async { self.loadingButtonType = nil }
         }
     }
+
 
     func resetPassword(email: String) {
         Task {

@@ -19,7 +19,7 @@ struct HomeView: View {
                 VStack(spacing: 20) {
                     if vpnManager.connectionStatus == .connected {
                         SubscriptionExpiredView()
-                            .padding(.top, 30)
+                            .padding(.top, 15)
                         MetricsView()
                             .padding(.bottom, 30)
                         if let server = vpnManager.selectedServer {
@@ -31,9 +31,8 @@ struct HomeView: View {
                             .padding(.bottom, 90)
                         }
                     } else {
-                        Spacer()
-                        WelcomeSubscription()
-                        
+                        WelcomeSubscription(navigation: navigation)
+                            .padding(.top, 15)
                         // VPN Connect Button
                         VPNConnectButton(size: 145)
                         

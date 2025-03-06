@@ -36,11 +36,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 
         print(url)
 
-        if GIDSignIn.sharedInstance.handle(url) {
-            return true
-        }
+        var handled = GIDSignIn.sharedInstance.handle(url)
+        return handled
 
-        return false
     }
 
     func application(

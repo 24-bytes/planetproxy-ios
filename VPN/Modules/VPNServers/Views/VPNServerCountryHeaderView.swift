@@ -2,6 +2,7 @@ import SwiftUI
 
 struct VPNServerCountryHeaderView: View {
     let country: VPNServerCountryModel
+    let navigation: NavigationCoordinator
     @State private var isExpanded = false
 
     var body: some View {
@@ -48,7 +49,7 @@ struct VPNServerCountryHeaderView: View {
             if isExpanded {
                 VStack(spacing: 5) {
                     ForEach(country.servers) { server in
-                        VPNServerListItemView(server: server)
+                        VPNServerListItemView(server: server, navigation: navigation)
                             .cornerRadius(10)
                             .padding(.bottom, 5)
                             .padding(.horizontal, 8)
