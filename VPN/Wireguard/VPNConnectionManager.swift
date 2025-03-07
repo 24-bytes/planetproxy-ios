@@ -107,7 +107,7 @@ class VPNConnectionManager: ObservableObject {
             }
             self?.getSavedConfiguration { manager in
                         guard let session = manager?.connection as? NETunnelProviderSession else { return }
-                        VPNMetricsManager.shared.startMonitoring(session: session) // ✅ Start tracking metrics
+                VPNMetricsManager.shared.startMonitoring(session: session) // ✅ Start tracking metrics
                     }
         }
     }

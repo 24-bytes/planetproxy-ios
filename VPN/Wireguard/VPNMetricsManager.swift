@@ -20,31 +20,68 @@ class VPNMetricsManager: ObservableObject {
     }
     
     func startMonitoring(session: NETunnelProviderSession) {
-        stopMonitoring() // Ensure no duplicate timers
+        timer?.invalidate()
+        timer = nil
+        
         tunnelSession = session
         
+        // Set initial connection time if not already set
         if connectionStartTime == nil {
-            connectionStartTime = Date()
-            saveConnectionStartTime()
+            if let savedMetrics = UserDefaults.standard.dictionary(forKey: "VPNMetrics"),
+               let savedStartTime = savedMetrics["connectionStartTime"] as? Date {
+                connectionStartTime = savedStartTime
+                connectionDuration = Date().timeIntervalSince(savedStartTime)
+            } else {
+                connectionStartTime = Date()
+            }
         }
         
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.fetchUsageMetrics()
             self?.updateConnectionDuration()
         }
+        
+        // Initial update
+        fetchUsageMetrics()
+        updateConnectionDuration()
     }
-    
-    func resumeMonitoring() {
-        if timer == nil, let session = tunnelSession {
-            startMonitoring(session: session)
-        }
-    }
-    
-    func refreshMetrics() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.fetchUsageMetrics()
-            self?.updateConnectionDuration()
-            self?.resumeMonitoring()
+
+    private func loadSavedMetrics() {
+        NETunnelProviderManager.loadAllFromPreferences { [weak self] managers, error in
+            guard let self = self,
+                  let manager = managers?.first else {
+                return
+            }
+            
+            self.tunnelSession = manager.connection as? NETunnelProviderSession
+            
+            if manager.connection.status == .connected {
+                if let savedMetrics = UserDefaults.standard.dictionary(forKey: "VPNMetrics") {
+                    DispatchQueue.main.async {
+                        self.dataSent = savedMetrics["dataSent"] as? UInt64 ?? 0
+                        self.dataReceived = savedMetrics["dataReceived"] as? UInt64 ?? 0
+                        if let savedStartTime = savedMetrics["connectionStartTime"] as? Date {
+                            self.connectionStartTime = savedStartTime
+                            self.connectionDuration = Date().timeIntervalSince(savedStartTime)
+                        }
+                        
+                        if let session = self.tunnelSession {
+                            self.startMonitoring(session: session)
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.connectionStartTime = Date()
+                        if let session = self.tunnelSession {
+                            self.startMonitoring(session: session)
+                        }
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.resetMetrics()
+                }
+            }
         }
     }
     
@@ -54,7 +91,33 @@ class VPNMetricsManager: ObservableObject {
         tunnelSession = nil
         previousTxBytes = 0
         previousRxBytes = 0
+        connectionStartTime = nil
+        connectionDuration = 0
+        resetMetrics()
+        UserDefaults.standard.removeObject(forKey: "VPNMetrics")
+    }
+    
+    func resetMetrics() {
+        dataSent = 0
+        dataReceived = 0
+        connectionDuration = 0
+        previousTxBytes = 0
+        previousRxBytes = 0
         saveMetrics()
+    }
+
+    func refreshMetrics() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.fetchUsageMetrics()
+            self?.updateConnectionDuration()
+            self?.resumeMonitoring()
+        }
+    }
+    
+    func resumeMonitoring() {
+        if timer == nil, let session = tunnelSession {
+            startMonitoring(session: session)
+        }
     }
     
     private func fetchUsageMetrics() {
@@ -66,11 +129,9 @@ class VPNMetricsManager: ObservableObject {
         do {
             try session.sendProviderMessage(Data(), responseHandler: { [weak self] response in
                 guard let self = self else { return }
-                
-                print("📊 Received response size: \(response?.count ?? 0) bytes")
-                
+
                 guard let response = response, response.count >= MemoryLayout<UInt64>.size * 2 else {
-                    print("❌ Error: Invalid response from provider message. Response: \(String(describing: response))")
+                    print("❌ Error: Invalid response from provider message.")
                     return
                 }
                 
@@ -95,7 +156,7 @@ class VPNMetricsManager: ObservableObject {
     
     private func updateConnectionDuration() {
         if let startTime = connectionStartTime {
-            connectionDuration = Date().timeIntervalSince(startTime)
+            connectionDuration = Date().timeIntervalSince(startTime) // ✅ Only counts while VPN is connected
             saveMetrics()
         }
     }
@@ -108,34 +169,6 @@ class VPNMetricsManager: ObservableObject {
             "connectionStartTime": connectionStartTime ?? Date()
         ]
         UserDefaults.standard.set(metrics, forKey: "VPNMetrics")
-    }
-    
-    private func loadSavedMetrics() {
-        if let savedMetrics = UserDefaults.standard.dictionary(forKey: "VPNMetrics") {
-            dataSent = savedMetrics["dataSent"] as? UInt64 ?? 0
-            dataReceived = savedMetrics["dataReceived"] as? UInt64 ?? 0
-            connectionDuration = savedMetrics["connectionDuration"] as? TimeInterval ?? 0
-            connectionStartTime = savedMetrics["connectionStartTime"] as? Date ?? Date()
-        }
-
-        // Load VPN session and check connection status
-        NETunnelProviderManager.loadAllFromPreferences { managers, error in
-            guard let manager = managers?.first else {
-                print("❌ No VPN configurations found")
-                return
-            }
-            self.tunnelSession = manager.connection as? NETunnelProviderSession
-            
-            if manager.connection.status == .connected {
-                print("✅ VPN is still connected, resuming metrics tracking")
-                self.resumeMonitoring()
-            }
-        }
-    }
-
-    
-    private func saveConnectionStartTime() {
-        UserDefaults.standard.set(connectionStartTime, forKey: "connectionStartTime")
     }
     
     var formattedDataSent: String {
@@ -152,34 +185,4 @@ class VPNMetricsManager: ObservableObject {
         let seconds = Int(connectionDuration) % 60
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
-    
-    private func setupVPNStatusObserver() {
-        NotificationCenter.default.addObserver(
-            forName: .NEVPNStatusDidChange,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.handleVPNStatusChange()
-            }
-        }
-    }
-
-    private func handleVPNStatusChange() {
-        NETunnelProviderManager.loadAllFromPreferences { managers, error in
-            guard let manager = managers?.first else { return }
-            self.tunnelSession = manager.connection as? NETunnelProviderSession
-            
-            if manager.connection.status == .connected {
-                print("🔄 VPN Reconnected: Restarting Metrics Monitoring")
-                self.startMonitoring(session: self.tunnelSession!)
-            } else {
-                print("🚫 VPN Disconnected: Stopping Metrics Monitoring")
-                self.stopMonitoring()
-            }
-        }
-    }
-
 }
-
-
