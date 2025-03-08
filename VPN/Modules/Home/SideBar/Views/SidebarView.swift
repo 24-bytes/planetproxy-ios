@@ -12,32 +12,31 @@ struct SidebarView: View {
                     .edgesIgnoringSafeArea(.all)
                     .onTapGesture { sidebarViewModel.isSidebarOpen = false }
             }
-
+            
             HStack {
-                VStack(alignment: .leading, spacing: 16) {
-                    // Close Button (Moved Down)
-                    Button(action: { sidebarViewModel.isSidebarOpen = false }) {
-                        Image(systemName: "xmark")
+                VStack(alignment: .leading, spacing: 6) {
+                   
+                    VStack(alignment: .leading, spacing: 16) {
+                        // Close Button (Moved Down)
+                        Button(action: { sidebarViewModel.isSidebarOpen = false }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.white)
+                                .font(.title2)
+                                .padding(.top, 60)
+                        }
+                        
+                        // Welcome Text
+                        let userName = userInfoModel.accountInfo?.name ?? ""
+                        Text(userName.isEmpty ? "Please log in :)" : "Welcome back \(userName)")
+                            .font(.title3)
                             .foregroundColor(.white)
-                            .font(.title2)
-                            .padding(.top, 60)
-                            .padding(.leading, 16)
-                    }
-
-                    // Welcome Text
-                    let userName = userInfoModel.accountInfo?.name ?? ""
-                    Text(userName.isEmpty ? "Please log in :)" : "Welcome back \(userName)")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 16)
-
+                    }.padding(.leading)
                     // Sidebar Menu Items
                     ForEach(sidebarViewModel.menuItems) { item in
                         SidebarItemView(
                             item: item, viewModel: sidebarViewModel,
                             navigation: navigation
                         )
-                        .padding(.leading, 16)
                     }
 
                     Spacer()

@@ -105,6 +105,10 @@ class VPNConnectionManager: ObservableObject {
             if let error = error {
                 self?.updateStatus(.error(error))
             }
+            self?.getSavedConfiguration { manager in
+                        guard let session = manager?.connection as? NETunnelProviderSession else { return }
+                VPNMetricsManager.shared.startMonitoring(session: session) // ✅ Start tracking metrics
+                    }
         }
     }
     
@@ -116,6 +120,7 @@ class VPNConnectionManager: ObservableObject {
         }
         
         session.stopTunnel()
+        VPNMetricsManager.shared.stopMonitoring() // ✅ Stop tracking metrics
     }
     
     /// Get saved tunnel configuration

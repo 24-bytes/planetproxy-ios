@@ -19,14 +19,13 @@ struct NavBar: View {
                     .foregroundColor(.white)
             }
 
-            Spacer()
 
             // App Title
             Text("Planet Proxy")
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
-
-            Spacer()
+                .frame(maxWidth: .infinity, alignment: .center)
+            
             
             ZStack {
                 RoundedRectangle(cornerRadius: 6)

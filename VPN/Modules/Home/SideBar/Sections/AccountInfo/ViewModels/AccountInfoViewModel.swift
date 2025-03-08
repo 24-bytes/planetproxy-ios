@@ -1,4 +1,5 @@
 import SwiftUI
+import FreshchatSDK
 
 class AccountInfoViewModel: ObservableObject {
     @Published var accountInfo: AccountInfoModel?
@@ -19,6 +20,12 @@ class AccountInfoViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.accountInfo = userData
                     self.isLoading = false
+                    
+                    // ✅ Set Freshchat User Data
+                        let freshchatUser = FreshchatUser.sharedInstance()
+                    freshchatUser.firstName = userData.name
+                        freshchatUser.email = userData.email
+                        Freshchat.sharedInstance().setUser(freshchatUser)
                 }
             } catch {
                 DispatchQueue.main.async {
