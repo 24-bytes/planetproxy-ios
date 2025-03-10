@@ -26,7 +26,7 @@ struct SidebarView: View {
                         }
                         
                         // Welcome Text
-                        let userName = userInfoModel.accountInfo?.name ?? ""
+                        let userName = userInfoModel.accountInfo?.displayName ?? ""
                         Text(userName.isEmpty ? "Please log in :)" : "Welcome back \(userName)")
                             .font(.title3)
                             .foregroundColor(.white)

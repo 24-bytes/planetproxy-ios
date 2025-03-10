@@ -104,6 +104,7 @@ class AuthViewModel: ObservableObject {
             try signOutUseCase.execute()
             rememberedEmail = ""
             rememberedPassword = ""
+            
 
             self.isAuthenticated = false
             loadRememberedCredentials()

@@ -13,11 +13,14 @@ struct ProfileView: View {
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(.gray)
                     
-                    profileImage(urlString: user.profileUrl)
+                    profileImage(urlString: user.profilePictureURL)
                 }
             }
             // ✅ Input Fields (Name, Email, Country, Timezone)
-            inputField(title: "Name*", text: accountInfo?.name ?? "Loading...")
+            inputField(
+                title: "Name*",
+                text: accountInfo?.displayName ?? "Loading..."
+            )
             inputField(title: "Email*", text: accountInfo?.email ?? "Loading...", isEmail: true)
             inputField(title: "Subscription Status", text: "Active")
             Spacer()

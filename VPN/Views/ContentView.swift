@@ -24,7 +24,8 @@ struct ContentView: View {
                             case .faq:
                                 FAQView()
                             case .support:
-                                SupportView(navigation: navigation)
+                                FreshchatView()
+                                    .edgesIgnoringSafeArea(.all)
                             case .rateUs:
                                 RateUsView()
                             case .privacyPolicy:

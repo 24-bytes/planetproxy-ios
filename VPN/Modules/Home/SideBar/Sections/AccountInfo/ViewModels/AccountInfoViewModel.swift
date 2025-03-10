@@ -14,7 +14,9 @@ class AccountInfoViewModel: ObservableObject {
 
     func fetchAccountData() {
         Task {
-            isLoading = true
+            DispatchQueue.main.async {
+                self.isLoading = true
+            }
             do {
                 let userData = try await fetchAccountInfoUseCase.execute()
                 DispatchQueue.main.async {
@@ -22,10 +24,10 @@ class AccountInfoViewModel: ObservableObject {
                     self.isLoading = false
                     
                     // ✅ Set Freshchat User Data
-                        let freshchatUser = FreshchatUser.sharedInstance()
-                    freshchatUser.firstName = userData.name
-                        freshchatUser.email = userData.email
-                        Freshchat.sharedInstance().setUser(freshchatUser)
+                    let freshchatUser = FreshchatUser.sharedInstance()
+                    freshchatUser.firstName = userData.displayName
+                    freshchatUser.email = userData.email
+                    Freshchat.sharedInstance().setUser(freshchatUser)
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -35,4 +37,5 @@ class AccountInfoViewModel: ObservableObject {
             }
         }
     }
+
 }
