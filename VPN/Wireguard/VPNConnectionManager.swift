@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import NetworkExtension
 import Combine
 
@@ -68,8 +69,15 @@ class VPNConnectionManager: ObservableObject {
     private var tunnelManager: NETunnelProviderManager?
     private var cancellables = Set<AnyCancellable>()
     private let wireGuardHandler = WireGuardHandler.shared
+    private var sessionId: Int?
+    private var GlobalpeerId: Int?
     
-    private init() {
+    private var isSessionStarting = false  // Prevents multiple session starts
+    private let vpnRemoteService: VpnRemoteServiceProtocol
+    
+    
+    private init(vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()) {
+        self.vpnRemoteService = vpnRemoteService
         setupStatusObserver()
         loadSavedConfiguration()
         loadSelectedServer()
@@ -164,37 +172,38 @@ class VPNConnectionManager: ObservableObject {
     }
     
     private func setupStatusObserver() {
-        // Remove existing observer if any
         if let observer = statusObserver {
             NotificationCenter.default.removeObserver(observer)
         }
-        
-        // Add new observer
+
         statusObserver = NotificationCenter.default.addObserver(
             forName: .NEVPNStatusDidChange,
             object: nil,
             queue: .main
         ) { [weak self] notification in
             guard let connection = notification.object as? NETunnelProviderSession else { return }
-            
-            switch connection.status {
-            case .invalid:
-                self?.updateStatus(.invalid)
-            case .disconnecting:
-                self?.updateStatus(.disconnecting)
-            case .disconnected:
-                self?.updateStatus(.disconnected)
-            case .connecting:
-                self?.updateStatus(.connecting)
-            case .connected:
-                self?.updateStatus(.connected)
-            case .reasserting:
-                self?.updateStatus(.connecting)
-            @unknown default:
-                self?.updateStatus(.invalid)
-            }
+
+                switch connection.status {
+                case .invalid:
+                    self?.updateStatus(.invalid)
+                case .disconnecting:
+                    self?.updateStatus(.disconnecting)
+                case .disconnected:
+                    self?.updateStatus(.disconnected)
+                    self?.endVpnSession()
+                case .connecting:
+                    self?.updateStatus(.connecting)
+                case .connected:
+                    self?.updateStatus(.connected)
+                    self?.startVpnSession()
+                case .reasserting:
+                    self?.updateStatus(.connecting)
+                @unknown default:
+                    self?.updateStatus(.invalid)
+                }
         }
     }
+
     
     private func loadSavedConfiguration() {
         getSavedConfiguration { [weak self] manager in
@@ -229,6 +238,12 @@ class VPNConnectionManager: ObservableObject {
             // Update last error if status contains error
             if case .error(let error) = newStatus {
                 self.lastError = error
+            }
+            
+            if newStatus == .connected {
+                if let topViewController = UIApplication.shared.windows.first?.rootViewController {
+                    AdsManager.shared.showAd(from: topViewController)
+                }
             }
         }
     }
@@ -274,4 +289,68 @@ extension VPNConnectionManager {
         }
         return false
     }
+    
+    /// Start VPN session when connected
+
+    private func startVpnSession() {
+        guard let server = selectedServer else { return }
+        
+        // Prevent duplicate API calls
+        guard !isSessionStarting else {
+            print("⚠️ VPN session is already starting, skipping duplicate request.")
+            return
+        }
+        
+        // Check if a session already exists
+        if sessionId != nil {
+            print("✅ VPN session already active with sessionId: \(sessionId!)")
+            return
+        }
+        
+        isSessionStarting = true
+        
+        Task {
+            do {
+                guard let peerId = WireGuardHandler.shared.peerId else {
+                    isSessionStarting = false
+                    throw APIError.requestFailed("Peer ID not available")
+                }
+
+                let sessionResult = try await vpnRemoteService.startVpnSession(request: StartSessionRequest(peerId: peerId))
+                
+                GlobalpeerId = peerId
+                sessionId = sessionResult.sessionId
+                print("✅ VPN Session started with Peer ID: \(peerId) and Session ID: \(sessionId ?? -1)")
+
+            } catch {
+                print("❌ Failed to start VPN session: \(error.localizedDescription)")
+            }
+            
+            isSessionStarting = false
+        }
+        ReviewManager.shared.requestReviewIfNeeded()
+
+    }
+
+    private func endVpnSession() {
+        guard let sessionId = sessionId, let peerId = GlobalpeerId else {
+            print("⚠️ No active session to end.")
+            return
+        }
+
+        Task {
+            do {
+                try await vpnRemoteService.endVpnSession(request: EndSessionRequest(peerId: peerId, sessionId: sessionId))
+                print("✅ VPN Session ended: sessionId=\(sessionId)")
+
+                // Reset session tracking variables
+                self.sessionId = nil
+                self.GlobalpeerId = nil
+            } catch {
+                print("❌ Failed to end VPN session: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    
 }

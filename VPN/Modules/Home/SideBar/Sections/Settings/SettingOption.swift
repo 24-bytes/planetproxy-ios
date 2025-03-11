@@ -19,5 +19,5 @@ struct SettingOption: Identifiable {
     let description: String
     let category: SettingCategory
     let isToggleable: Bool
-    var isOn: Bool = false
+    var isOn: Bool = true
 }

@@ -30,7 +30,7 @@ struct VPNServersView: View {
                 } else {
                     ScrollView {
                         ForEach(viewModel.filteredServers()) { country in
-                            VPNServerCountryHeaderView(country: country, navigation: navigation)
+                            VPNServerCountryHeaderView(country: country, navigation: navigation, searchQuery: viewModel.searchQuery)
                                 .padding(.bottom, 6)
                         }
                     }
