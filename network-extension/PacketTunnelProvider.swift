@@ -28,6 +28,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
         log("Starting tunnel")
+        
         guard let protocolConfiguration = self.protocolConfiguration as? NETunnelProviderProtocol,
               let providerConfiguration = protocolConfiguration.providerConfiguration,
               let wgQuickConfig = providerConfiguration["wgQuickConfig"] as? String else {
@@ -50,26 +51,37 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 let interfaceName = self.adapter.interfaceName ?? "unknown"
                 self.log("Tunnel interface is \(interfaceName)")
             }
+            
+            print("🚀 VPN started from Control Panel")
+            
+            // ✅ Store VPN status in shared UserDefaults
+            let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.VPN")
+            sharedDefaults?.set(true, forKey: "vpnActive")
+            sharedDefaults?.synchronize()
+            
             completionHandler(adapterError)
         }
     }
-    
-        override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
-            // Add code here to start the process of stopping the tunnel.
-            log("Stopping tunnel")
-            adapter.stop { [weak self] error in
-                guard let self = self else { return }
-                if let error = error {
-                    self.log("Failed to stop WireGuard adapter: \(error.localizedDescription)")
-                }
-                completionHandler()
 
-                #if os(macOS)
-                // HACK: We have to kill the tunnel process ourselves because of a macOS bug
-                exit(0)
-                #endif
+    override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+        log("Stopping tunnel")
+        adapter.stop { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                self.log("Failed to stop WireGuard adapter: \(error.localizedDescription)")
             }
+            
+            print("❌ VPN stopped")
+
+            // ✅ Store VPN status in shared UserDefaults
+            let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.VPN")
+            sharedDefaults?.set(false, forKey: "vpnActive")
+            sharedDefaults?.synchronize()
+            
+            completionHandler()
         }
+    }
+
         
     override func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
         guard let completionHandler = completionHandler else { return }

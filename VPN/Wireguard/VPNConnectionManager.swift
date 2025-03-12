@@ -81,6 +81,7 @@ class VPNConnectionManager: ObservableObject {
         setupStatusObserver()
         loadSavedConfiguration()
         loadSelectedServer()
+        monitorVpnStatus()
     }
     
     // MARK: - Public Methods
@@ -352,5 +353,27 @@ extension VPNConnectionManager {
         }
     }
 
-    
+    private func monitorVpnStatus() {
+        let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.VPN")
+        
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            
+            let isVpnActive = sharedDefaults?.bool(forKey: "vpnActive") ?? false
+            
+            if isVpnActive {
+                if self.connectionStatus != .connected {
+                    print("📡 Detected VPN start from Control Panel, syncing state...")
+                    self.updateStatus(.connected)
+                    self.startVpnSession()
+                }
+            } else {
+                if self.connectionStatus == .connected {
+                    print("📡 Detected VPN stop from Control Panel, syncing state...")
+                    self.updateStatus(.disconnected)
+                    self.endVpnSession()
+                }
+            }
+        }
+    }
 }

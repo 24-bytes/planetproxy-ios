@@ -1,16 +1,19 @@
 import SwiftUI
 import FreshchatSDK
+import Network
 
 struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var navigation = NavigationCoordinator()
     @EnvironmentObject var sidebarViewModel: SidebarViewModel
     @StateObject private var accountInfoViewModel = AccountInfoViewModel()
+    @StateObject private var networkMonitor = NetworkMonitor.shared
     
     @State private var isFreshchatOpened = false  // Prevents infinite loop
     
     var body: some View {
         ZStack {
+            if networkMonitor.isConnected {
             NavigationStack(path: $navigation.path) {
                 VStack {
                     HomeView(navigation: navigation)
@@ -47,12 +50,16 @@ struct ContentView: View {
                             }
                         }
                 }
+            }} else {
+                NoInternetView()
             }
 
             SidebarView(
                 userInfoModel: accountInfoViewModel,
                 navigation: navigation
             )
+        }.onAppear {
+            networkMonitor.isConnected = NWPathMonitor().currentPath.status == .satisfied
         }
         .onChange(of: authViewModel.isAuthenticated) { isAuthenticated in
             if isAuthenticated {
