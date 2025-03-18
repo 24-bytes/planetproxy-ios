@@ -13,25 +13,25 @@ import Network
 class WireGuardHandler {
     static let shared = WireGuardHandler()
     private let vpnRemoteService: VpnRemoteServiceProtocol
-    private var connectionMonitor: NWPathMonitor?
+    //private var connectionMonitor: NWPathMonitor?
     private(set) var peerId: Int?
     
     private init(vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()) {
         self.vpnRemoteService = vpnRemoteService
-        setupConnectionMonitoring()
+        //setupConnectionMonitoring()
     }
     
-    private func setupConnectionMonitoring() {
-        connectionMonitor = NWPathMonitor()
-        connectionMonitor?.pathUpdateHandler = { [weak self] path in
-            if path.status == .satisfied {
-                print("✅ Network connection available: \(path.isExpensive ? "Cellular" : "WiFi")")
-            } else {
-                print("❌ Network connection lost")
-            }
-        }
-        connectionMonitor?.start(queue: .main)
-    }
+//    private func setupConnectionMonitoring() {
+//        connectionMonitor = NWPathMonitor()
+//        connectionMonitor?.pathUpdateHandler = { [weak self] path in
+//            if path.status == .satisfied {
+//                print("✅ Network connection available: \(path.isExpensive ? "Cellular" : "WiFi")")
+//            } else {
+//                print("❌ Network connection lost")
+//            }
+//        }
+//        connectionMonitor?.start(queue: .main)
+//    }
     
     // MARK: - Fetch and Apply VPN Configuration
     func fetchAndApplyPeerConfiguration(for countryId: Int, providerBundleIdentifier: String, completion: @escaping (Error?) -> Void) {

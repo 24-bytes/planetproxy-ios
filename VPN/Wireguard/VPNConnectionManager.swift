@@ -364,13 +364,11 @@ extension VPNConnectionManager {
             if isVpnActive {
                 if self.connectionStatus != .connected {
                     print("📡 Detected VPN start from Control Panel, syncing state...")
-                    self.updateStatus(.connected)
                     self.startVpnSession()
                 }
             } else {
                 if self.connectionStatus == .connected {
                     print("📡 Detected VPN stop from Control Panel, syncing state...")
-                    self.updateStatus(.disconnected)
                     self.endVpnSession()
                 }
             }

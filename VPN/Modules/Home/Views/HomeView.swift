@@ -5,6 +5,7 @@ struct HomeView: View {
     @StateObject private var vpnManager = VPNConnectionManager.shared
     @State private var showDisconnectPopup: Bool = false
     let navigation: NavigationCoordinator
+    let authViewModel: AuthViewModel
     
     var body: some View {
         ZStack {
@@ -12,7 +13,7 @@ struct HomeView: View {
 
             VStack(spacing: 0) {
                 // Navbar Pinned to Top
-                NavBar(navigation: navigation)
+                NavBar(navigation: navigation, authViewModel: authViewModel)
                     .frame(maxWidth: .infinity, alignment: .top)
                     .padding(.vertical, 10)
 

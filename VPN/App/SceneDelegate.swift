@@ -15,7 +15,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigation = NavigationCoordinator()
 
         let splashView = UIHostingController(rootView: SplashView().onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 DispatchQueue.main.async { // Ensure UI updates on main thread
                     let contentView = UIHostingController(
                         rootView: ContentView()

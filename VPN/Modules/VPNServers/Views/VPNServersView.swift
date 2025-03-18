@@ -7,7 +7,7 @@ struct VPNServersView: View {
 
     var body: some View {
         VStack {
-            ToolbarView(title: "Servers")
+            ToolbarView(title: "Servers", navigation: navigation)
             // Tab Selector
             VPNServerTabView(selectedTab: $viewModel.selectedTab, tabs: tabs)
 

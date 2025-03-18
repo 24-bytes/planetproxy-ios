@@ -3,6 +3,7 @@ import SwiftUI
 struct NavBar: View {
     @EnvironmentObject var sidebarViewModel: SidebarViewModel // ✅ Sidebar ViewModel
     let navigation: NavigationCoordinator
+    let authViewModel: AuthViewModel
 
     var body: some View {
         HStack {
@@ -32,7 +33,13 @@ struct NavBar: View {
                     .frame(width: 32, height: 32)
                     .foregroundColor(.black)
                 
-                Button(action: { navigation.path.append(Route.support) }) {
+                Button(action: {
+                    if authViewModel.isAuthenticated {
+                        navigation.openFreshchat()
+                    } else {
+                        navigation.navigateToLogin()
+                    }
+                    }) {
                     Image(systemName: "message")
                         .resizable()
                         .scaledToFit()

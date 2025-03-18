@@ -6,25 +6,51 @@ class NetworkMonitor: ObservableObject {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue.global(qos: .background)
     
-    @Published var isConnected: Bool = false  // Initially false to avoid flashing
-    @Published var isInitialized: Bool = false // Track if network status is received
-
+    @Published var isDataConnected: Bool = true
+    @Published var isInitialized: Bool = false
+    
+    private var lastPathStatus: NWPath.Status = .satisfied
+    
     private init() {
         monitor.pathUpdateHandler = { [weak self] path in
-            DispatchQueue.main.async {
-                self?.isConnected = path.status == .satisfied
-                self?.isInitialized = true // Network status is now known
+            guard let self = self else { return }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { // 🔄 Increased delay
+                let isConnected = path.status == .satisfied
+
+                if !isConnected {
+                    // Double-check network reachability before setting to false
+                    DispatchQueue.global(qos: .background).async {
+                        let testConnection = NWPathMonitor().currentPath.status == .satisfied
+                        DispatchQueue.main.async {
+                            self.isDataConnected = testConnection
+                        }
+                    }
+                } else {
+                    self.isDataConnected = true
+                }
+
+                self.isInitialized = true
+                self.lastPathStatus = path.status
             }
         }
         monitor.start(queue: queue)
     }
+    
+    func refreshStatus() {
+        let path = monitor.currentPath
+        DispatchQueue.main.async {
+            self.isDataConnected = path.status == .satisfied
+        }
+    }
 }
+
 
 struct NoInternetView: View {
     @ObservedObject var networkMonitor = NetworkMonitor.shared
 
     var body: some View {
-        if networkMonitor.isInitialized && !networkMonitor.isConnected {
+        if networkMonitor.isInitialized && !networkMonitor.isDataConnected {
             VStack(spacing: 20) {
                 Image("noconnection")
                     .resizable()
@@ -59,6 +85,6 @@ struct NoInternetView: View {
     }
     
     private func checkConnection() {
-        networkMonitor.isConnected = NWPathMonitor().currentPath.status == .satisfied
-    }
+        networkMonitor.refreshStatus()
+       }
 }
