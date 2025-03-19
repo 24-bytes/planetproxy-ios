@@ -4,7 +4,7 @@ import NetworkExtension
 class WireguardkitApp {
     
     func turnOnTunnel(countryId: Int, completionHandler: @escaping (Bool) -> Void) {
-        WireGuardHandler.shared.fetchAndApplyPeerConfiguration(for: countryId, providerBundleIdentifier: "net.planet-proxy.VPN.network-extension") { error in
+        WireGuardHandler.shared.fetchAndApplyPeerConfiguration(for: countryId, providerBundleIdentifier: "net.planet-proxy.ios.network-extension") { error in
             if let error = error {
                 NSLog("Failed to fetch and apply tunnel configuration: \(error.localizedDescription)")
                 completionHandler(false)

@@ -109,7 +109,7 @@ class VPNConnectionManager: ObservableObject {
         
         wireGuardHandler.fetchAndApplyPeerConfiguration(
             for: server.countryId,
-            providerBundleIdentifier: "net.planet-proxy.VPN.network-extension"
+            providerBundleIdentifier: "net.planet-proxy.ios.network-extension"
         ) { [weak self] error in
             if let error = error {
                 self?.updateStatus(.error(error))
@@ -354,7 +354,7 @@ extension VPNConnectionManager {
     }
 
     private func monitorVpnStatus() {
-        let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.VPN")
+        let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.ios")
         
         Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
             guard let self = self else { return }

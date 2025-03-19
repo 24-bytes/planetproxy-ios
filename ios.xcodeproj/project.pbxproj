@@ -24,6 +24,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		038EDA102D8AB851005E0188 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		038EDA1C2D8ABE99005E0188 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0F71F4D02D70D4FD0071CE9D /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -39,7 +59,7 @@
 
 /* Begin PBXFileReference section */
 		067189BBE2A41B03AF6AFD91 /* Pods_VPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0F0186F32D51062E00BF45DF /* VPN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VPN.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F0186F32D51062E00BF45DF /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F01876E2D51079E00BF45DF /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
 		0F0187872D51079E00BF45DF /* VPN.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = VPN.xcodeproj; sourceTree = "<group>"; };
 		0F01882A2D5107AA00BF45DF /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pods.xcodeproj; sourceTree = "<group>"; };
@@ -59,12 +79,12 @@
 			);
 			target = 0F71F4C02D70D4FD0071CE9D /* network-extension */;
 		};
-		0FDA18E02D573C1300A6415A /* Exceptions for "VPN" folder in "VPN" target */ = {
+		0FDA18E02D573C1300A6415A /* Exceptions for "VPN" folder in "ios" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 0F0186F22D51062E00BF45DF /* VPN */;
+			target = 0F0186F22D51062E00BF45DF /* ios */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -72,7 +92,7 @@
 		0F0186F52D51062E00BF45DF /* VPN */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				0FDA18E02D573C1300A6415A /* Exceptions for "VPN" folder in "VPN" target */,
+				0FDA18E02D573C1300A6415A /* Exceptions for "VPN" folder in "ios" target */,
 			);
 			path = VPN;
 			sourceTree = "<group>";
@@ -122,7 +142,7 @@
 		0F0186F42D51062E00BF45DF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0F0186F32D51062E00BF45DF /* VPN.app */,
+				0F0186F32D51062E00BF45DF /* ios.app */,
 				0F71F4C12D70D4FD0071CE9D /* network-extension.appex */,
 			);
 			name = Products;
@@ -189,9 +209,9 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
-		0F0186F22D51062E00BF45DF /* VPN */ = {
+		0F0186F22D51062E00BF45DF /* ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0F0187012D51063000BF45DF /* Build configuration list for PBXNativeTarget "VPN" */;
+			buildConfigurationList = 0F0187012D51063000BF45DF /* Build configuration list for PBXNativeTarget "ios" */;
 			buildPhases = (
 				77614FFE3F95B45277C8CB5F /* [CP] Check Pods Manifest.lock */,
 				0F0186EF2D51062E00BF45DF /* Sources */,
@@ -201,6 +221,7 @@
 				0F71F4D02D70D4FD0071CE9D /* Embed Foundation Extensions */,
 				03A3FC962D801F4B00931F2F /* ShellScript */,
 				44B2F114160D000407B32217 /* [CP] Copy Pods Resources */,
+				038EDA102D8AB851005E0188 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -210,9 +231,9 @@
 			fileSystemSynchronizedGroups = (
 				0F0186F52D51062E00BF45DF /* VPN */,
 			);
-			name = VPN;
+			name = ios;
 			productName = VPN;
-			productReference = 0F0186F32D51062E00BF45DF /* VPN.app */;
+			productReference = 0F0186F32D51062E00BF45DF /* ios.app */;
 			productType = "com.apple.product-type.application";
 		};
 		0F71F4C02D70D4FD0071CE9D /* network-extension */ = {
@@ -222,6 +243,7 @@
 				0F71F4BD2D70D4FD0071CE9D /* Sources */,
 				0F71F4BE2D70D4FD0071CE9D /* Frameworks */,
 				0F71F4BF2D70D4FD0071CE9D /* Resources */,
+				038EDA1C2D8ABE99005E0188 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -259,7 +281,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0F0186EE2D51062E00BF45DF /* Build configuration list for PBXProject "VPN" */;
+			buildConfigurationList = 0F0186EE2D51062E00BF45DF /* Build configuration list for PBXProject "ios" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -291,7 +313,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				0F0186F22D51062E00BF45DF /* VPN */,
+				0F0186F22D51062E00BF45DF /* ios */,
 				0F71F4C02D70D4FD0071CE9D /* network-extension */,
 				0F71F4D52D70D54E0071CE9D /* WireguardGoBridge */,
 			);
@@ -547,18 +569,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = VPN/VPN.entitlements;
+				CODE_SIGN_ENTITLEMENTS = VPN/ios.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VPN/Preview Content\"";
-				DEVELOPMENT_TEAM = X6WA78H534;
+				DEVELOPMENT_TEAM = NV5SAYCJTX;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VPN/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Planet proxy vpn";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To take images from the Camera for Freshchat.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To enable access to Photo Library for Freshchat.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -569,7 +593,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.VPN";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -584,18 +608,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = VPN/VPN.entitlements;
+				CODE_SIGN_ENTITLEMENTS = VPN/ios.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VPN/Preview Content\"";
-				DEVELOPMENT_TEAM = X6WA78H534;
+				DEVELOPMENT_TEAM = NV5SAYCJTX;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VPN/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Planet proxy vpn";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To take images from the Camera for Freshchat.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To enable access to Photo Library for Freshchat.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -606,7 +632,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.VPN";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -621,7 +647,7 @@
 				CODE_SIGN_ENTITLEMENTS = "network-extension/network_extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X6WA78H534;
+				DEVELOPMENT_TEAM = NV5SAYCJTX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "network-extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "network-extension";
@@ -636,7 +662,7 @@
 					"$(PROJECT_DIR)/network-extension",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.VPN.network-extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.ios.network-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -651,7 +677,7 @@
 				CODE_SIGN_ENTITLEMENTS = "network-extension/network_extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X6WA78H534;
+				DEVELOPMENT_TEAM = NV5SAYCJTX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "network-extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "network-extension";
@@ -666,7 +692,7 @@
 					"$(PROJECT_DIR)/network-extension",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.VPN.network-extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.planet-proxy.ios.network-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -705,7 +731,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0F0186EE2D51062E00BF45DF /* Build configuration list for PBXProject "VPN" */ = {
+		0F0186EE2D51062E00BF45DF /* Build configuration list for PBXProject "ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0F0186FF2D51063000BF45DF /* Debug */,
@@ -714,7 +740,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0F0187012D51063000BF45DF /* Build configuration list for PBXNativeTarget "VPN" */ = {
+		0F0187012D51063000BF45DF /* Build configuration list for PBXNativeTarget "ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0F0187022D51063000BF45DF /* Debug */,

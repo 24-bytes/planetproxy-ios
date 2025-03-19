@@ -15,6 +15,8 @@ enum PacketTunnelProviderError: String, Error {
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
     
+    private let appGroup = "group.net.planet-proxy.ios"
+    
     private lazy var adapter: WireGuardAdapter = {
         return WireGuardAdapter(with: self) { [weak self] _, message in
             self?.log(message)
@@ -55,7 +57,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             print("🚀 VPN started from Control Panel")
             
             // ✅ Store VPN status in shared UserDefaults
-            let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.VPN")
+            let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.ios")
             sharedDefaults?.set(true, forKey: "vpnActive")
             sharedDefaults?.synchronize()
             
@@ -74,7 +76,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             print("❌ VPN stopped")
 
             // ✅ Store VPN status in shared UserDefaults
-            let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.VPN")
+            let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.ios")
             sharedDefaults?.set(false, forKey: "vpnActive")
             sharedDefaults?.synchronize()
             
