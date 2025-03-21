@@ -13,11 +13,13 @@ import Network
 class WireGuardHandler {
     static let shared = WireGuardHandler()
     private let vpnRemoteService: VpnRemoteServiceProtocol
+    private let userDefaults: UserDefaults?
     //private var connectionMonitor: NWPathMonitor?
     private(set) var peerId: Int?
     
     private init(vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()) {
         self.vpnRemoteService = vpnRemoteService
+        self.userDefaults = UserDefaults(suiteName: "group.net.planet-proxy.ios") // ✅ Use App Group for UserDefaults
         //setupConnectionMonitoring()
     }
     
@@ -198,6 +200,7 @@ class WireGuardHandler {
            let jsonObject = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
            let extractedPeerId = jsonObject["id"] as? Int {
             peerId = extractedPeerId
+            userDefaults?.set(peerId, forKey: "peerId") 
             print("✅ Stored Peer ID: \(peerId!)")
         } else {
             print("❌ Failed to extract peerId from decrypted data")

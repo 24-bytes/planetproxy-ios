@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0341AC8A2D8D62B10017E25D /* NetworkHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 0341AC892D8D62B10017E25D /* NetworkHelper */; };
+		0341AC8C2D8D62B80017E25D /* NetworkHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 0341AC8B2D8D62B80017E25D /* NetworkHelper */; };
 		0F71F4CB2D70D4FD0071CE9D /* network-extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0F71F4C12D70D4FD0071CE9D /* network-extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0F71F4D42D70D5240071CE9D /* WireGuardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0F71F4D32D70D5240071CE9D /* WireGuardKit */; };
 		0F71F4E92D70D82C0071CE9D /* Pods_VPN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 067189BBE2A41B03AF6AFD91 /* Pods_VPN.framework */; };
@@ -89,6 +91,16 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		0341AC7C2D8D60720017E25D /* New Folder */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "New Folder";
+			sourceTree = "<group>";
+		};
+		0341AC7D2D8D609A0017E25D /* Libraries */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Libraries;
+			sourceTree = "<group>";
+		};
 		0F0186F52D51062E00BF45DF /* VPN */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -113,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F71F4E92D70D82C0071CE9D /* Pods_VPN.framework in Frameworks */,
+				0341AC8C2D8D62B80017E25D /* NetworkHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,8 +133,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F71F6632D70EF470071CE9D /* NetworkExtension.framework in Frameworks */,
 				0F71F4D42D70D5240071CE9D /* WireGuardKit in Frameworks */,
+				0F71F6632D70EF470071CE9D /* NetworkExtension.framework in Frameworks */,
+				0341AC8A2D8D62B10017E25D /* NetworkHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +145,8 @@
 		0F0186EA2D51062E00BF45DF = {
 			isa = PBXGroup;
 			children = (
+				0341AC7D2D8D609A0017E25D /* Libraries */,
+				0341AC7C2D8D60720017E25D /* New Folder */,
 				0F0186F52D51062E00BF45DF /* VPN */,
 				0F71F4C42D70D4FD0071CE9D /* network-extension */,
 				0F0186F42D51062E00BF45DF /* Products */,
@@ -229,6 +245,8 @@
 				0F71F4CA2D70D4FD0071CE9D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				0341AC7C2D8D60720017E25D /* New Folder */,
+				0341AC7D2D8D609A0017E25D /* Libraries */,
 				0F0186F52D51062E00BF45DF /* VPN */,
 			);
 			name = ios;
@@ -255,6 +273,7 @@
 			name = "network-extension";
 			packageProductDependencies = (
 				0F71F4D32D70D5240071CE9D /* WireGuardKit */,
+				0341AC892D8D62B10017E25D /* NetworkHelper */,
 			);
 			productName = "network-extension";
 			productReference = 0F71F4C12D70D4FD0071CE9D /* network-extension.appex */;
@@ -781,6 +800,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0341AC892D8D62B10017E25D /* NetworkHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetworkHelper;
+		};
+		0341AC8B2D8D62B80017E25D /* NetworkHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetworkHelper;
+		};
 		0F71F4D32D70D5240071CE9D /* WireGuardKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0F71F4D22D70D5240071CE9D /* XCRemoteSwiftPackageReference "wireguard-apple" */;

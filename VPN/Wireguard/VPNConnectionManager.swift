@@ -81,7 +81,6 @@ class VPNConnectionManager: ObservableObject {
         setupStatusObserver()
         loadSavedConfiguration()
         loadSelectedServer()
-        monitorVpnStatus()
     }
     
     // MARK: - Public Methods
@@ -191,12 +190,10 @@ class VPNConnectionManager: ObservableObject {
                     self?.updateStatus(.disconnecting)
                 case .disconnected:
                     self?.updateStatus(.disconnected)
-                    self?.endVpnSession()
                 case .connecting:
                     self?.updateStatus(.connecting)
                 case .connected:
                     self?.updateStatus(.connected)
-                    self?.startVpnSession()
                 case .reasserting:
                     self?.updateStatus(.connecting)
                 @unknown default:
@@ -289,89 +286,5 @@ extension VPNConnectionManager {
             return true
         }
         return false
-    }
-    
-    /// Start VPN session when connected
-
-    private func startVpnSession() {
-        guard let server = selectedServer else { return }
-        
-        // Prevent duplicate API calls
-        guard !isSessionStarting else {
-            print("⚠️ VPN session is already starting, skipping duplicate request.")
-            return
-        }
-        
-        // Check if a session already exists
-        if sessionId != nil {
-            print("✅ VPN session already active with sessionId: \(sessionId!)")
-            return
-        }
-        
-        isSessionStarting = true
-        
-        Task {
-            do {
-                guard let peerId = WireGuardHandler.shared.peerId else {
-                    isSessionStarting = false
-                    throw APIError.requestFailed("Peer ID not available")
-                }
-
-                let sessionResult = try await vpnRemoteService.startVpnSession(request: StartSessionRequest(peerId: peerId))
-                
-                GlobalpeerId = peerId
-                sessionId = sessionResult.sessionId
-                print("✅ VPN Session started with Peer ID: \(peerId) and Session ID: \(sessionId ?? -1)")
-
-            } catch {
-                print("❌ Failed to start VPN session: \(error.localizedDescription)")
-            }
-            
-            isSessionStarting = false
-        }
-        ReviewManager.shared.requestReviewIfNeeded()
-
-    }
-
-    private func endVpnSession() {
-        guard let sessionId = sessionId, let peerId = GlobalpeerId else {
-            print("⚠️ No active session to end.")
-            return
-        }
-
-        Task {
-            do {
-                try await vpnRemoteService.endVpnSession(request: EndSessionRequest(peerId: peerId, sessionId: sessionId))
-                print("✅ VPN Session ended: sessionId=\(sessionId)")
-
-                // Reset session tracking variables
-                self.sessionId = nil
-                self.GlobalpeerId = nil
-            } catch {
-                print("❌ Failed to end VPN session: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    private func monitorVpnStatus() {
-        let sharedDefaults = UserDefaults(suiteName: "group.net.planet-proxy.ios")
-        
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            
-            let isVpnActive = sharedDefaults?.bool(forKey: "vpnActive") ?? false
-            
-            if isVpnActive {
-                if self.connectionStatus != .connected {
-                    print("📡 Detected VPN start from Control Panel, syncing state...")
-                    self.startVpnSession()
-                }
-            } else {
-                if self.connectionStatus == .connected {
-                    print("📡 Detected VPN stop from Control Panel, syncing state...")
-                    self.endVpnSession()
-                }
-            }
-        }
     }
 }
