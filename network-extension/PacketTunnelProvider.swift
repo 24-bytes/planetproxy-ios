@@ -5,8 +5,16 @@
 //  Created by Haider on 18/12/2024.
 //
 
+//
+//  PacketTunnelProvider.swift
+//  network-extension
+//
+//  Created by Haider on 18/12/2024.
+//
+
 import NetworkExtension
 import WireGuardKit
+import NetworkHelper
 
 enum PacketTunnelProviderError: String, Error {
     case invalidProtocolConfiguration
@@ -15,19 +23,28 @@ enum PacketTunnelProviderError: String, Error {
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
     
+    private let appGroup = "group.net.planet-proxy.ios"
+    private let userDefaults: UserDefaults?
+    private let vpnService = VpnRemoteService()
+    
+    override init() {
+        self.userDefaults = UserDefaults(suiteName: appGroup)
+        super.init()
+    }
+
     private lazy var adapter: WireGuardAdapter = {
         return WireGuardAdapter(with: self) { [weak self] _, message in
             self?.log(message)
         }
     }()
 
-    
     func log(_ message: String) {
         NSLog("WireGuard Tunnel: %@\n", message)
     }
-    
+
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-        log("Starting tunnel")
+        log("Starting tunnel...")
+
         guard let protocolConfiguration = self.protocolConfiguration as? NETunnelProviderProtocol,
               let providerConfiguration = protocolConfiguration.providerConfiguration,
               let wgQuickConfig = providerConfiguration["wgQuickConfig"] as? String else {
@@ -35,13 +52,13 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             completionHandler(PacketTunnelProviderError.invalidProtocolConfiguration)
             return
         }
-        
+
         guard let tunnelConfiguration = try? TunnelConfiguration(fromWgQuickConfig: wgQuickConfig) else {
             log("wg-quick config not parseable")
             completionHandler(PacketTunnelProviderError.cantParseWgQuickConfig)
             return
         }
-        
+
         adapter.start(tunnelConfiguration: tunnelConfiguration) { [weak self] adapterError in
             guard let self = self else { return }
             if let adapterError = adapterError {
@@ -49,27 +66,102 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             } else {
                 let interfaceName = self.adapter.interfaceName ?? "unknown"
                 self.log("Tunnel interface is \(interfaceName)")
+                
+                // ✅ Start VPN Session API Call
+                Task {
+                    await self.startVpnSession()
+                }
             }
+
             completionHandler(adapterError)
         }
     }
-    
-        override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
-            // Add code here to start the process of stopping the tunnel.
-            log("Stopping tunnel")
+
+    override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+        log("siddhant Stopping tunnel...")
+
+        Task {
+            await endVpnSession()
+            log("✅ Siddhant End Session API completed. Now stopping WireGuard adapter.")
+            
             adapter.stop { [weak self] error in
                 guard let self = self else { return }
                 if let error = error {
                     self.log("Failed to stop WireGuard adapter: \(error.localizedDescription)")
                 }
-                completionHandler()
 
-                #if os(macOS)
-                // HACK: We have to kill the tunnel process ourselves because of a macOS bug
-                exit(0)
-                #endif
+                log("🛑 WireGuard Adapter stopped. Calling completion handler.")
+                completionHandler()  // ❗ Call this only after API call is done.
             }
         }
+    }
+
+
+    private func startVpnSession() async {
+        guard let peerId = userDefaults?.integer(forKey: "peerId"), peerId > 0 else {
+            log("❌ No valid peerId found in UserDefaults siddhant.")
+            return
+        }
+
+        log("🔄 Sending startVpnSession API with peerId siddhant: \(peerId)")
+
+        do {
+            let request = StartSessionRequest(peerId: peerId)
+            let result = try await vpnService.startVpnSession(request: request)
+
+            userDefaults?.set(result.sessionId, forKey: "sessionId")
+            log("✅ Successfully started siddhant session. sessionId: \(result.sessionId)")
+        } catch {
+            log("❌ Failed to start VPN session siddhant: \(error.localizedDescription)")
+        }
+    }
+
+    private func endVpnSession() async {
+        guard let sessionId = userDefaults?.integer(forKey: "sessionId"), sessionId > 0,
+              let peerId = userDefaults?.integer(forKey: "peerId"), peerId > 0 else {
+            log("❌siddhant Missing sessionId or peerId. Skipping endVpnSession API call.")
+            return
+        }
+
+        log("🔄siddhant Preparing to send endVpnSession API call...")
+        
+        do {
+            log("🔄siddhant Creating request object...")
+            let request = EndSessionRequest(sessionId: sessionId, peerId: peerId)
+            
+            log("📡siddhant Sending request to end session...")
+            
+                try await self.vpnService.endVpnSession(request: request)
+                
+            
+            log("✅ Successfully ended siddhant session.") // This should now appear
+            userDefaults?.removeObject(forKey: "sessionId")
+            
+        } catch {
+            log("❌siddhant Failed to end VPN session: \(error.localizedDescription)")
+        }
+    }
+    
+    func withTimeout<T>(seconds: TimeInterval, operation: @escaping () async throws -> T) async throws -> T {
+        return try await withCheckedThrowingContinuation { continuation in
+            Task {
+                let timeoutTask = Task {
+                    try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+                    continuation.resume(throwing: APIError.requestFailed("Request siddhant timed out"))
+                }
+                
+                do {
+                    let result = try await operation()
+                    timeoutTask.cancel()
+                    continuation.resume(returning: result)
+                } catch {
+                    timeoutTask.cancel()
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
         
     override func handleAppMessage(_ messageData: Data, completionHandler: ((Data?) -> Void)?) {
         guard let completionHandler = completionHandler else { return }

@@ -12,10 +12,34 @@ class SettingsRepository {
 
     func fetchSettings() -> [SettingOption] {
         return [
-            SettingOption(title: "Start on Boot", description: "Enable VPN on system boot.", category: .general, isToggleable: true, isOn: userDefaults.bool(forKey: "startOnBoot")),
-            SettingOption(title: "VPN Acceleration", description: "Enhance VPN performance up to 400%.", category: .general, isToggleable: true, isOn: userDefaults.bool(forKey: "vpnAcceleration")),
-            SettingOption(title: "NetShield", description: "Block ads, trackers, and malware.", category: .security, isToggleable: true, isOn: userDefaults.bool(forKey: "netShield")),
-            SettingOption(title: "Kill Switch", description: "Disable internet if VPN disconnects.", category: .security, isToggleable: true, isOn: userDefaults.bool(forKey: "killSwitch"))
+            SettingOption(
+                title: "Start on Boot",
+                description: "Enable VPN on system boot.",
+                category: .general,
+                isToggleable: true,
+                isOn: userDefaults.object(forKey: "startOnBoot") == nil ? true : userDefaults.bool(forKey: "startOnBoot")
+            ),
+            SettingOption(
+                title: "VPN Acceleration",
+                description: "Enhance VPN performance up to 400%.",
+                category: .general,
+                isToggleable: true,
+                isOn: userDefaults.object(forKey: "vpnAcceleration") == nil ? true : userDefaults.bool(forKey: "vpnAcceleration")
+            ),
+            SettingOption(
+                title: "NetShield",
+                description: "Block ads, trackers, and malware.",
+                category: .security,
+                isToggleable: true,
+                isOn: userDefaults.object(forKey: "netShield") == nil ? true : userDefaults.bool(forKey: "netShield")
+            ),
+            SettingOption(
+                title: "Kill Switch",
+                description: "Disable internet if VPN disconnects.",
+                category: .security,
+                isToggleable: true,
+                isOn: userDefaults.object(forKey: "killSwitch") == nil ? true : userDefaults.bool(forKey: "killSwitch")
+            )
         ]
     }
 

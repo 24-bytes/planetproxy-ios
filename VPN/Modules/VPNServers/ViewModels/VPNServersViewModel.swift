@@ -49,7 +49,10 @@ class VPNServersViewModel: ObservableObject {
         if searchQuery.isEmpty {
             return filtered
         } else {
-            return filtered.filter { $0.countryName.localizedCaseInsensitiveContains(searchQuery) }
+            return filtered.filter { country in
+                country.countryName.localizedCaseInsensitiveContains(searchQuery) ||
+                country.servers.contains { $0.region.localizedCaseInsensitiveContains(searchQuery) }
+            }
         }
     }
 }

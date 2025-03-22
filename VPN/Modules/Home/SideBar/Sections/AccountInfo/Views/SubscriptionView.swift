@@ -9,10 +9,11 @@ import SwiftUI
 
 struct SubscriptionView: View {
     @Environment(\.presentationMode) var presentationMode
+    let navigation: NavigationCoordinator
     
     var body: some View {
         VStack() {
-            ToolbarView(title: "Subscription")
+            ToolbarView(title: "Subscription", navigation: navigation)
 
             // ✅ Header Text
             VStack(alignment: .leading, spacing: 16) {

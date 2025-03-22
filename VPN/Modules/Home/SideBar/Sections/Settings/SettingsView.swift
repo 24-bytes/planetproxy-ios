@@ -3,11 +3,12 @@ import SwiftUI
 struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
     @State private var isLanguagePickerPresented = false
+    let navigation: NavigationCoordinator
 
     var body: some View {
         VStack(spacing: 16) {
             // ✅ Header Section
-            ToolbarView(title: "Settings")
+            ToolbarView(title: "Settings", navigation: navigation)
               
 
             // ✅ Settings List

@@ -3,49 +3,45 @@ import SwiftUI
 struct VPNServerCountryHeaderView: View {
     let country: VPNServerCountryModel
     let navigation: NavigationCoordinator
+    let searchQuery: String // Pass searchQuery to determine expanded state
     @State private var isExpanded = false
 
     var body: some View {
         VStack(spacing: 0) {
-            Button(action: { isExpanded.toggle() }) { // ✅ Entire row is clickable
+            Button(action: { isExpanded.toggle() }) {
                 HStack {
-                    // ✅ Circular Country Flag
                     AsyncImage(url: URL(string: country.countryFlagUrl)) { image in
                         image.resizable()
-                            .clipShape(Circle()) // Make it circular
-                            .overlay(Circle().stroke(Color.white, lineWidth: 1)) // Add white border
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 1))
                     } placeholder: {
                         Image(systemName: "globe")
                             .foregroundColor(.gray)
                     }
-                    .frame(width: 40, height: 24) // Scaled properly
+                    .frame(width: 40, height: 24)
 
-                    // Country Name
                     Text(country.countryName)
                         .font(.system(size: 18, weight: .medium))
                         .foregroundColor(.white)
 
                     Spacer()
 
-                    // ✅ Premium Badge Positioned to Right
                     if country.isPremium {
                         VPNServerPremiumTagView()
                     }
 
-                    // ✅ Expand/Collapse Button with Ring
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                         .foregroundColor(.white)
                         .font(.system(size: 15))
-                        .frame(width: 24, height: 24) // ✅ Ensures proper circular size
-                        .background(Color.gray.opacity(0.2)) // ✅ Grey background
-                        .clipShape(Circle()) // ✅ Makes it a perfect circle
+                        .frame(width: 24, height: 24)
+                        .background(Color.gray.opacity(0.2))
+                        .clipShape(Circle())
                 }
                 .frame(height: 60)
                 .padding(.horizontal)
                 .cornerRadius(12)
             }
 
-            // Expanded Server List
             if isExpanded {
                 VStack(spacing: 5) {
                     ForEach(country.servers) { server in
@@ -63,5 +59,8 @@ struct VPNServerCountryHeaderView: View {
         .background(Color.cardBg)
         .cornerRadius(12)
         .padding(.horizontal)
+        .onChange(of: searchQuery) { newValue in
+                    isExpanded = !newValue.isEmpty // ✅ Expands when searching, collapses when empty
+                }
     }
 }

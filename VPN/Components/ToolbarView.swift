@@ -3,13 +3,18 @@ import SwiftUI
 struct ToolbarView: View {
     let title: String
     @Environment(\.presentationMode) var presentationMode
+    let navigation: NavigationCoordinator
 
     var body: some View {
         HStack {
             // ✅ Back Button
             Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }) {
+                if navigation.path.count > 1 {
+                    navigation.path.removeLast()
+                } else {
+                    navigation.navigateToHome()
+                }
+            }){
                 Image(systemName: "chevron.left")
                     .font(.system(size: 18, weight: .medium))
                     .foregroundColor(.white)

@@ -13,24 +13,27 @@ import Network
 class WireGuardHandler {
     static let shared = WireGuardHandler()
     private let vpnRemoteService: VpnRemoteServiceProtocol
-    private var connectionMonitor: NWPathMonitor?
+    private let userDefaults: UserDefaults?
+    //private var connectionMonitor: NWPathMonitor?
+    private(set) var peerId: Int?
     
     private init(vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()) {
         self.vpnRemoteService = vpnRemoteService
-        setupConnectionMonitoring()
+        self.userDefaults = UserDefaults(suiteName: "group.net.planet-proxy.ios") // ✅ Use App Group for UserDefaults
+        //setupConnectionMonitoring()
     }
     
-    private func setupConnectionMonitoring() {
-        connectionMonitor = NWPathMonitor()
-        connectionMonitor?.pathUpdateHandler = { [weak self] path in
-            if path.status == .satisfied {
-                print("✅ Network connection available: \(path.isExpensive ? "Cellular" : "WiFi")")
-            } else {
-                print("❌ Network connection lost")
-            }
-        }
-        connectionMonitor?.start(queue: .main)
-    }
+//    private func setupConnectionMonitoring() {
+//        connectionMonitor = NWPathMonitor()
+//        connectionMonitor?.pathUpdateHandler = { [weak self] path in
+//            if path.status == .satisfied {
+//                print("✅ Network connection available: \(path.isExpensive ? "Cellular" : "WiFi")")
+//            } else {
+//                print("❌ Network connection lost")
+//            }
+//        }
+//        connectionMonitor?.start(queue: .main)
+//    }
     
     // MARK: - Fetch and Apply VPN Configuration
     func fetchAndApplyPeerConfiguration(for countryId: Int, providerBundleIdentifier: String, completion: @escaping (Error?) -> Void) {
@@ -190,6 +193,17 @@ class WireGuardHandler {
             print("❌ Error: Invalid JSON")
             print("Decrypted string: \(decryptedString)")
             return nil
+        }
+        
+        // Parse JSON to extract peerId
+        if let jsonData = decryptedString.data(using: .utf8),
+           let jsonObject = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
+           let extractedPeerId = jsonObject["id"] as? Int {
+            peerId = extractedPeerId
+            userDefaults?.set(peerId, forKey: "peerId") 
+            print("✅ Stored Peer ID: \(peerId!)")
+        } else {
+            print("❌ Failed to extract peerId from decrypted data")
         }
         
         return decryptedString

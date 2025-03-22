@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0F0186F22D51062E00BF45DF"
-               BuildableName = "VPN.app"
-               BlueprintName = "VPN"
-               ReferencedContainer = "container:VPN.xcodeproj">
+               BuildableName = "ios.app"
+               BlueprintName = "ios"
+               ReferencedContainer = "container:ios.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0F0186F22D51062E00BF45DF"
-            BuildableName = "VPN.app"
-            BlueprintName = "VPN"
-            ReferencedContainer = "container:VPN.xcodeproj">
+            BuildableName = "ios.app"
+            BlueprintName = "ios"
+            ReferencedContainer = "container:ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0F0186F22D51062E00BF45DF"
-            BuildableName = "VPN.app"
-            BlueprintName = "VPN"
-            ReferencedContainer = "container:VPN.xcodeproj">
+            BuildableName = "ios.app"
+            BlueprintName = "ios"
+            ReferencedContainer = "container:ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

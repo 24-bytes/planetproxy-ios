@@ -9,7 +9,8 @@ struct VPNServerSearchView: View {
                 .foregroundColor(.gray)
 
             TextField(NSLocalizedString("Search servers", comment: "Search Placeholder"), text: $searchQuery)
-                .foregroundColor(.black)
+                .foregroundColor(.black) // ✅ Ensures darker text
+                .environment(\.colorScheme, .light) // ✅ Ensures dark mode doesn't override
                 .textFieldStyle(PlainTextFieldStyle())
 
             if !searchQuery.isEmpty {

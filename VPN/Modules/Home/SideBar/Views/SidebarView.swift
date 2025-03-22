@@ -16,7 +16,7 @@ struct SidebarView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 6) {
                    
-                    VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 12) {
                         // Close Button (Moved Down)
                         Button(action: { sidebarViewModel.isSidebarOpen = false }) {
                             Image(systemName: "xmark")
@@ -26,19 +26,19 @@ struct SidebarView: View {
                         }
                         
                         // Welcome Text
-                        let userName = userInfoModel.accountInfo?.name ?? ""
+                        let userName = userInfoModel.accountInfo?.displayName ?? ""
                         Text(userName.isEmpty ? "Please log in :)" : "Welcome back \(userName)")
                             .font(.title3)
                             .foregroundColor(.white)
-                    }.padding(.leading)
-                    // Sidebar Menu Items
-                    ForEach(sidebarViewModel.menuItems) { item in
-                        SidebarItemView(
-                            item: item, viewModel: sidebarViewModel,
-                            navigation: navigation
-                        )
-                    }
-
+                        
+                        // Sidebar Menu Items
+                        ForEach(sidebarViewModel.menuItems) { item in
+                            SidebarItemView(
+                                item: item, viewModel: sidebarViewModel,
+                                navigation: navigation
+                            )
+                        }
+                    }.padding(.leading, 24)
                     Spacer()
 
                     // Footer

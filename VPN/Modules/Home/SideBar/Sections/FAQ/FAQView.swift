@@ -2,11 +2,12 @@ import SwiftUI
 
 struct FAQView: View {
     @StateObject private var viewModel = FAQViewModel()
+    let navigation: NavigationCoordinator
 
     var body: some View {
         VStack {
             // ✅ Header Section
-            ToolbarView(title: "FAQ")
+            ToolbarView(title: "FAQ", navigation: navigation)
 
             // ✅ FAQ List
             ScrollView {

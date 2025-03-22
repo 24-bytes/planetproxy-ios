@@ -7,7 +7,7 @@ struct VPNServersView: View {
 
     var body: some View {
         VStack {
-            ToolbarView(title: "Servers")
+            ToolbarView(title: "Servers", navigation: navigation)
             // Tab Selector
             VPNServerTabView(selectedTab: $viewModel.selectedTab, tabs: tabs)
 
@@ -30,7 +30,7 @@ struct VPNServersView: View {
                 } else {
                     ScrollView {
                         ForEach(viewModel.filteredServers()) { country in
-                            VPNServerCountryHeaderView(country: country, navigation: navigation)
+                            VPNServerCountryHeaderView(country: country, navigation: navigation, searchQuery: viewModel.searchQuery)
                                 .padding(.bottom, 6)
                         }
                     }
