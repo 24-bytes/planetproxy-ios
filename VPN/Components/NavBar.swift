@@ -2,6 +2,8 @@ import SwiftUI
 
 struct NavBar: View {
     @EnvironmentObject var sidebarViewModel: SidebarViewModel // ✅ Sidebar ViewModel
+    let navigation: NavigationCoordinator
+    let authViewModel: AuthViewModel
 
     var body: some View {
         HStack {
@@ -18,27 +20,53 @@ struct NavBar: View {
                     .foregroundColor(.white)
             }
 
-            Spacer()
 
             // App Title
             Text("Planet Proxy")
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
-
-            Spacer()
-
+                .frame(maxWidth: .infinity, alignment: .center)
+            
+            
+            ZStack {
+                RoundedRectangle(cornerRadius: 6)
+                    .frame(width: 32, height: 32)
+                    .foregroundColor(.black)
+                
+                Button(action: {
+                    if authViewModel.isAuthenticated {
+                        navigation.openFreshchat()
+                    } else {
+                        navigation.navigateToLogin()
+                    }
+                    }) {
+                    Image(systemName: "message")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.white)
+                }
+                // Small Star Badge
+                Circle()
+                    .frame(width: 8, height: 8)
+                    .foregroundColor(.red)
+                    .offset(x: 10, y: -8)
+            }
+            
             // Premium Logo with Badge
             ZStack {
                 RoundedRectangle(cornerRadius: 6)
                     .frame(width: 32, height: 32)
                     .foregroundColor(Color.purple.opacity(0.8)) // Background color for logo
                 
-                Image("Logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 32, height: 32)
-                    .foregroundColor(.white)
-
+                Button(action: { navigation.navigateToSubscription() }) {Image(
+                    "Logo"
+                )
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(.white)
+                }
                 // Small Star Badge
                 Circle()
                     .frame(width: 12, height: 12)
@@ -53,6 +81,5 @@ struct NavBar: View {
                     .offset(x: 10, y: 10)
             }
         }
-        .padding(.horizontal)
     }
 }

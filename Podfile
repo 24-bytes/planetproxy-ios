@@ -10,7 +10,9 @@ target 'VPN' do
   pod 'Firebase/Auth', '9.6.0'
   pod 'GoogleSignIn', '~> 7.0'
   pod 'Alamofire', '~> 5.8'
-
+  pod 'FreshchatSDK'
+  pod 'Firebase/Crashlytics', '9.6.0'
+  pod 'Google-Mobile-Ads-SDK', '10.14.0'
   # Linting
   pod 'SwiftLint'
 end

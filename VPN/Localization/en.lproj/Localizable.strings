@@ -63,3 +63,15 @@
 
 "sign_up_title" = "Sign up";
 "start_trial_message" = "Start your 30-day free trial.";
+
+//Servers
+"Connect" = "Connect";
+"Servers" = "Servers";
+"Search servers" = "Search servers";
+"VPN IP" = "VPN IP:";
+"serversNearby" = "%d servers nearby for fast gaming.";
+"Premium" = "Premium";
+"Default" = "Default";
+"Browsing" = "Browsing";
+"Gaming" = "Gaming";
+
