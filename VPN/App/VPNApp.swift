@@ -20,26 +20,24 @@ struct VPNApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if isSplashScreenShown {
-                SplashView()
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            withAnimation {
-                                isSplashScreenShown = false
-                                hasLaunchedBefore = true
+                if isSplashScreenShown {
+                    SplashView()
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                withAnimation {
+                                    isSplashScreenShown = false
+                                    hasLaunchedBefore = true
+                                }
                             }
                         }
-                    }
-            } else {
-                ContentView()
-                    .environmentObject(authViewModel)
-                    .environmentObject(navigation)
-                    .environmentObject(sidebarViewModel)
-                    .preferredColorScheme(.dark)
-                    .onAppear {
-                        
-                    }
+                } else {
+                    ContentView()
+                        .environmentObject(authViewModel)
+                        .environmentObject(navigation)
+                        .environmentObject(sidebarViewModel)
+                        .preferredColorScheme(.dark)
+                    
+                }
             }
-        }
     }
 }

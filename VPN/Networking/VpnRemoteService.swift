@@ -63,4 +63,5 @@ class VpnRemoteService: VpnRemoteServiceProtocol {
         
         return try await apiClient.request(url: url, method: .get)
     }
+
 }

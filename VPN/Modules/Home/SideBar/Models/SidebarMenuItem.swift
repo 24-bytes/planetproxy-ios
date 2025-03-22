@@ -9,6 +9,7 @@ import SwiftUI
 
 enum SidebarDestination {
     case accountInfo
+    case servers
     case settings
     case faq
     case support

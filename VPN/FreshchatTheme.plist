@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>backgroundColor</key>
+    <string>#121212</string> <!-- Dark background -->
+    <key>textColor</key>
+    <string>#FFFFFF</string> <!-- White text -->
+    <key>inputFieldBackgroundColor</key>
+    <string>#1E1E1E</string> <!-- Darker input field -->
+    <key>inputFieldTextColor</key>
+    <string>#FFFFFF</string> <!-- White input field text -->
+    <key>sendButtonTintColor</key>
+    <string>#007AFF</string> <!-- Blue send button -->
+</dict>
+</plist>

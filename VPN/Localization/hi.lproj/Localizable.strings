@@ -57,3 +57,15 @@
 
 "sign_up_title" = "साइन अप करें";
 "start_trial_message" = "अपना 30-दिन का निःशुल्क परीक्षण शुरू करें।";
+
+//Servers
+"Connect" = "कनेक्ट करें";
+"Servers" = "सर्वर";
+"Search servers" = "सर्वर खोजें";
+"VPN IP" = "वीपीएन आईपी:";
+"serversNearby" = "%d सर्वर पास में हैं तेज गेमिंग के लिए।";
+"Premium" = "प्रीमियम";
+"Default" = "डिफ़ॉल्ट";
+"Browsing" = "ब्राउज़िंग";
+"Gaming" = "गेमिंग";
+

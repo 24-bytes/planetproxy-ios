@@ -2,8 +2,8 @@ import SwiftUI
 
 struct SidebarView: View {
     @EnvironmentObject var sidebarViewModel: SidebarViewModel 
-    @EnvironmentObject var authViewModel: AuthViewModel
-    @EnvironmentObject var navigation: NavigationCoordinator
+    let userInfoModel: AccountInfoViewModel
+    let navigation: NavigationCoordinator
 
     var body: some View {
         ZStack {
@@ -12,33 +12,33 @@ struct SidebarView: View {
                     .edgesIgnoringSafeArea(.all)
                     .onTapGesture { sidebarViewModel.isSidebarOpen = false }
             }
-
+            
             HStack {
-                VStack(alignment: .leading, spacing: 16) {
-                    // Close Button (Moved Down)
-                    Button(action: { sidebarViewModel.isSidebarOpen = false }) {
-                        Image(systemName: "xmark")
+                VStack(alignment: .leading, spacing: 6) {
+                   
+                    VStack(alignment: .leading, spacing: 12) {
+                        // Close Button (Moved Down)
+                        Button(action: { sidebarViewModel.isSidebarOpen = false }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.white)
+                                .font(.title2)
+                                .padding(.top, 60)
+                        }
+                        
+                        // Welcome Text
+                        let userName = userInfoModel.accountInfo?.displayName ?? ""
+                        Text(userName.isEmpty ? "Please log in :)" : "Welcome back \(userName)")
+                            .font(.title3)
                             .foregroundColor(.white)
-                            .font(.title2)
-                            .padding(.top, 40)
-                            .padding(.leading, 16)
-                    }
-
-                    // Welcome Text
-                    Text("Welcome back,\n**Christopher Flem**")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 16)
-
-                    // Sidebar Menu Items
-                    ForEach(sidebarViewModel.menuItems) { item in
-                        SidebarItemView(
-                            item: item, viewModel: sidebarViewModel,
-                            navigation: navigation
-                        )
-                        .padding(.leading, 16)
-                    }
-
+                        
+                        // Sidebar Menu Items
+                        ForEach(sidebarViewModel.menuItems) { item in
+                            SidebarItemView(
+                                item: item, viewModel: sidebarViewModel,
+                                navigation: navigation
+                            )
+                        }
+                    }.padding(.leading, 24)
                     Spacer()
 
                     // Footer
@@ -54,6 +54,8 @@ struct SidebarView: View {
             }
             .offset(x: sidebarViewModel.isSidebarOpen ? 0 : -360)
             .animation(.easeInOut(duration: 0.3))
-        }
+        }.onAppear {
+            userInfoModel.fetchAccountData()
+        }.navigationBarBackButtonHidden(true)
     }
 }

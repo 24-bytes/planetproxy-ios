@@ -37,7 +37,9 @@ class AuthRepository: AuthRepositoryProtocol {
     {
         do {
             let credential = GoogleAuthProvider.credential(
-                withIDToken: idToken, accessToken: "")
+                withIDToken: idToken,
+                accessToken: GIDSignIn.sharedInstance.currentUser?.accessToken.tokenString ?? ""
+            )
             let authResult = try await Auth.auth().signIn(with: credential)
             let firebaseToken = try await authResult.user.getIDToken()
 

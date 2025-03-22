@@ -1,44 +1,46 @@
-//
-//  MetricsView.swift
-//  VPN
-//
-//  Created by Siddhant Kundlik Thaware on 05/02/25.
-//
-
 import SwiftUI
 
 struct MetricsView: View {
-    var downloadSpeed: Double
-    var uploadSpeed: Double
-
+    @StateObject private var metricsManager = VPNMetricsManager.shared
+    
     var body: some View {
         HStack {
-            VStack {
-                Text("Download")
-                    .font(.system(size: 14))
-                    .foregroundColor(.gray)
+            VStack(spacing: 8) {
+                HStack(spacing: 6) {
+                                     Text("Download")
+                                         .font(.system(size: 14, weight: .medium))
+                                         .foregroundColor(.gray)
 
-                Text("\(String(format: "%.1f", downloadSpeed)) MB")
-                    .font(.system(size: 18, weight: .bold))
+                                     Image("download_arrow") // Placeholder for downward arrow image
+                                         .resizable()
+                                         .frame(width: 16, height: 16)
+                                 }
+                Text(metricsManager.formattedDataReceived)
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
             }
+            .frame(maxWidth: .infinity)
+            Rectangle()
+                .frame(width: 1, height: 40)
+                .foregroundColor(Color.gray.opacity(0.5))
+            VStack(spacing: 8) {
+                HStack(spacing: 6) {
+                                     Text("Upload")
+                                         .font(.system(size: 14, weight: .medium))
+                                         .foregroundColor(.gray)
 
-            Spacer()
-
-            VStack {
-                Text("Upload")
-                    .font(.system(size: 14))
-                    .foregroundColor(.gray)
-
-                Text("\(String(format: "%.1f", uploadSpeed)) MB")
-                    .font(.system(size: 18, weight: .bold))
+                                     Image("upload_arrow") // Placeholder for downward arrow image
+                                         .resizable()
+                                         .frame(width: 16, height: 16)
+                                 }
+                Text(metricsManager.formattedDataSent)
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
             }
+            .frame(maxWidth: .infinity)
         }
         .padding()
-        .background(Color.black.opacity(0.3))
-        .cornerRadius(12)
-        .shadow(color: Color.gray.opacity(0.2), radius: 5)
-        .padding(.horizontal)
+        .cornerRadius(16)
+        .shadow(color: Color.gray.opacity(0.2), radius: 4)
     }
 }

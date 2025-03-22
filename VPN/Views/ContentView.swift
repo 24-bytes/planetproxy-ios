@@ -1,53 +1,60 @@
 import SwiftUI
+import FreshchatSDK
+import Network
 
 struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var navigation = NavigationCoordinator()
     @EnvironmentObject var sidebarViewModel: SidebarViewModel
-
+    @StateObject private var accountInfoViewModel = AccountInfoViewModel()
+    @StateObject private var networkMonitor = NetworkMonitor.shared
+    
     var body: some View {
         ZStack {
-            NavigationStack(path: $navigation.path) {
-                VStack {
-                    HomeView(navigation: navigation)
-                        .navigationDestination(for: Route.self) { route in
-                            switch route {
-                            case .login:
-                                LoginView()
-                            case .home:
-                                HomeView(navigation: navigation)
-                            case .settings:
-                                ProfileView()
-                            case .accountInfo, .profile:
-                                if authViewModel.isAuthenticated {
-                                    ProfileView()
-                                } else {
+          
+                NavigationStack(path: $navigation.path) {
+                    VStack {
+                        HomeView(navigation: navigation, authViewModel: authViewModel)
+                            .navigationDestination(for: Route.self) { route in
+                                switch route {
+                                case .login:
                                     LoginView()
-                                        .onAppear {
-                                            navigation.navigateToLogin() // ✅ Redirect to Login
-                                        }
+                                case .home:
+                                    HomeView(navigation: navigation, authViewModel: authViewModel)
+                                case .accountInfo:
+                                    AccountInfoView(navigation: navigation)
+                                case .settings:
+                                    SettingsView(navigation: navigation)
+                                case .faq:
+                                    FAQView(navigation: navigation)
+                                case .rateUs:
+                                    RateUsView()
+                                case .privacyPolicy:
+                                    PrivacyPolicyView(navigation: navigation)
+                                case .subscription:
+                                    SubscriptionView(navigation: navigation)
+                                case .servers:
+                                    VPNServersView(navigation: navigation)
+                                default:
+                                    HomeView(navigation: navigation, authViewModel: authViewModel)
                                 }
-                            default:
-                                ProfileView()
                             }
-                        }
+                    }
                 }
-            }
+            if networkMonitor.isInitialized && !networkMonitor.isDataConnected {
+                           NoInternetView()
+                       }
 
-            SidebarView()
-        }
-        .onChange(of: sidebarViewModel.selectedDestination) { _ in
-            if let newRoute = sidebarViewModel.selectedDestination {
-                if newRoute == .accountInfo, !authViewModel.isAuthenticated {
-                    navigation.navigateToLogin()
-                } else {
-                    navigation.path.append(newRoute)
-                }
-            }
+            SidebarView(
+                userInfoModel: accountInfoViewModel,
+                navigation: navigation
+            )
+        }.onAppear {
+            networkMonitor.refreshStatus()
         }
         .onChange(of: authViewModel.isAuthenticated) { isAuthenticated in
             if isAuthenticated {
-                navigation.navigateToHome() // ✅ Redirect to Home after login
+                navigation.navigateToHome()
             }
         }
     }
