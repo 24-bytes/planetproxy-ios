@@ -8,35 +8,45 @@ struct VPNServersView: View {
     var body: some View {
         VStack {
             ToolbarView(title: "Servers", navigation: navigation)
-            // Tab Selector
-            VPNServerTabView(selectedTab: $viewModel.selectedTab, tabs: tabs)
-
-            // Search Bar with Extra Vertical Spacing
-            VPNServerSearchView(searchQuery: $viewModel.searchQuery)
-                .padding(.bottom, 12) // ✅ Adds vertical spacing below search bar
-
-            // Full-Screen Fixed Content
-            ZStack {
-                // Background for Full-Screen Consistency
-                VStack {
-                    Spacer() // ✅ Prevents shifting by keeping space
+                .safeAreaInset(edge: .top) {
+                    Spacer().frame(height: 20)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                // Actual Content
-                if viewModel.isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                } else {
-                    ScrollView {
-                        ForEach(viewModel.filteredServers()) { country in
-                            VPNServerCountryHeaderView(country: country, navigation: navigation, searchQuery: viewModel.searchQuery)
-                                .padding(.bottom, 6)
+            VPNServerTabView(selectedTab: $viewModel.selectedTab, tabs: tabs)
+                .padding(.bottom, 5)
+
+            VPNServerSearchView(searchQuery: $viewModel.searchQuery)
+                .padding(.bottom, 10)
+
+            GeometryReader { geometry in
+                ZStack {
+                    VStack {
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    } else {
+                        ScrollView(showsIndicators: false) {
+                            VStack(spacing: 8) {
+                                ForEach(viewModel.filteredServers()) { country in
+                                    VPNServerCountryHeaderView(
+                                        country: country,
+                                        navigation: navigation,
+                                        searchQuery: viewModel.searchQuery
+                                    )
+                                    .padding(.bottom, 6)
+                                }
+                            }
+                            .padding(.bottom, geometry.safeAreaInsets.bottom)
                         }
+                        .frame(maxHeight: .infinity)
+                        .padding(.bottom, 10)
                     }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity) // ✅ Ensures full-height layout
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
@@ -44,6 +54,7 @@ struct VPNServersView: View {
                 await viewModel.fetchServers()
             }
         }
-            .navigationBarBackButtonHidden(true)
+        .ignoresSafeArea(.keyboard, edges: .bottom) // ✅ Prevents pushing view up when keyboard appears
+        .navigationBarBackButtonHidden(true)
     }
 }

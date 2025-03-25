@@ -9,11 +9,7 @@ struct ToolbarView: View {
         HStack {
             // ✅ Back Button
             Button(action: {
-                if navigation.path.count > 1 {
-                    navigation.path.removeLast()
-                } else {
-                    navigation.navigateToHome()
-                }
+                navigateBack()
             }){
                 Image(systemName: "chevron.left")
                     .font(.system(size: 18, weight: .medium))
@@ -45,5 +41,21 @@ struct ToolbarView: View {
         .padding(.horizontal)
         .frame(height: 50)
         .background(Color.black)
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    if value.translation.width > 100 { // ✅ Detect swipe from left to right
+                        navigateBack()
+                    }
+                }
+        )
+    }
+
+    private func navigateBack() {
+        if navigation.path.count > 1 {
+            navigation.path.removeLast()
+        } else {
+            navigation.navigateToHome()
+        }
     }
 }

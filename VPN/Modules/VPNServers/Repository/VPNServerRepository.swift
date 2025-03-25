@@ -1,20 +1,17 @@
 import Foundation
+import NetworkHelper
 
 protocol VPNServerRepositoryProtocol {
     func fetchVPNServers() async throws -> [VPNServerModel]
 }
 
 class VPNServerRepository: VPNServerRepositoryProtocol {
-    private let vpnRemoteService: VpnRemoteServiceProtocol
-
-    init(vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()) {
-        self.vpnRemoteService = vpnRemoteService
-    }
+    private let vpnService = VpnRemoteService()
 
     func fetchVPNServers() async throws -> [VPNServerModel] {
 
         do {
-            let serverDetails = try await vpnRemoteService.getVpnServers()
+            let serverDetails = try await vpnService.getVpnServers()
             let vpnServers = serverDetails.map { serverDetail in
                 VPNServerModel(
                     id: serverDetail.serverId,

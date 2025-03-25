@@ -1,6 +1,7 @@
 import FirebaseAuth
 import GoogleSignIn
 import UIKit
+import NetworkHelper
 
 protocol AuthRepositoryProtocol {
     func signInWithGoogle(idToken: String, rememberMe: Bool) async throws
@@ -22,14 +23,12 @@ protocol AuthRepositoryProtocol {
 class AuthRepository: AuthRepositoryProtocol {
     private let defaults: UserDefaults
 
-    private let vpnRemoteService: VpnRemoteServiceProtocol
+    private let vpnService = VpnRemoteService()
 
     init(
-        defaults: UserDefaults = .standard,
-        vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()
+        defaults: UserDefaults = .standard
     ) {
         self.defaults = defaults
-        self.vpnRemoteService = vpnRemoteService
     }
 
     func signInWithGoogle(idToken: String, rememberMe: Bool) async throws
@@ -154,7 +153,7 @@ class AuthRepository: AuthRepositoryProtocol {
         let request = AuthenticateUserRequest(deviceId: deviceId)
 
         do {
-            let response = try await vpnRemoteService.authenticate(
+            let response = try await vpnService.authenticate(
                 token: idToken, request: request)
 
             let authToken = response.token

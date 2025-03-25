@@ -73,11 +73,8 @@ class VPNConnectionManager: ObservableObject {
     private var GlobalpeerId: Int?
     
     private var isSessionStarting = false  // Prevents multiple session starts
-    private let vpnRemoteService: VpnRemoteServiceProtocol
     
-    
-    private init(vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()) {
-        self.vpnRemoteService = vpnRemoteService
+    private init() {
         setupStatusObserver()
         loadSavedConfiguration()
         loadSelectedServer()
@@ -107,7 +104,7 @@ class VPNConnectionManager: ObservableObject {
         )
         
         wireGuardHandler.fetchAndApplyPeerConfiguration(
-            for: server.countryId,
+            for: server.id,
             providerBundleIdentifier: "net.planet-proxy.ios.network-extension"
         ) { [weak self] error in
             if let error = error {

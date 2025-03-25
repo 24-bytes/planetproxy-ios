@@ -8,6 +8,11 @@
 import Foundation
 
 public struct AuthenticateUserResponse: Codable {
-    let token: String
-    let expiresIn: String
+    public let token: String
+    public let expiresIn: String
+    
+    public init(token: String, expiresIn: String) {
+        self.token = token
+        self.expiresIn = expiresIn
+    }
 }

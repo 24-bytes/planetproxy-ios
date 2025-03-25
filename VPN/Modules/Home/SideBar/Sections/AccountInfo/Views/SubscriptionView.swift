@@ -21,7 +21,7 @@ struct SubscriptionView: View {
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
                 
-                Text("Your next payment is scheduled for November 8, 2024.\nStay subscribed to continue enjoying premium features.")
+                Text("You are in trial period. No plan selected. You are free to use our premium VPN servers for 15 days.")
                     .font(.system(size: 14))
                     .foregroundColor(.gray)
                     .lineSpacing(4)
@@ -47,18 +47,18 @@ struct SubscriptionView: View {
                     .resizable()
                     .frame(width: 24, height: 24)
                 
-                Text("Gold plan")
+                Text("Quarterly plan")
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
 
                 Spacer()
 
-                Text("$10/mth")
+                Text("Free")
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.purple)
             }
 
-            Text("Secure up to 10 users with 20GB individual data, perfect for personal use. Enjoy fast servers and top-notch encryption at an affordable price.")
+            Text("Priority support with up to 10 users and 20GB individual data, ideal for streaming, gaming.")
                 .font(.system(size: 14))
                 .foregroundColor(.gray)
                 .lineSpacing(4)
