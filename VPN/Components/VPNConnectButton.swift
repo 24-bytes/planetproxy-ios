@@ -5,12 +5,16 @@ struct VPNConnectButton: View {
     @State private var showNoServerAlert = false
     @State private var isAnimatingGlow = false
     @State private var isClicked = false
-    
-    let size: CGFloat // ✅ Main input parameter for scaling
-    
+
+    let size: CGFloat
+
+    var buttonDisabled: Bool {
+        vpnManager.connectionStatus == .connecting || vpnManager.connectionStatus == .disconnecting
+    }
+
     var body: some View {
         ZStack {
-            // ✅ Background Glow Gradient
+            // ✅ Background Glow
             RadialGradient(
                 gradient: Gradient(colors: [
                     (vpnManager.connectionStatus == .connected ? Color.green : Color.customPurple).opacity(0.4),
@@ -22,15 +26,15 @@ struct VPNConnectButton: View {
             )
             .ignoresSafeArea()
 
-            // ✅ Outer Glow Layer (Pulsing Animation)
+            // ✅ Outer Glow Layer
             RoundedRectangle(cornerRadius: size * 0.2)
                 .fill((vpnManager.connectionStatus == .connected ? Color.green : Color.customPurple).opacity(0.2))
                 .frame(width: size * 1.2, height: size * 1.2)
                 .blur(radius: size * 0.2)
                 .scaleEffect(isAnimatingGlow ? 1.8 : 1.0)
                 .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: isAnimatingGlow)
-            
-            // ✅ Inner Button (Click Animation)
+
+            // ✅ Inner Button (Only Clickable Element)
             RoundedRectangle(cornerRadius: size * 0.15)
                 .fill(vpnManager.connectionStatus == .connected ? Color.connectButton : Color.customPurple)
                 .frame(width: size, height: size)
@@ -41,8 +45,12 @@ struct VPNConnectButton: View {
                         .frame(width: size * 0.4, height: size * 0.4)
                         .foregroundColor(.black)
                 )
-                .scaleEffect(isClicked ? 0.9 : 1.0) // ✅ Click Shrink Effect
-            
+                .scaleEffect(isClicked ? 0.9 : 1.0)
+                .onTapGesture {
+                    if !buttonDisabled { handleTap() }
+                }
+                .disabled(buttonDisabled) // ✅ Disabling interaction when necessary
+
             // ✅ Outer Border
             RoundedRectangle(cornerRadius: size * 0.15)
                 .stroke(Color.white, lineWidth: size * 0.03)
@@ -52,16 +60,13 @@ struct VPNConnectButton: View {
         .onAppear {
             isAnimatingGlow = true
         }
-        .onTapGesture {
-            handleTap()
-        }
         .alert("No Server Selected", isPresented: $showNoServerAlert) {
             Button("OK", role: .cancel) { }
         } message: {
             Text("Please select a server before connecting to VPN")
         }
     }
-    
+
     private func handleTap() {
         withAnimation(.easeOut(duration: 0.1)) {
             isClicked = true

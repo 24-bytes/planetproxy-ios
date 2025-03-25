@@ -9,38 +9,25 @@ import Foundation
 import NetworkExtension
 import CommonCrypto
 import Network
+import NetworkHelper
 
 class WireGuardHandler {
     static let shared = WireGuardHandler()
-    private let vpnRemoteService: VpnRemoteServiceProtocol
+    private let vpnService = VpnRemoteService()
     private let userDefaults: UserDefaults?
     //private var connectionMonitor: NWPathMonitor?
     private(set) var peerId: Int?
     
-    private init(vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()) {
-        self.vpnRemoteService = vpnRemoteService
+    private init() {
         self.userDefaults = UserDefaults(suiteName: "group.net.planet-proxy.ios") // ✅ Use App Group for UserDefaults
-        //setupConnectionMonitoring()
     }
-    
-//    private func setupConnectionMonitoring() {
-//        connectionMonitor = NWPathMonitor()
-//        connectionMonitor?.pathUpdateHandler = { [weak self] path in
-//            if path.status == .satisfied {
-//                print("✅ Network connection available: \(path.isExpensive ? "Cellular" : "WiFi")")
-//            } else {
-//                print("❌ Network connection lost")
-//            }
-//        }
-//        connectionMonitor?.start(queue: .main)
-//    }
-    
+
     // MARK: - Fetch and Apply VPN Configuration
-    func fetchAndApplyPeerConfiguration(for countryId: Int, providerBundleIdentifier: String, completion: @escaping (Error?) -> Void) {
+    func fetchAndApplyPeerConfiguration(for serverId: Int, providerBundleIdentifier: String, completion: @escaping (Error?) -> Void) {
         Task {
             do {
-                print("🔍 Fetching encrypted peer data for countryId: \(countryId)")
-                let encryptedPeerData = try await vpnRemoteService.getVpnSession(countryId: countryId)
+                print("🔍 Fetching encrypted peer data for countryId: \(serverId)")
+                let encryptedPeerData = try await vpnService.getVpnSession(countryId: serverId)
                 
                 print("✅ Received Encrypted Data: \(encryptedPeerData)")
                 

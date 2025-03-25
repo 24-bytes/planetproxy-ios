@@ -14,6 +14,7 @@ class AdsManager: NSObject {
                 return
             }
             self?.interstitial = ad
+            self?.interstitial?.fullScreenContentDelegate = self // Ensure delegate is set
             print("Interstitial Ad Loaded Successfully")
         }
     }
@@ -26,7 +27,13 @@ class AdsManager: NSObject {
         }
 
         interstitial.present(fromRootViewController: viewController)
-        self.interstitial = nil // Reset after showing
-        loadAd() // Preload next ad
+    }
+}
+
+// Extend AdsManager to handle ad dismissal properly
+extension AdsManager: GADFullScreenContentDelegate {
+    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("Ad dismissed. Preloading next ad.")
+        loadAd() // Reload ad only after dismissal
     }
 }

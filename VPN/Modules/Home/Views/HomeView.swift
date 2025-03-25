@@ -10,6 +10,7 @@ struct HomeView: View {
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
+                .allowsHitTesting(false)
 
             VStack(spacing: 0) {
                 // Navbar Pinned to Top

@@ -1,16 +1,13 @@
 import Foundation
 import FirebaseAuth
+import NetworkHelper
 
 protocol AccountRepositoryProtocol {
     func fetchUserInfo() async throws -> AccountInfoModel
 }
 
 class AccountRepository: AccountRepositoryProtocol {
-    private let vpnRemoteService: VpnRemoteServiceProtocol
-
-    init(vpnRemoteService: VpnRemoteServiceProtocol = VpnRemoteService()) {
-        self.vpnRemoteService = vpnRemoteService
-    }
+    private let vpnService = VpnRemoteService()
 
     func fetchUserInfo() async throws -> AccountInfoModel {
         guard let firebaseUser = Auth.auth().currentUser else {
