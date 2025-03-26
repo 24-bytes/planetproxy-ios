@@ -28,6 +28,12 @@ class AccountInfoViewModel: ObservableObject {
                     freshchatUser.firstName = userData.displayName
                     freshchatUser.email = userData.email
                     Freshchat.sharedInstance().setUser(freshchatUser)
+                    
+                    AnalyticsManager.shared.setUser(
+                        userId: userData.userId,
+                        email: userData.email,
+                        name: userData.displayName
+                    )
                 }
             } catch {
                 DispatchQueue.main.async {

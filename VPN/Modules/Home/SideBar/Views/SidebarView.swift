@@ -55,6 +55,7 @@ struct SidebarView: View {
             .offset(x: sidebarViewModel.isSidebarOpen ? 0 : -360)
             .animation(.easeInOut(duration: 0.3))
         }.onAppear {
+            AnalyticsManager.shared.trackEvent(EventName.VIEW.DASHBOARD_SCREEN)
             userInfoModel.fetchAccountData()
         }.navigationBarBackButtonHidden(true)
     }

@@ -32,6 +32,7 @@ class NavigationCoordinator: ObservableObject {
     func navigateToServers() {
         DispatchQueue.main.async {
             self.path.append(Route.servers)
+            AnalyticsManager.shared.trackEvent(EventName.TAP.VIEW_SERVERS)
         }
     }
     
@@ -52,6 +53,9 @@ class NavigationCoordinator: ObservableObject {
         DispatchQueue.main.async {
             if !self.isFreshchatOpened {
                 self.isFreshchatOpened = true
+                
+                AnalyticsManager.shared.trackEvent(EventName.VIEW.CUSTOMER_SUPPORT_SCREEN)
+                
                 if let rootVC = UIApplication.shared
                     .connectedScenes
                     .compactMap({ ($0 as? UIWindowScene)?.keyWindow })

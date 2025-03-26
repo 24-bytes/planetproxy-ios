@@ -86,11 +86,15 @@ class VPNConnectionManager: ObservableObject {
     func selectServer(_ server: VPNServerModel) {
         selectedServer = server
         saveSelectedServer(server)
+        
+        AnalyticsManager.shared.trackEvent(EventName.TAP.SERVER_CHANGE, parameters: ["server_id": server.id, "region": server.region])
     }
     
     /// Connect to the currently selected server
     func connectToSelectedServer() {
         guard let server = selectedServer else { return }
+        
+        AnalyticsManager.shared.trackEvent(EventName.ON.REQUEST_VPN_PERM)
         
         let serverInfo = VPNServerInfo(
             id: server.id,
@@ -109,11 +113,13 @@ class VPNConnectionManager: ObservableObject {
         ) { [weak self] error in
             if let error = error {
                 self?.updateStatus(.error(error))
+                AnalyticsManager.shared.trackEvent(EventName.ON.VPN_CONFIG_FAILED)
             }
             self?.getSavedConfiguration { manager in
-                        guard let session = manager?.connection as? NETunnelProviderSession else { return }
-                VPNMetricsManager.shared.startMonitoring(session: session) // ✅ Start tracking metrics
-                    }
+                guard let session = manager?.connection as? NETunnelProviderSession else { return }
+                VPNMetricsManager.shared.startMonitoring(session: session)
+                AnalyticsManager.shared.trackEvent(EventName.ON.VPN_CONFIG_LOADED)
+            }
         }
     }
     
@@ -185,12 +191,15 @@ class VPNConnectionManager: ObservableObject {
                     self?.updateStatus(.invalid)
                 case .disconnecting:
                     self?.updateStatus(.disconnecting)
+                    AnalyticsManager.shared.trackEvent(EventName.ON.VPN_MONITORING_CANCELLED)
                 case .disconnected:
                     self?.updateStatus(.disconnected)
+                    AnalyticsManager.shared.trackEvent(EventName.ON.VPN_DISCONNECT)
                 case .connecting:
                     self?.updateStatus(.connecting)
                 case .connected:
                     self?.updateStatus(.connected)
+                    AnalyticsManager.shared.trackEvent(EventName.ON.VPN_CONNECTED)
                 case .reasserting:
                     self?.updateStatus(.connecting)
                 @unknown default:
@@ -233,6 +242,7 @@ class VPNConnectionManager: ObservableObject {
             // Update last error if status contains error
             if case .error(let error) = newStatus {
                 self.lastError = error
+                AnalyticsManager.shared.trackEvent(EventName.ON.VPN_ERROR_AFTER_CONNECTING, parameters: ["error": error.localizedDescription])
             }
             
             if newStatus == .connected {

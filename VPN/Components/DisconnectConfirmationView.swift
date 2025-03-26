@@ -33,6 +33,8 @@ struct DisconnectConfirmationView: View {
                 // ✅ Buttons
                 VStack(spacing: 10) {
                     Button(action: {
+                        AnalyticsManager.shared.trackEvent(EventName.TAP.VPN_DISCONNECT)
+                        
                         onDisconnectConfirmed()
                         isPresented = false
                     }) {

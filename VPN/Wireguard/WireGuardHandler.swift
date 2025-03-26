@@ -40,6 +40,8 @@ class WireGuardHandler {
                 let tunnelConfig = parseWireGuardConfiguration(decryptedData)
                 print("✅ Parsed Tunnel Config: \(tunnelConfig)")
                 
+                AnalyticsManager.shared.trackEvent(EventName.CHANGE.VPN_CONFIG)
+                
                 // Apply configuration and start tunnel
                 applyTunnelConfiguration(config: tunnelConfig, providerBundleIdentifier: providerBundleIdentifier) { error in
                     if let error = error {
@@ -97,6 +99,7 @@ class WireGuardHandler {
                             }
                         } catch {
                             print("❌ Failed to start tunnel: \(error.localizedDescription)")
+                            AnalyticsManager.shared.trackEvent(EventName.ON.VPN_FAILED, parameters: ["error": error.localizedDescription])
                             completion(error)
                         }
                     }
@@ -200,6 +203,7 @@ class WireGuardHandler {
     private func parseWireGuardConfiguration(_ configString: String) -> [String: Any] {
         guard let jsonData = configString.data(using: .utf8),
               let peer = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
+            AnalyticsManager.shared.trackEvent(EventName.ON.VPN_PEER_FAILED)
             print("❌ Error: Failed to parse peer JSON")
             return [:]
         }
@@ -262,6 +266,7 @@ PersistentKeepalive = \(peer["persistentKeepAlive"] as? Int ?? 0)
             tunnelManager.saveToPreferences { error in
                 if let error = error {
                     print("❌ Error saving preferences: \(error.localizedDescription)")
+                    AnalyticsManager.shared.trackEvent(EventName.ON.VPN_CONFIG_FAILED)
                     completion(error)
                     return
                 }
@@ -274,6 +279,7 @@ PersistentKeepalive = \(peer["persistentKeepAlive"] as? Int ?? 0)
                     }
                     
                     print("✅ VPN configuration applied successfully")
+                    AnalyticsManager.shared.trackEvent(EventName.ON.VPN_CONFIG_LOADED)
                     completion(nil)
                 }
             }

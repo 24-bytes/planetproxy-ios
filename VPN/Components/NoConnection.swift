@@ -77,6 +77,9 @@ struct NoInternetView: View {
                         )
                 }
             }
+            .onAppear {
+                AnalyticsManager.shared.trackEvent(EventName.VIEW.NO_INTERNET)
+            }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.black)

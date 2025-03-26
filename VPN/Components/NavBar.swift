@@ -12,6 +12,7 @@ struct NavBar: View {
                 withAnimation {
                     sidebarViewModel.isSidebarOpen.toggle() // ✅ Toggle sidebar
                 }
+                AnalyticsManager.shared.trackEvent(EventName.TAP.DASHBOARD_NAV_MENU)
             }) {
                 Image(systemName: "square.grid.2x2")
                     .resizable()
@@ -35,6 +36,7 @@ struct NavBar: View {
                 
                 Button(action: {
                     if authViewModel.isAuthenticated {
+                        AnalyticsManager.shared.trackEvent(EventName.TAP.CUSTOMER_SUPPORT)
                         navigation.openFreshchat()
                     } else {
                         navigation.navigateToLogin()
@@ -59,7 +61,10 @@ struct NavBar: View {
                     .frame(width: 32, height: 32)
                     .foregroundColor(Color.purple.opacity(0.8)) // Background color for logo
                 
-                Button(action: { navigation.navigateToSubscription() }) {Image(
+                Button(action: {
+                    AnalyticsManager.shared.trackEvent(EventName.TAP.DASHBOARD_SUBSCRIPTION_DETAILS)
+                    navigation.navigateToSubscription()
+                }) {Image(
                     "Logo"
                 )
                         .resizable()

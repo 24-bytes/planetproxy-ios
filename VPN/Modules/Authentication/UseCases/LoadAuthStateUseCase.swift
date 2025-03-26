@@ -19,6 +19,12 @@ class LoadAuthStateUseCase: LoadAuthStateUseCaseProtocol {
     }
 
     func execute() -> Bool {
-        return authRepository.loadAuthState()
+        let isAuthenticated = authRepository.loadAuthState()
+
+                if isAuthenticated {
+                    AnalyticsManager.shared.trackEvent(EventName.ON.ON_USER_AUTHENTICATED)
+                }
+
+                return isAuthenticated
     }
 }

@@ -15,6 +15,7 @@ struct FAQView: View {
                     ForEach(viewModel.faqItems) { item in
                         FAQItemView(item: item) {
                             viewModel.toggleItem(item)
+                            AnalyticsManager.shared.trackEvent(EventName.TAP.FAQ)
                         }
                     }
                 }
@@ -22,6 +23,9 @@ struct FAQView: View {
             }
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
+        .onAppear {
+                    AnalyticsManager.shared.trackEvent(EventName.VIEW.FAQ)
+                }
         .navigationBarBackButtonHidden(true)
     }
 }
