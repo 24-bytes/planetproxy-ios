@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAnalytics
 import FirebaseCrashlytics
+import Mixpanel
 
 struct EventName {
     struct VIEW {
@@ -83,21 +84,28 @@ struct EventName {
 class AnalyticsManager {
     static let shared = AnalyticsManager()
 
-    private init() {}
-
     func trackEvent(_ eventName: String, parameters: [String: Any]? = nil) {
         print("ANALYTICS EVENT TRIGGER: \(eventName)")
         Analytics.logEvent(eventName, parameters: parameters)
+       
+        let mixpanelParams = parameters?.compactMapValues { $0 as? MixpanelType } ?? [:]
+
+       Mixpanel.mainInstance().track(event: eventName, properties: mixpanelParams)
     }
 
     func startTimeEvent(_ eventName: String) {
         print("ANALYTICS EVENT STARTED: \(eventName)")
         Analytics.logEvent("\(eventName)_start", parameters: nil)
+        Mixpanel.mainInstance().time(event: eventName)
     }
 
     func endTimeEvent(_ eventName: String, parameters: [String: Any]? = nil) {
         print("ANALYTICS EVENT ENDED: \(eventName)")
         Analytics.logEvent("\(eventName)_end", parameters: parameters)
+        
+        let mixpanelParams = parameters?.compactMapValues { $0 as? MixpanelType } ?? [:]
+
+       Mixpanel.mainInstance().track(event: eventName, properties: mixpanelParams)
     }
 
     func setUser(userId: String?, email: String?, name: String?) {
@@ -107,12 +115,21 @@ class AnalyticsManager {
         Analytics.setUserProperty(email, forName: "email")
         Analytics.setUserProperty(name, forName: "name")
         Crashlytics.crashlytics().setUserID(userId)
-        
+
+        let mixpanel = Mixpanel.mainInstance()
+        mixpanel.identify(distinctId: userId)
+        mixpanel.people.set(properties: [
+            "userId": userId,
+            "Email": email ?? "",
+            "Name": name ?? ""
+        ])
+
         print("User set: ID=\(userId), Email=\(email ?? "N/A"), Name=\(name ?? "N/A")")
     }
 
     func reset() {
         Analytics.resetAnalyticsData()
+        Mixpanel.mainInstance().reset()
         print("Analytics data reset")
     }
 }
