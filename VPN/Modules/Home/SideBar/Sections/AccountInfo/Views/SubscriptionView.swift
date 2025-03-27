@@ -35,7 +35,11 @@ struct SubscriptionView: View {
                 // actionButtons
             }
             .padding()
-        }.navigationBarBackButtonHidden(true)
+        }
+        .onAppear {
+            AnalyticsManager.shared.trackEvent(EventName.VIEW.SUBSCRIPTION_SCREEN)
+        }
+        .navigationBarBackButtonHidden(true)
         .background(Color.black.edgesIgnoringSafeArea(.all)) // ✅ Background color
     }
 

@@ -34,6 +34,9 @@ struct SettingsView: View {
             }
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
+        .onAppear {
+                    AnalyticsManager.shared.trackEvent(EventName.VIEW.SETTINGS_SCREEN)
+                }
         .navigationBarBackButtonHidden(true)
     }
 }

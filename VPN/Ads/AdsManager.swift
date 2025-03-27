@@ -25,6 +25,7 @@ class AdsManager: NSObject {
             loadAd() // Try to load again
             return
         }
+        AnalyticsManager.shared.trackEvent(EventName.ON.REQUEST_INTERSTITIAL_AD)
 
         interstitial.present(fromRootViewController: viewController)
     }

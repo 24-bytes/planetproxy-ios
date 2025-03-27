@@ -28,6 +28,9 @@ class VPNServersViewModel: ObservableObject {
                 .sorted { $0.countryName < $1.countryName }
 
             self.servers = groupedServers
+            
+            AnalyticsManager.shared.trackEvent(EventName.ON.SERVERS_LOADED)
+            
         } catch {
             errorMessage = error.localizedDescription
         }

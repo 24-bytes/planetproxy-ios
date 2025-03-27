@@ -4,6 +4,7 @@ import GoogleSignIn
 import UIKit
 import FreshchatSDK
 import GoogleMobileAds
+import Mixpanel
 
 @main
 final class AppDelegate: NSObject, UIApplicationDelegate {
@@ -40,7 +41,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
                 }
             }
         }
-
+        
+        Mixpanel.initialize(token: "YOUR_PROJECT_TOKEN",
+                trackAutomaticEvents: false
+                )
 
         return true
     }

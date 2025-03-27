@@ -12,21 +12,37 @@ class SidebarViewModel: ObservableObject {
         SidebarMenuItem(title: "FAQ", icon: "questionmark.circle", destination: .faq),
         SidebarMenuItem(title: "Rate us", icon: "star", destination: .rateUs),
         SidebarMenuItem(title: "Privacy policy", icon: "globe", destination: .privacyPolicy)
-    ] 
+    ]
 
     func selectMenuItem(_ destination: SidebarDestination, navigation: NavigationCoordinator, authViewModel: AuthViewModel) {
         Task { @MainActor in
             if destination == .accountInfo && !authViewModel.isAuthenticated {
-                navigation.navigateToLogin() // Redirect to Login
+                navigation.navigateToLogin()
+                
+                // ✅ Track when user taps on "Login" from the sidebar
+                AnalyticsManager.shared.trackEvent(EventName.TAP.DASHBOARD_NAV_LOGIN)
             } else {
                 selectedDestination = destination
-                navigation.path.append(mapDestinationToRoute(destination)) // ✅ Convert destination to Route
+                navigation.path.append(mapDestinationToRoute(destination))
+                
+                // ✅ Track Sidebar Menu Selections
+                switch destination {
+                case .accountInfo:
+                    AnalyticsManager.shared.trackEvent(EventName.TAP.ACCOUNT_INFORMATION)
+                case .settings:
+                    AnalyticsManager.shared.trackEvent(EventName.TAP.DASHBOARD_NAV_SETTINGS)
+                case .rateUs:
+                    AnalyticsManager.shared.trackEvent(EventName.TAP.DASHBOARD_NAV_RATE_US)
+                case .privacyPolicy:
+                    AnalyticsManager.shared.trackEvent(EventName.TAP.DASHBOARD_NAV_PRIVACY_POLICY)
+                default:
+                    break
+                }
             }
             isSidebarOpen = false
         }
     }
 
-    // ✅ Converts SidebarDestination to Route Enum
     func mapDestinationToRoute(_ destination: SidebarDestination) -> Route {
         switch destination {
         case .accountInfo: return .accountInfo

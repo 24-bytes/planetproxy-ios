@@ -67,6 +67,8 @@ struct LoginView: View {
                             AuthButton(
                                 title: "sign_in",
                                 action: {
+                                    AnalyticsManager.shared.trackEvent(EventName.TAP.SIGNIN)
+                                    
                                     authViewModel.signIn(
                                         email: email, password: password,
                                         rememberMe: rememberMe)
@@ -77,6 +79,8 @@ struct LoginView: View {
                             GoogleAuthButton(
                                 title: "sign_in_with_google",
                                 action: {
+                                    AnalyticsManager.shared.trackEvent(EventName.TAP.SIGNUP_GOOGLE)
+                                    
                                     authViewModel.signInWithGoogle(
                                         rememberMe: rememberMe)
                                 },
@@ -100,6 +104,8 @@ struct LoginView: View {
                 }
             }
             .onAppear {
+                AnalyticsManager.shared.trackEvent(EventName.VIEW.SIGN_IN_SCREEN)
+                    
                 if !authViewModel.rememberedEmail.isEmpty {
                     email = authViewModel.rememberedEmail
                     password = authViewModel.rememberedPassword

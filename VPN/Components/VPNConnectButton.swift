@@ -68,6 +68,8 @@ struct VPNConnectButton: View {
     }
 
     private func handleTap() {
+        AnalyticsManager.shared.trackEvent(EventName.TAP.VPN_CONNECT)
+        
         withAnimation(.easeOut(duration: 0.1)) {
             isClicked = true
         }

@@ -73,6 +73,8 @@ struct SignUpView: View {
                             AuthButton(
                                 title: "sign_up",
                                 action: {
+                                    AnalyticsManager.shared.trackEvent(EventName.TAP.SIGNUP_CREATE_ACCOUNT)
+                                    
                                     authViewModel.signUp(
                                         email: email, password: password,
                                         rememberMe: rememberMe)
@@ -83,6 +85,8 @@ struct SignUpView: View {
                             GoogleAuthButton(
                                 title: "sign_up_with_google",
                                 action: {
+                                    AnalyticsManager.shared.trackEvent(EventName.TAP.SIGNUP_GOOGLE)
+                                    
                                     authViewModel.signInWithGoogle(
                                         rememberMe: rememberMe)
                                 },
@@ -112,6 +116,9 @@ struct SignUpView: View {
                 }
             }
             .navigationBarHidden(true)
+        }
+        .onAppear(){
+            AnalyticsManager.shared.trackEvent(EventName.VIEW.SIGN_UP_SCREEN)
         }
     }
 }

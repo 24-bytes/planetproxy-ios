@@ -104,7 +104,10 @@ struct ProfileView: View {
     }
 
     private var logoutButton: some View {
-        Button(action: {authViewModel.signOut()}) {
+        Button(action: {
+            authViewModel.signOut()
+            AnalyticsManager.shared.trackEvent(EventName.TAP.LOGOUT)
+        }) {
             HStack(spacing: 8) {
                 Image(systemName: "rectangle.portrait.and.arrow.forward") // ✅ Matches provided logout icon
                     .foregroundColor(.gray)

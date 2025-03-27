@@ -12,6 +12,8 @@ target 'ios' do
   pod 'FreshchatSDK'
   pod 'Firebase/Crashlytics', '9.6.0'
   pod 'Google-Mobile-Ads-SDK', '10.14.0'
+  pod 'Mixpanel-swift'
+
   # Linting
   pod 'SwiftLint'
 end

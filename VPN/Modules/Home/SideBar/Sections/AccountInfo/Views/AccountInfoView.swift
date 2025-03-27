@@ -16,7 +16,9 @@ ProfileView(accountInfo: viewModel.accountInfo, authViewModel: authViewModel)
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
-            viewModel.fetchAccountData()
-        }.navigationBarBackButtonHidden(true)
+                    AnalyticsManager.shared.trackEvent(EventName.VIEW.ACCOUNT_INFORMATION) // Track screen view event
+                    viewModel.fetchAccountData()
+                }
+        .navigationBarBackButtonHidden(true)
     }
 }

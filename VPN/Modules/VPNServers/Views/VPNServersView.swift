@@ -50,6 +50,7 @@ struct VPNServersView: View {
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
+            AnalyticsManager.shared.trackEvent(EventName.VIEW.SERVERS_SCREEN)
             Task {
                 await viewModel.fetchServers()
             }
