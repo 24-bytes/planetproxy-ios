@@ -19,12 +19,12 @@ struct DisconnectConfirmationView: View {
                 .onTapGesture { isPresented = false }
 
             VStack(spacing: 16) {
-                Text("Are You Sure You Want to Disconnect?")
+                Text(LocalizedStringKey("disconnect_confirmation_title"))
                     .font(.system(size: 18, weight: .bold))
                     .multilineTextAlignment(.center)
                     .foregroundColor(.black)
 
-                Text("Disconnecting will end your secure connection. Your online activity may be exposed.")
+                Text(LocalizedStringKey("disconnect_confirmation_message"))
                     .font(.system(size: 14))
                     .multilineTextAlignment(.center)
                     .foregroundColor(.gray)
@@ -38,7 +38,7 @@ struct DisconnectConfirmationView: View {
                         onDisconnectConfirmed()
                         isPresented = false
                     }) {
-                        Text("Disconnect Anyway")
+                        Text(LocalizedStringKey("disconnect_anyway"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(Color(hex: "#6B50FF")) // Light purple
                             .frame(maxWidth: .infinity)
@@ -50,7 +50,7 @@ struct DisconnectConfirmationView: View {
                     Button(action: {
                         isPresented = false
                     }) {
-                        Text("Stay Connected")
+                        Text(LocalizedStringKey("stay_connected"))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)

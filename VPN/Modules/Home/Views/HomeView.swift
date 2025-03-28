@@ -58,13 +58,13 @@ struct HomeView: View {
 
                 // Footer Pinned to Bottom
                 VStack{
-                    Text("Your data is safe with ")
+                    Text(LocalizedStringKey("your_data_safe"))
                         .foregroundColor(.white)
                         .font(.system(size: 12)) +
-                    Text("AES-256 bit encryption.")
+                    Text(LocalizedStringKey("aes_encryption"))
                         .foregroundColor(.purple)
                         .font(.system(size: 12, weight: .medium)) +
-                    Text(" We don’t track or sell personal information.")
+                    Text(LocalizedStringKey("no_tracking"))
                         .foregroundColor(.white)
                         .font(.system(size: 12))
                 }

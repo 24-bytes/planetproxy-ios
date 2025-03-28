@@ -15,7 +15,7 @@ struct SidebarItemView: View {
                     .frame(width: 20, height: 20)
                     .foregroundColor(.white)
                 
-                Text(item.title)
+                Text(LocalizedStringKey(item.key))
                     .font(.system(size: 18))
                     .foregroundColor(.white)
                 

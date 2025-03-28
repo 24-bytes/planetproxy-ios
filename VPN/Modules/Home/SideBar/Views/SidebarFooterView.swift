@@ -16,12 +16,12 @@ struct SidebarFooterView: View {
                     .frame(width: 24, height: 24)
                     .foregroundColor(.purple)
 
-                Text("Planet Proxy")
+                Text(LocalizedStringKey("app_title"))
                     .font(.headline)
                     .foregroundColor(.white)
             }
             
-            Text("Version 1.2.3")
+            Text(LocalizedStringKey("vpn_version"))
                 .font(.footnote)
                 .foregroundColor(.gray)
         }

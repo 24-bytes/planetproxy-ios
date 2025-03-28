@@ -4,13 +4,13 @@ struct LanguagePicker: View {
     @Binding var selectedLanguage: String
     @Environment(\.presentationMode) var presentationMode
 
-    let availableLanguages: [String] = Bundle.main.localizations.filter { $0 != "Base" } // Get all project localizations
+    let availableLanguages: [String] = Bundle.main.localizations.filter { $0 != "Base" }
 
     var body: some View {
         NavigationView {
             List(availableLanguages, id: \.self) { language in
                 HStack {
-                    Text(Locale.current.localizedString(forLanguageCode: language) ?? language) // Display localized name
+                    Text(Locale.current.localizedString(forLanguageCode: language) ?? language)
                         .font(.system(size: 16))
                         .foregroundColor(.white)
 
@@ -32,11 +32,11 @@ struct LanguagePicker: View {
             }
             .listStyle(PlainListStyle())
             .background(Color.black.edgesIgnoringSafeArea(.all))
-            .navigationTitle("Select Language")
+            .navigationTitle(String(localized: "select_language"))
             .foregroundColor(.white)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button(String(localized: "done")) {
                         presentationMode.wrappedValue.dismiss()
                     }
                     .foregroundColor(.purple)

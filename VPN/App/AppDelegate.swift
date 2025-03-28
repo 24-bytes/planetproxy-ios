@@ -17,9 +17,16 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [
-                    "ccc7c92f66f81614e4b2d38e21690713" // Replace with your test device ID
-                ]
+        
+        #if DEBUG
+            GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [
+                "ccc7c92f66f81614e4b2d38e21690713" // Replace with your test device ID
+            ]
+            print("Running in DEBUG mode: Test device identifiers set")
+            #else
+            print("Running in RELEASE mode: No test device identifiers set")
+            #endif
+        
         AdsManager.shared.loadAd()
         
         let freshchatConfig = FreshchatConfig(appID: "21545ce2-8c4b-4d87-9eb9-785165cd79e0", andAppKey: "4820a0a1-2703-4801-b6ab-0c8b4a42af9b")

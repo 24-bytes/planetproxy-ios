@@ -1,10 +1,3 @@
-//
-//  SettingsRepository.swift
-//  VPN
-//
-//  Created by Siddhant Kundlik Thaware on 14/02/25.
-//
-
 import Foundation
 
 class SettingsRepository {
@@ -13,29 +6,29 @@ class SettingsRepository {
     func fetchSettings() -> [SettingOption] {
         return [
             SettingOption(
-                title: "Start on Boot",
-                description: "Enable VPN on system boot.",
+                title: NSLocalizedString("start_on_boot", comment: "Start on Boot"),
+                description: NSLocalizedString("start_on_boot_desc", comment: "Enable VPN on system boot."),
                 category: .general,
                 isToggleable: true,
                 isOn: userDefaults.object(forKey: "startOnBoot") == nil ? true : userDefaults.bool(forKey: "startOnBoot")
             ),
             SettingOption(
-                title: "VPN Acceleration",
-                description: "Enhance VPN performance up to 400%.",
+                title: NSLocalizedString("vpn_acceleration", comment: "VPN Acceleration"),
+                description: NSLocalizedString("vpn_acceleration_desc", comment: "Enhance VPN performance up to 400%."),
                 category: .general,
                 isToggleable: true,
                 isOn: userDefaults.object(forKey: "vpnAcceleration") == nil ? true : userDefaults.bool(forKey: "vpnAcceleration")
             ),
             SettingOption(
-                title: "NetShield",
-                description: "Block ads, trackers, and malware.",
+                title: NSLocalizedString("netshield", comment: "NetShield"),
+                description: NSLocalizedString("netshield_desc", comment: "Block ads, trackers, and malware."),
                 category: .security,
                 isToggleable: true,
                 isOn: userDefaults.object(forKey: "netShield") == nil ? true : userDefaults.bool(forKey: "netShield")
             ),
             SettingOption(
-                title: "Kill Switch",
-                description: "Disable internet if VPN disconnects.",
+                title: NSLocalizedString("kill_switch", comment: "Kill Switch"),
+                description: NSLocalizedString("kill_switch_desc", comment: "Disable internet if VPN disconnects."),
                 category: .security,
                 isToggleable: true,
                 isOn: userDefaults.object(forKey: "killSwitch") == nil ? true : userDefaults.bool(forKey: "killSwitch")
@@ -52,7 +45,6 @@ class SettingsRepository {
     }
 
     func getSelectedLanguage() -> String {
-        return userDefaults.string(forKey: "selectedLanguage") ?? "English (Default)"
+        return userDefaults.string(forKey: "selectedLanguage") ?? NSLocalizedString("default_language", comment: "English (Default)")
     }
 }
-

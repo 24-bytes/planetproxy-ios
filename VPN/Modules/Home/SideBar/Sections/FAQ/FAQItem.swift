@@ -1,24 +1,35 @@
-import Foundation // ✅ Required for UUID
+import Foundation
 
-// ✅ Sample FAQ Data
 struct FAQItem: Identifiable {
     let id = UUID()
     let question: String
     let answer: String
-    var isExpanded: Bool = true // ✅ All Open by Default
+    var isExpanded: Bool = true
 
     static let sampleFAQs = [
-        FAQItem(question: "What is a VPN?",
-                answer: "A VPN (Virtual Private Network) encrypts your internet connection and hides your IP address for secure browsing."),
-        FAQItem(question: "Why should I use Planet Proxy?",
-                answer: "Planet Proxy provides fast, secure, and private internet access, protecting you from online threats."),
-        FAQItem(question: "How do I create an account with Planet Proxy?",
-                answer: "To create an account, simply sign up using your email on our website or mobile app."),
-        FAQItem(question: "What payment methods do you accept?",
-                answer: "We accept credit/debit cards, PayPal, and cryptocurrency for secure transactions."),
-        FAQItem(question: "Can I try Planet Proxy for free?",
-                answer: "Yes! We offer a free trial so you can experience our service before subscribing."),
-        FAQItem(question: "Is Planet Proxy legal to use?",
-                answer: "Yes, VPN services are legal in most countries. However, always check local regulations.")
+        FAQItem(
+            question: NSLocalizedString("faq_vpn_question", comment: "What is a VPN?"),
+            answer: NSLocalizedString("faq_vpn_answer", comment: "VPN explanation")
+        ),
+        FAQItem(
+            question: NSLocalizedString("faq_why_use_question", comment: "Why should I use Planet Proxy?"),
+            answer: NSLocalizedString("faq_why_use_answer", comment: "Benefits of using Planet Proxy")
+        ),
+        FAQItem(
+            question: NSLocalizedString("faq_create_account_question", comment: "How do I create an account with Planet Proxy?"),
+            answer: NSLocalizedString("faq_create_account_answer", comment: "Steps to create an account")
+        ),
+        FAQItem(
+            question: NSLocalizedString("faq_payment_methods_question", comment: "What payment methods do you accept?"),
+            answer: NSLocalizedString("faq_payment_methods_answer", comment: "Available payment methods")
+        ),
+        FAQItem(
+            question: NSLocalizedString("faq_trial_question", comment: "Can I try Planet Proxy for free?"),
+            answer: NSLocalizedString("faq_trial_answer", comment: "Free trial availability")
+        ),
+        FAQItem(
+            question: NSLocalizedString("faq_legal_question", comment: "Is Planet Proxy legal to use?"),
+            answer: NSLocalizedString("faq_legal_answer", comment: "VPN legality")
+        )
     ]
 }

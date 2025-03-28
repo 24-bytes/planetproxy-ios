@@ -5,7 +5,13 @@ class AdsManager: NSObject {
     private var interstitial: GADInterstitialAd?
 
     func loadAd() {
-        let adUnitID = "ca-app-pub-3940256099942544/4411468910" // Replace with actual Ad Unit ID
+        
+        #if DEBUG
+        let adUnitID = "ca-app-pub-3940256099942544/4411468910" // Test Ad Unit ID
+        #else
+        let adUnitID = "ca-app-pub-XXXXXXXXXXXXXX/YYYYYYYYYY" // Replace with your Production Ad Unit ID
+        #endif
+
         let request = GADRequest()
 
         GADInterstitialAd.load(withAdUnitID: adUnitID, request: request) { [weak self] ad, error in

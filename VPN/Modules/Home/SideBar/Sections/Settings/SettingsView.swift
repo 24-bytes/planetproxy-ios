@@ -7,21 +7,18 @@ struct SettingsView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            // ✅ Header Section
-            ToolbarView(title: "Settings", navigation: navigation)
-              
+            // ✅ Localized Toolbar Title
+            ToolbarView(title: String(localized: "settings"), navigation: navigation)
 
-            // ✅ Settings List
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
-                    // ✅ Language Selection Section
-                    Text("Language Selection")
+                    // ✅ Localized Section Header
+                    Text(String(localized: "language_selection"))
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(.gray)
 
                     LanguageSelectionView(selectedLanguage: $viewModel.selectedLanguage, isPresented: $isLanguagePickerPresented)
 
-                    // ✅ Toggle Options
                     VStack(spacing: 16) {
                         ForEach(viewModel.settings) { setting in
                             SettingRowView(setting: setting) {
@@ -35,11 +32,12 @@ struct SettingsView: View {
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
-                    AnalyticsManager.shared.trackEvent(EventName.VIEW.SETTINGS_SCREEN)
-                }
+            AnalyticsManager.shared.trackEvent(EventName.VIEW.SETTINGS_SCREEN)
+        }
         .navigationBarBackButtonHidden(true)
     }
 }
+
     
 struct LanguageSelectionView: View {
     @Binding var selectedLanguage: String
@@ -100,6 +98,7 @@ struct SettingRowView: View {
             }
         }
         .padding()
-        .background(Color.black) // ✅ Correct background
+        .background(Color.black)
     }
 }
+

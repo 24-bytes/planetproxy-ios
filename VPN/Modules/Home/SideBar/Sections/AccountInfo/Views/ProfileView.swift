@@ -9,7 +9,7 @@ struct ProfileView: View {
             // ✅ Profile Picture Section
             if let user = accountInfo {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Your photo")
+                    Text(LocalizedStringKey("your_photo"))
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(.gray)
                     
@@ -58,7 +58,7 @@ struct ProfileView: View {
             let formattedOffset = String(format: "UTC%+d:00", timezoneOffset)
 
             return VStack(alignment: .leading, spacing: 6) {
-                Text("Time")
+                Text(LocalizedStringKey("time"))
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(.gray)
 
@@ -113,7 +113,7 @@ struct ProfileView: View {
                     .foregroundColor(.gray)
                     .font(.system(size: 24, weight: .bold))
 
-                Text("Logout")
+                Text(LocalizedStringKey("logout"))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.gray)
             }

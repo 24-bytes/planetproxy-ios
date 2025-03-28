@@ -7,7 +7,7 @@ struct FAQView: View {
     var body: some View {
         VStack {
             // ✅ Header Section
-            ToolbarView(title: "FAQ", navigation: navigation)
+            ToolbarView(title: String(localized: "faq"), navigation: navigation)
 
             // ✅ FAQ List
             ScrollView {

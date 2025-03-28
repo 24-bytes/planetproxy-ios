@@ -27,7 +27,7 @@ struct TimerView: View {
 
             // Disconnect Button
             Button(action: { onDisconnect() }) {
-                Text("Disconnect")
+                Text(LocalizedStringKey("disconnect_button"))
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.customPurple)
             }

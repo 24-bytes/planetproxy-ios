@@ -27,7 +27,7 @@ struct SidebarView: View {
                         
                         // Welcome Text
                         let userName = userInfoModel.accountInfo?.displayName ?? ""
-                        Text(userName.isEmpty ? "Please log in :)" : "Welcome back \(userName)")
+                        Text(userName.isEmpty ? NSLocalizedString("please_log_in", comment: "Prompt to log in") : String(format: NSLocalizedString("welcome_back", comment: "Welcome message"), userName))
                             .font(.title3)
                             .foregroundColor(.white)
                         

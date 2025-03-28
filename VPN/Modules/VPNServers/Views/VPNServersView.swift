@@ -7,7 +7,7 @@ struct VPNServersView: View {
 
     var body: some View {
         VStack {
-            ToolbarView(title: "Servers", navigation: navigation)
+            ToolbarView(title: String(localized: "servers"), navigation: navigation)
                 .safeAreaInset(edge: .top) {
                     Spacer().frame(height: 20)
                 }

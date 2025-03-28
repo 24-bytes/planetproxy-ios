@@ -20,6 +20,7 @@ enum SidebarDestination {
 struct SidebarMenuItem: Identifiable {
     let id = UUID()
     let title: String
+    let key: String
     let icon: String
     let destination: SidebarDestination
 }

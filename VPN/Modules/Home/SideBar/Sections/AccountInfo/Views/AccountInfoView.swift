@@ -8,7 +8,7 @@ struct AccountInfoView: View {
     
     var body: some View {
         VStack {
-            ToolbarView(title: "Account Information", navigation: navigation)
+            ToolbarView(title: String(localized: "account_information"), navigation: navigation)
           
            
 ProfileView(accountInfo: viewModel.accountInfo, authViewModel: authViewModel)

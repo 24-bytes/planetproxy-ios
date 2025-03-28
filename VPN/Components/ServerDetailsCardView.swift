@@ -40,12 +40,12 @@ struct ServerDetailsCardView: View {
                             .frame(width: 24, height: 24)
                         }
 
-                        Text("VPN IP: \(server.ipAddress)")
+                        Text("\(NSLocalizedString("vpn_ip_label", comment: "vpn_ip_label")) \(server.ipAddress)")
                             .font(.system(size: 14))
                             .foregroundColor(.gray)
                     }
                 } else {
-                    ProgressView("Loading server")
+                    ProgressView(LocalizedStringKey("loading_server"))
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 }
                 

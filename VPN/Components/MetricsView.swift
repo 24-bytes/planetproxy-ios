@@ -7,7 +7,7 @@ struct MetricsView: View {
         HStack {
             VStack(spacing: 8) {
                 HStack(spacing: 6) {
-                                     Text("Download")
+                                     Text(LocalizedStringKey("download"))
                                          .font(.system(size: 14, weight: .medium))
                                          .foregroundColor(.gray)
 
@@ -25,7 +25,7 @@ struct MetricsView: View {
                 .foregroundColor(Color.gray.opacity(0.5))
             VStack(spacing: 8) {
                 HStack(spacing: 6) {
-                                     Text("Upload")
+                                     Text(LocalizedStringKey("upload"))
                                          .font(.system(size: 14, weight: .medium))
                                          .foregroundColor(.gray)
 

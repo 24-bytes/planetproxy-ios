@@ -57,7 +57,7 @@ struct NoInternetView: View {
                     .scaledToFit()
                     .frame(width: 100, height: 100)
 
-                Text("No Internet Connection")
+                Text(LocalizedStringKey("no_internet_title"))
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
@@ -65,7 +65,7 @@ struct NoInternetView: View {
                 Button(action: {
                     self.checkConnection()
                 }) {
-                    Text("Retry")
+                    Text(LocalizedStringKey("retry_button"))
                         .padding()
                         .frame(width: 150, height: 50)
                         .background(Color.gray)

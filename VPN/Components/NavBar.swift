@@ -23,7 +23,7 @@ struct NavBar: View {
 
 
             // App Title
-            Text("Planet Proxy")
+            Text(LocalizedStringKey("app_title"))
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, alignment: .center)
